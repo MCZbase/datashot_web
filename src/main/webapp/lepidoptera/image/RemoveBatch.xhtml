@@ -1,0 +1,67 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+	  xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.ListImageTitle}"></h:outputText>
+        </ui:define>
+		<ui:define name="menu">
+            <h:form>
+					<p:commandButton value="#{bundle.ListImageIndexLink}"
+									 action="/index?faces-redirect=true"
+									 immediate="true"  />
+			</h:form>
+		</ui:define>
+        <ui:define name="body">
+				<h:panelGroup id="messagePanel" layout="block">
+					<h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+				</h:panelGroup>
+				<h:outputText escape="false" value="Clean up a Batch"/>
+				<p:panel header="Clean up a Batch" toggleable="false" collapsed="false" >
+			    <h:form id="setupForm">
+                  <h:panelGrid id="setupFormContent" columns="3" >
+					<h:outputText value="Pick a batch to remove."/>
+					<p:selectOneMenu id="it_imdate" value="#{imageBatchController.pathFilterCriterion}"
+                                         filter="true" filterMatchMode="contains" 
+                                         required="false" >
+                         <f:selectItems value="#{pickListsManagedBean.imagePathsNoBlank}"  />
+                    </p:selectOneMenu>
+                    <p:commandButton value="Check Batch" 
+                                     actionListener="#{imageBatchController.performList}"
+                                     update=" :checkForm:checkFormContent" />
+				  </h:panelGrid>
+			    </h:form>
+			    <h:form id="checkForm">
+			       <h:panelGroup id="checkFormContent" layout="block">
+			          <p:dataList id="problemList"
+			                   escape="false"
+			                   emptyMessage = "No problems found." 
+			                   value="#{imageBatchController.problemList}" 
+			                   rendered="#{imageBatchController.listVisible}" 
+			                   var="prob" >
+			                       <p:column escape="false">#{prob}</p:column>
+			                       <f:facet name="header"><h:outputText value="Problems" /></f:facet> 
+			                   </p:dataList>
+			          <p:dataList id="candidateList" 
+			                   value="#{imageBatchController.candidateList}" 
+			                   rendered="#{imageBatchController.listVisible}" 
+			                   var="can" >#{can}
+			                       <f:facet name="header"><h:outputText value="Records in Batch" /></f:facet> 
+			                   </p:dataList>
+                    <p:commandButton value="Delete"
+			             rendered="#{imageBatchController.listVisible}" 
+                         disabled="#{!imageBatchController.deleteOk}"
+                         actionListener="#{imageBatchController.performDelete}"
+                         update=" checkFormContent :setupForm:setupFormContent results" />
+                      <h:outputText id="results" value="#{imageBatchController.result}" />   
+			       </h:panelGroup>
+			    </h:form>
+				</p:panel>
+        </ui:define>
+    </ui:composition>
+</html>

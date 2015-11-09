@@ -1,0 +1,31 @@
+<!DOCTYPE glassfish-web-app PUBLIC "-//GlassFish.org//DTD
+GlassFish Application Server 3.1 Servlet 3.0//EN"
+"http://glassfish.org/dtds/glassfish-web-app_3_0-1.dtd">
+<glassfish-web-app>
+	<context-root>/lepidoptera</context-root>
+	<security-role-mapping>
+		<role-name>Administrator</role-name>
+		<group-name>Administrator</group-name>
+	</security-role-mapping>
+	<security-role-mapping>
+		<role-name>Data entry</role-name>
+		<group-name>Data entry</group-name>
+	</security-role-mapping>
+	<security-role-mapping>
+		<role-name>Full Access</role-name>
+		<group-name>Full Access</group-name>
+	</security-role-mapping>
+	<security-role-mapping>
+		<role-name>Full Access</role-name>
+		<group-name>Full access</group-name>
+	</security-role-mapping>
+	<security-role-mapping>
+		<role-name>Editor</role-name>
+		<group-name>Editor</group-name>
+	</security-role-mapping>
+	<security-role-mapping>
+		<role-name>Chief Editor</role-name>
+		<group-name>Chief Editor</group-name>
+	</security-role-mapping>
+    <parameter-encoding default-charset="UTF-8" />
+</glassfish-web-app>

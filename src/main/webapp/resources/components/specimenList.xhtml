@@ -1,0 +1,329 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!--
+    Component: specimenList
+    Usage:
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:f="http://java.sun.com/jsf/core"
+  xmlns:h="http://java.sun.com/jsf/html"
+  xmlns:ui="http://java.sun.com/jsf/facelets"
+  xmlns:components="http://java.sun.com/jsf/composite/components/">
+  <components:specimenList heading="#{bundle.specimenListHeading}"
+                       listAction="#{specimen.findAll()}"
+                       managedBean="#{specimenBean}"/>
+</ui:composition>
+
+
+-->
+<html xmlns="http://www.w3.org/1999/xhtml"      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:composite="http://java.sun.com/jsf/composite">
+
+
+    <!-- INTERFACE -->
+    <composite:interface>
+        <composite:attribute name="heading"/>
+        <composite:attribute name="listAction"
+                             method-signature="java.lang.String findAll()"
+                             required="true"/>
+        <composite:attribute name="managedBean" required="true"/>
+    </composite:interface>
+
+    <!-- IMPLEMENTATION -->
+    <composite:implementation>
+
+        <div class="dataTable">
+            <f:view>
+                <h:form>
+                    <div class="componentHeading">
+                        #{cc.attrs.heading}
+                    </div>
+                    <h:dataTable value="#{specimenBean.findAll()}" var="item">
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="SpecimenId"/>
+                            </f:facet>
+			    <h:commandLink action="#{specimenBean.showDetails(item)}" value="#{item.specimenId}" />
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="Barcode"/>
+                            </f:facet>
+                            <h:outputText value="#{item.barcode}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="DrawerNumber"/>
+                            </f:facet>
+                            <h:outputText value="#{item.drawerNumber}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="TypeStatus"/>
+                            </f:facet>
+                            <h:outputText value="#{item.typeStatus}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="TypeNumber"/>
+                            </f:facet>
+                            <h:outputText value="#{item.typeNumber}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="CitedInPublication"/>
+                            </f:facet>
+                            <h:outputText value="#{item.citedInPublication}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="Features"/>
+                            </f:facet>
+                            <h:outputText value="#{item.features}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="Family"/>
+                            </f:facet>
+                            <h:outputText value="#{item.family}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="Subfamily"/>
+                            </f:facet>
+                            <h:outputText value="#{item.subfamily}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="Tribe"/>
+                            </f:facet>
+                            <h:outputText value="#{item.tribe}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="Genus"/>
+                            </f:facet>
+                            <h:outputText value="#{item.genus}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="SpecificEpithet"/>
+                            </f:facet>
+                            <h:outputText value="#{item.specificEpithet}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="SubspecificEpithet"/>
+                            </f:facet>
+                            <h:outputText value="#{item.subspecificEpithet}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="InfraspecificEpithet"/>
+                            </f:facet>
+                            <h:outputText value="#{item.infraspecificEpithet}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="InfraspecificRank"/>
+                            </f:facet>
+                            <h:outputText value="#{item.infraspecificRank}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="Authorship"/>
+                            </f:facet>
+                            <h:outputText value="#{item.authorship}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="UnNamedForm"/>
+                            </f:facet>
+                            <h:outputText value="#{item.unNamedForm}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="IdentifiedBy"/>
+                            </f:facet>
+                            <h:outputText value="#{item.identifiedBy}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="Country"/>
+                            </f:facet>
+                            <h:outputText value="#{item.country}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="PrimaryDivison"/>
+                            </f:facet>
+                            <h:outputText value="#{item.primaryDivison}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="SpecificLocality"/>
+                            </f:facet>
+                            <h:outputText value="#{item.specificLocality}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="VerbatimLocality"/>
+                            </f:facet>
+                            <h:outputText value="#{item.verbatimLocality}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="VerbatimElevation"/>
+                            </f:facet>
+                            <h:outputText value="#{item.verbatimElevation}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="CollectingMethod"/>
+                            </f:facet>
+                            <h:outputText value="#{item.collectingMethod}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="DateNOS"/>
+                            </f:facet>
+                            <h:outputText value="#{item.dateNOS}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="DateEmerged"/>
+                            </f:facet>
+                            <h:outputText value="#{item.dateEmerged}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="DateEmergedIndicator"/>
+                            </f:facet>
+                            <h:outputText value="#{item.dateEmergedIndicator}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="DateCollected"/>
+                            </f:facet>
+                            <h:outputText value="#{item.dateCollected}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="DateCollectedIndicator"/>
+                            </f:facet>
+                            <h:outputText value="#{item.dateCollectedIndicator}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="Collection"/>
+                            </f:facet>
+                            <h:outputText value="#{item.collection}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="SpecimenNotes"/>
+                            </f:facet>
+                            <h:outputText value="#{item.specimenNotes}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="LifeStage"/>
+                            </f:facet>
+                            <h:outputText value="#{item.lifeStage}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="PreparationType"/>
+                            </f:facet>
+                            <h:outputText value="#{item.preparationType}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="Habitat"/>
+                            </f:facet>
+                            <h:outputText value="#{item.habitat}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="AssociatedTaxon"/>
+                            </f:facet>
+                            <h:outputText value="#{item.associatedTaxon}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="Questions"/>
+                            </f:facet>
+                            <h:outputText value="#{item.questions}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="Inferences"/>
+                            </f:facet>
+                            <h:outputText value="#{item.inferences}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="LocationInCollection"/>
+                            </f:facet>
+                            <h:outputText value="#{item.locationInCollection}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="WorkFlowStatus"/>
+                            </f:facet>
+                            <h:outputText value="#{item.workFlowStatus}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="CreatedBy"/>
+                            </f:facet>
+                            <h:outputText value="#{item.createdBy}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="DateCreated"/>
+                            </f:facet>
+                            <h:outputText value="#{item.dateCreated}">
+                                <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                            </h:outputText>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="DateLastUpdated"/>
+                            </f:facet>
+                            <h:outputText value="#{item.dateLastUpdated}">
+                                <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                            </h:outputText>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="LastUpdatedBy"/>
+                            </f:facet>
+                            <h:outputText value="#{item.lastUpdatedBy}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="ValidDistributionFlag"/>
+                            </f:facet>
+                            <h:outputText value="#{item.validDistributionFlag}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="Sex"/>
+                            </f:facet>
+                            <h:outputText value="#{item.sex}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="ISODate"/>
+                            </f:facet>
+                            <h:outputText value="#{item.ISODate}"/>
+                        </h:column>
+                    </h:dataTable>
+                </h:form>
+            </f:view>
+        </div>
+    </composite:implementation>
+</html>

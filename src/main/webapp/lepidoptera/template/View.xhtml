@@ -1,0 +1,96 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.ViewTemplateTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:panelGroup id="messagePanel" layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            </h:panelGroup>
+            <h:form>
+                <h:panelGrid columns="2">
+                    <h:outputText value="#{bundle.ViewTemplateLabel_templateId}"/>
+                    <h:outputText value="#{templateController.selected.templateId}" title="#{bundle.ViewTemplateTitle_templateId}"/>
+                    <h:outputText value="#{bundle.ViewTemplateLabel_templateName}"/>
+                    <h:outputText value="#{templateController.selected.templateName}" title="#{bundle.ViewTemplateTitle_templateName}"/>
+                    <h:outputText value="#{bundle.ViewTemplateLabel_imageSizeX}"/>
+                    <h:outputText value="#{templateController.selected.imageSizeX}" title="#{bundle.ViewTemplateTitle_imageSizeX}"/>
+                    <h:outputText value="#{bundle.ViewTemplateLabel_imageSizeY}"/>
+                    <h:outputText value="#{templateController.selected.imageSizeY}" title="#{bundle.ViewTemplateTitle_imageSizeY}"/>
+                    <h:outputText value="#{bundle.ViewTemplateLabel_barcodePositionX}"/>
+                    <h:outputText value="#{templateController.selected.barcodePositionX}" title="#{bundle.ViewTemplateTitle_barcodePositionX}"/>
+                    <h:outputText value="#{bundle.ViewTemplateLabel_barcodePositionY}"/>
+                    <h:outputText value="#{templateController.selected.barcodePositionY}" title="#{bundle.ViewTemplateTitle_barcodePositionY}"/>
+                    <h:outputText value="#{bundle.ViewTemplateLabel_barcodeSizeX}"/>
+                    <h:outputText value="#{templateController.selected.barcodeSizeX}" title="#{bundle.ViewTemplateTitle_barcodeSizeX}"/>
+                    <h:outputText value="#{bundle.ViewTemplateLabel_barcodeSizeY}"/>
+                    <h:outputText value="#{templateController.selected.barcodeSizeY}" title="#{bundle.ViewTemplateTitle_barcodeSizeY}"/>
+                    <h:outputText value="#{bundle.ViewTemplateLabel_specimenPositionX}"/>
+                    <h:outputText value="#{templateController.selected.specimenPositionX}" title="#{bundle.ViewTemplateTitle_specimenPositionX}"/>
+                    <h:outputText value="#{bundle.ViewTemplateLabel_specimenPositionY}"/>
+                    <h:outputText value="#{templateController.selected.specimenPositionY}" title="#{bundle.ViewTemplateTitle_specimenPositionY}"/>
+                    <h:outputText value="#{bundle.ViewTemplateLabel_specimenSizeX}"/>
+                    <h:outputText value="#{templateController.selected.specimenSizeX}" title="#{bundle.ViewTemplateTitle_specimenSizeX}"/>
+                    <h:outputText value="#{bundle.ViewTemplateLabel_specimenSizeY}"/>
+                    <h:outputText value="#{templateController.selected.specimenSizeY}" title="#{bundle.ViewTemplateTitle_specimenSizeY}"/>
+                    <h:outputText value="#{bundle.ViewTemplateLabel_textPositionX}"/>
+                    <h:outputText value="#{templateController.selected.textPositionX}" title="#{bundle.ViewTemplateTitle_textPositionX}"/>
+                    <h:outputText value="#{bundle.ViewTemplateLabel_textPositionY}"/>
+                    <h:outputText value="#{templateController.selected.textPositionY}" title="#{bundle.ViewTemplateTitle_textPositionY}"/>
+                    <h:outputText value="#{bundle.ViewTemplateLabel_textSizeX}"/>
+                    <h:outputText value="#{templateController.selected.textSizeX}" title="#{bundle.ViewTemplateTitle_textSizeX}"/>
+                    <h:outputText value="#{bundle.ViewTemplateLabel_textSizeY}"/>
+                    <h:outputText value="#{templateController.selected.textSizeY}" title="#{bundle.ViewTemplateTitle_textSizeY}"/>
+                    <h:outputText value="#{bundle.ViewTemplateLabel_labelPositionX}"/>
+                    <h:outputText value="#{templateController.selected.labelPositionX}" title="#{bundle.ViewTemplateTitle_labelPositionX}"/>
+                    <h:outputText value="#{bundle.ViewTemplateLabel_labelPositionY}"/>
+                    <h:outputText value="#{templateController.selected.labelPositionY}" title="#{bundle.ViewTemplateTitle_labelPositionY}"/>
+                    <h:outputText value="#{bundle.ViewTemplateLabel_labelSizeX}"/>
+                    <h:outputText value="#{templateController.selected.labelSizeX}" title="#{bundle.ViewTemplateTitle_labelSizeX}"/>
+                    <h:outputText value="#{bundle.ViewTemplateLabel_labelSizeY}"/>
+                    <h:outputText value="#{templateController.selected.labelSizeY}" title="#{bundle.ViewTemplateTitle_labelSizeY}"/>
+                    <h:outputText value="#{bundle.ViewTemplateLabel_utLabelPositionX}"/>
+                    <h:outputText value="#{templateController.selected.utLabelPositionX}" title="#{bundle.ViewTemplateTitle_utLabelPositionX}"/>
+                    <h:outputText value="#{bundle.ViewTemplateLabel_utLabelPositionY}"/>
+                    <h:outputText value="#{templateController.selected.utLabelPositionY}" title="#{bundle.ViewTemplateTitle_utLabelPositionY}"/>
+                    <h:outputText value="#{bundle.ViewTemplateLabel_utLabelSizeX}"/>
+                    <h:outputText value="#{templateController.selected.utLabelSizeX}" title="#{bundle.ViewTemplateTitle_utLabelSizeX}"/>
+                    <h:outputText value="#{bundle.ViewTemplateLabel_utLabelSizey}"/>
+                    <h:outputText value="#{templateController.selected.utLabelSizey}" title="#{bundle.ViewTemplateTitle_utLabelSizey}"/>
+                    <h:outputText value="#{bundle.ViewTemplateLabel_editable}"/>
+                    <h:outputText value="#{templateController.selected.editable}" title="#{bundle.ViewTemplateTitle_editable}"/>
+                    <h:outputText value="#{bundle.ViewTemplateLabel_referenceImage}"/>
+                    <h:outputText value="#{templateController.selected.referenceImage}" title="#{bundle.ViewTemplateTitle_referenceImage}"/>
+                    <h:outputText value="#{bundle.ViewTemplateLabel_utBarcodePositionX}"/>
+                    <h:outputText value="#{templateController.selected.utBarcodePositionX}" title="#{bundle.ViewTemplateTitle_utBarcodePositionX}"/>
+                    <h:outputText value="#{bundle.ViewTemplateLabel_utBarcodePositionY}"/>
+                    <h:outputText value="#{templateController.selected.utBarcodePositionY}" title="#{bundle.ViewTemplateTitle_utBarcodePositionY}"/>
+                    <h:outputText value="#{bundle.ViewTemplateLabel_utBarcodeSizeX}"/>
+                    <h:outputText value="#{templateController.selected.utBarcodeSizeX}" title="#{bundle.ViewTemplateTitle_utBarcodeSizeX}"/>
+                    <h:outputText value="#{bundle.ViewTemplateLabel_utBarcodeSizeY}"/>
+                    <h:outputText value="#{templateController.selected.utBarcodeSizeY}" title="#{bundle.ViewTemplateTitle_utBarcodeSizeY}"/>
+                </h:panelGrid>
+                <br />
+                <h:commandLink action="#{templateController.destroyAndView}" value="#{bundle.ViewTemplateDestroyLink}"/>
+                <br />
+                <br />
+                <h:commandLink action="Edit" value="#{bundle.ViewTemplateEditLink}"/>
+                <br />
+                <h:commandLink action="#{templateController.prepareCreate}" value="#{bundle.ViewTemplateCreateLink}" />
+                <br />
+                <h:commandLink action="#{templateController.prepareList}" value="#{bundle.ViewTemplateShowAllLink}"/>
+                <br />
+                <br />
+                <h:commandLink value="#{bundle.ViewTemplateIndexLink}" action="/index" immediate="true" />
+
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>

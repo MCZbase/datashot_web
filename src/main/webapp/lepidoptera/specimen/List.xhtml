@@ -1,0 +1,383 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+	  xmlns:p="http://primefaces.org/ui"
+      >
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.ListSpecimenTitle}"></h:outputText>
+        </ui:define>
+		<ui:define name="menu">
+            <h:form>
+					<p:commandButton value="#{bundle.ListSpecimenIndexLink}"
+									 action="/index?faces-redirect=true"
+									 immediate="true"  />
+					<p:commandButton
+						disabled="#{!loginBean.userAdministrator}"
+						action="#{specimenController.prepareCreate}"
+						value="#{bundle.ListSpecimenCreateLink}"/>
+					<h:outputText id="paginationcounts" value="#{specimenController.pagination.pageFirstItem + 1}..#{specimenController.pagination.pageLastItem + 1}/#{specimenController.pagination.itemsCount}"/>
+					<p:commandButton action="#{specimenController.first}" value="First Page"
+								   disabled="#{!specimenController.pagination.hasPreviousPage}"/>
+					<p:commandButton action="#{specimenController.previous}" value="#{bundle.Previous} #{specimenController.pagination.pageSize}"
+								   disabled="#{!specimenController.pagination.hasPreviousPage}"/>
+					<p:commandButton action="#{specimenController.next}" value="#{bundle.Next} #{specimenController.pagination.pageSize}"
+								   disabled="#{!specimenController.pagination.hasNextPage}"/>
+					<p:commandButton action="#{specimenController.last}" value="Last Page"
+								   disabled="#{!specimenController.pagination.hasNextPage}"/>
+			</h:form>
+		</ui:define>
+        <ui:define name="body">
+            <h:form>
+				<h:outputText escape="false" value="#{bundle.ListSpecimenEmpty}"
+							  rendered="#{specimenController.items.rowCount == 0}"/>
+				<h:commandLink action="#{specimenController.prepareListAll}" value="Show All"
+							   rendered="#{specimenController.items.rowCount == 0}"/>
+				<h:outputText escape="false" value="&nbsp;"
+							  rendered="#{specimenController.items.rowCount == 0}"/>
+				<h:commandLink action="/index?faces-redirect=true" value="Edit Search"
+							   rendered="#{specimenController.items.rowCount == 0}"/>
+                <h:panelGroup rendered="#{specimenController.items.rowCount > 0}">
+					<h:selectManyCheckbox >
+						<h:commandButton action="#{specimenController.sameReSort}" value="#{bundle.SortBy}" />
+						<h:outputLabel value="Barcode" for="ch_bar" />
+						<h:selectBooleanCheckbox id="ch_bar" value="#{specimenController.sortByBarcode}" />
+						<h:outputLabel value="Filename" for="ch_fil" />
+						<h:selectBooleanCheckbox id="ch_fil" value="#{specimenController.sortByFilename}" />
+						<h:outputLabel value="Family" for="ch_fam" />
+						<h:selectBooleanCheckbox id="ch_fam" value="#{specimenController.sortByFamily}" />
+						<h:outputLabel value="Subfamily" for="ch_sfam" />
+						<h:selectBooleanCheckbox id="ch_sfam" value="#{specimenController.sortBySubfamily}" />
+						<h:outputLabel value="Genus" for="ch_gen" />
+						<h:selectBooleanCheckbox id="ch_gen" value="#{specimenController.sortByGenus}" />
+						<h:outputLabel value="Species" for="ch_spe" />
+						<h:selectBooleanCheckbox id="ch_spe" value="#{specimenController.sortBySpecificEpithet}" />
+						<h:outputLabel value="Country" for="ch_cou" />
+						<h:selectBooleanCheckbox id="ch_cou" value="#{specimenController.sortByCountry}" />
+						<h:outputLabel value="State/Province" for="ch_pri" />
+						<h:selectBooleanCheckbox id="ch_pri" value="#{specimenController.sortByPrimaryDivision}" />
+						<h:outputLabel value="WorkFlowStatus" for="ch_wor" />
+						<h:selectBooleanCheckbox id="ch_wor" value="#{specimenController.sortByWorkflowStatus}" />
+					</h:selectManyCheckbox>
+
+					<h:panelGrid columns="2" rendered="#{specimenController.barcodesFilterCriterion != ''}" >
+						<h:outputText value=""/>
+						<h:outputLabel value="Barcodes" for="it_bars" />
+
+						<h:commandButton action="#{specimenController.sameReSort}" value="#{bundle.FilterBy}" />
+						<h:inputText id="it_bars" value="#{specimenController.barcodesFilterCriterion}" size="60" />
+					</h:panelGrid>
+					<h:panelGrid columns="13" rendered="#{specimenController.barcodesFilterCriterion == ''}" >
+						<h:outputText value=""/>
+						<h:outputLabel value="Barcode" for="it_bar" />
+						<h:outputLabel value="Family" for="it_fam" />
+						<h:outputLabel value="Genus" for="it_gen" />
+						<h:outputLabel value="species" for="it_sp" />
+						<h:outputLabel value="subspecies" for="it_ssp" />
+						<h:outputLabel value="Country" for="it_cou" />
+						<h:outputLabel value="State/Prov." for="it_pri" />
+						<h:outputLabel value="Collection" for="it_col" />
+						<h:outputLabel value="Status" for="it_stat" />
+						<h:outputLabel value="LastEditedBy" for="it_led" />
+						<h:outputLabel value="Collector" for="it_colle" />
+						<h:outputLabel value="Image Date" for="it_imdate" />
+
+						<h:commandButton action="#{specimenController.sameReSort}" value="Filter by" />
+						<h:inputText id="it_bar" value="#{specimenController.barcodeFilterCriterion}" size="10" />
+						<p:autoComplete id="it_fam" 
+						                   autofill="true"
+										   value="#{specimenController.familyFilterCriterion}"
+										   completeMethod="#{higherTaxonController.autocompleteFamily}"
+										   />
+						<h:inputText id="it_gen" value="#{specimenController.genusFilterCriterion}" size="10" />
+						<h:inputText id="it_sp" value="#{specimenController.specificepithetFilterCriterion}" size="10" />
+						<h:inputText id="it_ssp" value="#{specimenController.subspecificepithetFilterCriterion}" size="10" />
+						<h:inputText id="it_cou" value="#{specimenController.countryFilterCriterion}" size="10" />
+						<h:inputText id="it_pri" value="#{specimenController.primarydivisionFilterCriterion}" size="10" />
+						<h:inputText id="it_col" value="#{specimenController.collectionFilterCriterion}" size="10" />
+						<h:selectOneMenu id="it_stat" value="#{specimenController.workflowstatusFilterCriterion}" required="false" >
+							<f:selectItems value="#{workFlowStatusManagedBean.allWorkflowStatusValuesWithBlankAndNot}"  />
+						</h:selectOneMenu>
+						<h:inputText id="it_led" value="#{specimenController.lastupdatedbyFilterCriterion}" size="10" />
+						<h:inputText id="it_colle" value="#{specimenController.collectorFilterCriterion}" size="10" />
+                        <p:selectOneMenu id="it_imdate" value="#{specimenController.pathFilterCriterion}"
+                                         filter="true" filterMatchMode="contains" 
+                                         required="false" >
+                            <f:selectItems value="#{pickListsManagedBean.imagePaths}"  />
+                        </p:selectOneMenu>						
+					</h:panelGrid>
+
+                   <p:dataTable value="#{specimenController.items}" 
+                             var="item"
+                             id="table"
+                             rowKey="#{item.barcode}" 
+                             selectionMode="single"
+                             scrollable="true"
+                             scrollWidth="2700"
+                             editable="#{loginBean.userChiefEditor}">
+                           <p:ajax event="rowEdit" listener="#{specimenController.doRowUpdate}" />
+                    <f:facet name="header">
+                        <h:outputText value="Specimen List" />
+                    </f:facet>
+                    <p:column width="20">
+                        <f:facet name="header">
+                            <h:outputText value="&nbsp;" />
+                        </f:facet>
+                        <h:commandLink action="#{specimenController.prepareView}"
+                            value="#{bundle.ListSpecimenViewLink}"
+                            rendered="${!loginBean.userDataEntry or item.stateDoneMigrated}" />
+                        <h:commandLink action="#{specimenController.prepareEdit}"
+                            value="#{bundle.ListSpecimenEditLink}"
+                            rendered="${loginBean.userDataEntry and !item.stateDoneMigrated}" />
+                    </p:column>
+                    <p:column width="15">
+                        <p:rowEditor rendered="${loginBean.userChiefEditor and !item.stateDoneMigrated}" >
+                        </p:rowEditor>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <p:commandLink value="#{bundle.ListSpecimenTitle_barcode}"
+                                update="table"
+                                actionListener="#{specimenController.sameReSortOnBarcode}" />
+                        </f:facet>
+                        <h:outputText value="#{item.barcode}" />
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{bundle.ListSpecimenTitle_drawerNumber}" />
+                        </f:facet>
+                        <p:cellEditor>
+                            <f:facet name="output">
+                                <h:outputText value="#{item.drawerNumber}" />
+                            </f:facet>
+                            <f:facet name="input">
+                                <h:inputText value="#{item.drawerNumber}" />
+                            </f:facet>
+                        </p:cellEditor>
+                    </p:column>
+                    <!--
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="#{bundle.ListSpecimenTitle_typeStatus}"/>
+                                </f:facet>
+                                <h:outputText value="#{item.typeStatus}"/>
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="#{bundle.ListSpecimenTitle_typeNumber}"/>
+                                </f:facet>
+                                <h:outputText value="#{item.typeNumber}"/>
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="#{bundle.ListSpecimenTitle_citedInPublication}"/>
+                                </f:facet>
+                                <h:outputText value="#{item.citedInPublication}"/>
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="#{bundle.ListSpecimenTitle_features}"/>
+                                </f:facet>
+                                <h:outputText value="#{item.features}"/>
+                            </p:column>
+                        -->
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{bundle.ListSpecimenTitle_family}" />
+                        </f:facet>
+                        <p:cellEditor>
+                            <f:facet name="output">
+                                <h:outputText value="#{item.family}" />
+                            </f:facet>
+                            <f:facet name="input">
+                                <h:inputText value="#{item.family}" />
+                            </f:facet>
+                        </p:cellEditor>
+                    </p:column>
+                    <p:column width="9em">
+                        <f:facet name="header">
+                            <h:outputText value="#{bundle.ListSpecimenTitle_subfamily}" />
+                        </f:facet>
+                        <p:cellEditor>
+                            <f:facet name="output">
+                                <h:outputText value="#{item.subfamily}" />
+                            </f:facet>
+                            <f:facet name="input">
+                                <h:inputText value="#{item.subfamily}" />
+                            </f:facet>
+                        </p:cellEditor>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{bundle.ListSpecimenTitle_tribe}" />
+                        </f:facet>
+                        <p:cellEditor>
+                            <f:facet name="output">
+                                <h:outputText value="#{item.tribe}" />
+                            </f:facet>
+                            <f:facet name="input">
+                                <h:inputText value="#{item.tribe}" />
+                            </f:facet>
+                        </p:cellEditor>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{bundle.ListSpecimenTitle_genus}" />
+                        </f:facet>
+                        <p:cellEditor>
+                            <f:facet name="output">
+                                <h:outputText value="#{item.genus}" style="font-style: italic" />
+                            </f:facet>
+                            <f:facet name="input">
+                                <h:inputText value="#{item.genus}" />
+                            </f:facet>
+                        </p:cellEditor>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <p:commandLink value="species" 
+                                           update="table"
+                                           actionListener="#{specimenController.sameReSortOnSpecificEpithet}" />
+                        </f:facet>
+                        <p:cellEditor>
+                            <f:facet name="output">
+                                <h:outputText value="#{item.specificEpithet}" style="font-style: italic" />
+                            </f:facet>
+                            <f:facet name="input">
+                                <h:inputText value="#{item.specificEpithet}" />
+                            </f:facet>
+                        </p:cellEditor>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="subspecies" title="Subspecific name." />
+                        </f:facet>
+                        <p:cellEditor>
+                            <f:facet name="output">
+                                <h:outputText value="#{item.subspecificEpithet}" style="font-style: italic" />
+                            </f:facet>
+                            <f:facet name="input">
+                                <h:inputText value="#{item.subspecificEpithet}" />
+                            </f:facet>
+                        </p:cellEditor>                     
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="Geography" />
+                        </f:facet>
+                        <p:cellEditor>
+                            <f:facet name="output">
+                                <h:outputText value="#{item.higherGeography}" />
+                            </f:facet>
+                            <f:facet name="input">
+                                <h:inputText value="#{item.higherGeography}" />
+                            </f:facet>
+                        </p:cellEditor>                         
+                    </p:column>
+                    <p:column width="15em">
+                        <f:facet name="header">
+                            <h:outputText value="#{bundle.ListSpecimenTitle_specificLocality}" />
+                        </f:facet>
+                        <p:cellEditor>
+                            <f:facet name="output">
+                                <h:outputText value="#{item.specificLocality}" />
+                            </f:facet>
+                            <f:facet name="input">
+                                <h:inputText value="#{item.specificLocality}" />
+                            </f:facet>
+                        </p:cellEditor>                         
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{bundle.ListSpecimenTitle_collection}"/>
+                        </f:facet>
+                        <p:cellEditor>
+                            <f:facet name="output">
+                                <h:outputText value="#{item.collection}"/>
+                            </f:facet>
+                            <f:facet name="input">
+                                <h:inputText value="#{item.collection}" />
+                            </f:facet>
+                        </p:cellEditor>                                          
+                    </p:column>
+                    <p:column width="8em">
+                        <f:facet name="header">
+                            <h:outputText value="#{bundle.ListSpecimenTitle_workFlowStatus}" />
+                        </f:facet>
+                        <p:cellEditor>
+                            <f:facet name="output">
+                                <h:outputText value="#{item.workFlowStatus}"
+                                    rendered="#{!item.stateDoneMigrated}" />
+                                <h:outputLink
+                                    value="http://mczbase.mcz.harvard.edu/guid/MCZ:Ent:${item.catNum}"
+                                    rendered="#{item.stateDoneMigrated}">
+                                   <h:outputText value="${item.loadFlags}" />
+                                </h:outputLink>
+                            </f:facet>
+                            <f:facet name="input">
+                                <h:outputText value="#{item.workFlowStatus}"
+                                    rendered="#{item.stateDoneMigrated}" />
+                                <h:selectOneMenu id="workFlowStatus" value="#{specimenController.selected.workFlowStatus}"
+                                                title="#{MetadataRetrieverBean.tipForField('Specimen','WorkFlowStatus')}"
+                                                required="true" disabled="${!loginBean.userChiefEditor}" >
+                                    <f:selectItems value="#{workFlowStatusManagedBean.workFlowStatusValues}"  />
+                                </h:selectOneMenu>   
+                            </f:facet>
+                        </p:cellEditor>                                          
+                    </p:column>
+                    <p:column width="8em">
+                        <f:facet name="header">
+                            <h:outputText value="Collection" />
+                        </f:facet>
+                        <p:cellEditor>
+                            <f:facet name="output">
+                                <h:outputText value="#{item.locationInCollection}" />
+                            </f:facet>
+                            <f:facet name="input">
+                                <h:selectOneMenu id="locationInCollection" value="#{specimenController.selected.locationInCollection}"
+                                                title="#{MetadataRetrieverBean.tipForField('Specimen','LocationInCollection')}"
+                                                required="true" >
+                                    <f:selectItems value="#{pickListsManagedBean.locationInCollectionValues}"  />
+                                </h:selectOneMenu>   
+                            </f:facet>
+                        </p:cellEditor>                                          
+                    </p:column>                    
+                    <p:column width="9em">
+                        <f:facet name="header">
+                            <h:outputText value="Image Date" />
+                        </f:facet>
+                        <h:outputText value="#{item.getFirstImagePath()}">
+                        </h:outputText>
+                    </p:column>     
+                   <p:column width="9em">
+                        <f:facet name="header">
+                            <h:outputText value="Image Filename" />
+                        </f:facet>
+                        <h:outputText value="#{item.getFirstImageFilename()}">
+                        </h:outputText>
+                    </p:column>  
+                    <p:column width="9em">
+                        <f:facet name="header">
+                            <h:outputText value="#{bundle.ListSpecimenTitle_dateLastUpdated}" />
+                        </f:facet>
+                        <h:outputText value="#{item.dateLastUpdated}">
+                            <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                        </h:outputText>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{bundle.ListSpecimenTitle_lastUpdatedBy}" />
+                        </f:facet>
+                        <h:outputText value="#{item.lastUpdatedBy}" />
+                    </p:column>
+                </p:dataTable>
+				</h:panelGroup>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>

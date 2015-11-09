@@ -1,0 +1,209 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:pe="http://primefaces.org/ui/extensions"      
+      xmlns:components="http://java.sun.com/jsf/composite/components"
+      xmlns:c="http://java.sun.com/jsp/jstl/core"
+      >
+<ui:composition template="/template.xhtml">
+    <ui:define name="title">MCZ DataShot: Images to Structured Data</ui:define>
+    <ui:define name="menu"></ui:define>
+    <ui:define name="body" >
+	<h:outputText style="font-weight: bold" value="Community-sourcing the transcription of label data in the MCZ Collections" />
+		<p:panel header="Transcribe Label Data" toggleable="false" collapsed="false" >
+			<h:panelGrid columns="3" >
+				<h:panelGrid columns="1">
+					<h:form>
+						<h:commandLink action="/lepidoptera/specimen/List?faces-redirect=true" value="List/Search All Specimens"/>
+					</h:form>
+					<h:form rendered="#{!loginBean.userExactlyAnyEditor}" >
+						<h:commandLink action="#{specimenController.worflowstatusAsOCR}" value="Work on specimens in state OCR"/>
+					</h:form>
+					<h:form>
+						<h:commandLink action="#{specimenController.worflowstatusAsTaxonEntered}" value="Work on specimens with only the current identification entered."/>
+					</h:form>
+					<h:form rendered="#{!loginBean.userExactlyDataEntry}" >
+						<h:commandLink action="#{specimenController.worflowstatusAsTextEntered}" value="Work on specimens with transcribed labels."/>
+					</h:form>
+					<h:form  rendered="#{!loginBean.userExactlyDataEntry}" >
+						<h:commandLink action="#{specimenController.worflowstatusAsQCFail}" value="Work on specimens with quality control problems."/>
+					</h:form>
+					<h:form  rendered="#{!loginBean.userExactlyDataEntry}" >
+						<h:commandLink action="#{specimenController.worflowstatusAsQCPass}" value="Work on specimens with reviewed quality problems."/>
+					</h:form>
+				</h:panelGrid>
+				<h:form >
+					<h:panelGrid columns="4" >
+						<h:outputLabel value="Family" for="it_fam" />
+						<p:autoComplete id="it_fam"
+										   value="#{specimenController.familyFilterCriterion}"
+										   completeMethod="#{higherTaxonController.autocompleteFamily}"
+										   >
+						</p:autoComplete>
+						<h:outputLabel value="Country" for="it_cou" />
+						<h:inputText id="it_cou" value="#{specimenController.countryFilterCriterion}" />
+
+						<h:outputLabel value="Genus" for="it_gen" />
+						<h:inputText id="it_gen" value="#{specimenController.genusFilterCriterion}" />
+						<h:outputLabel value="State/Prov." for="it_pri" />
+						<h:inputText id="it_pri" value="#{specimenController.primarydivisionFilterCriterion}"  />
+
+						<h:outputLabel value="species" for="it_sp" />
+						<h:inputText id="it_sp" value="#{specimenController.specificepithetFilterCriterion}" />
+						<h:outputLabel value="Status" for="it_stat" />
+						<h:selectOneMenu id="it_stat" value="#{specimenController.workflowstatusFilterCriterion}" required="false" >
+							<f:selectItems value="#{workFlowStatusManagedBean.allWorkflowStatusValuesWithBlankAndNot}"  />
+						</h:selectOneMenu>
+
+						<h:outputLabel value="subspecies" for="it_ssp" />
+						<h:inputText id="it_ssp" value="#{specimenController.subspecificepithetFilterCriterion}" />
+						<h:outputLabel value="Collection" for="it_col" />
+						<h:inputText id="it_col" value="#{specimenController.collectionFilterCriterion}" size="10" />
+
+						<h:outputLabel value="LastEditedBy" for="it_led" />
+						<h:inputText id="it_led" value="#{specimenController.lastupdatedbyFilterCriterion}" size="10" />
+						<h:outputLabel value="Collector" for="it_colle" />
+						<h:inputText id="it_colle" value="#{specimenController.collectorFilterCriterion}" size="10" />
+
+						<h:outputLabel value="Barcode" for="it_bar" />
+						<h:inputText id="it_bar" value="#{specimenController.barcodeFilterCriterion}" size="10" />
+						<h:outputLabel value="Image Date" for="it_imdate" />
+                        <p:selectOneMenu id="it_imdate" value="#{specimenController.pathFilterCriterion}"
+                                         filter="true" filterMatchMode="contains" 
+                                         required="false" >
+                            <f:selectItems value="#{pickListsManagedBean.imagePaths}"  />
+                        </p:selectOneMenu>
+						
+						<h:outputLabel value=" "/>
+						<h:outputLabel value=" "/>
+						<h:outputLabel value=" "/>
+						<h:commandButton action="#{specimenController.prepareListFromIndexSearch}" value="Search" />
+					</h:panelGrid>
+				</h:form>
+			    <components:genusTagCloud />
+			</h:panelGrid>
+			<h:panelGrid columns="3">
+					<h:form>
+						<h:commandButton action="#{specimenController.prepareListFromIndexBarcodes}"
+										 value="Find Specimens by Barcodes" />
+						<h:outputLabel value="Barcodes:" for="it_bars2" />
+						<h:inputText id="it_bars2"
+									 value="#{specimenController.barcodesFilterCriterion}"
+									 size="80"
+									 label="Comma Separated List of Barcodes (up to 100)" />
+					</h:form>
+				</h:panelGrid>
+		</p:panel>
+		<p:panel rendered="#{loginBean.userAbleToEditImages}"
+				 header="Management Links" 
+				 toggleable="true" 
+				 toggleSpeed="500"
+				 >
+			<h:panelGrid columns="2">
+				<h:panelGrid columns="1">
+
+					<h:form>
+						<h:commandLink rendered="#{loginBean.userChiefEditor}"
+									   action="/lepidoptera/users/List?faces-redirect=true"
+									   value="Manage Users"/>
+					</h:form>
+					<h:form>
+						<h:commandLink rendered="#{loginBean.userFullAccess}"
+									   action="/lepidoptera/determination/ListProblems?faces-redirect=true"
+									   value="Find Problematic Determinations"/>
+					</h:form>
+					<h:form >
+						<h:commandLink rendered="#{loginBean.userAbleToEditImages}"
+							           action="/lepidoptera/collector/QCList"
+									   value="Edit Unique Collector Names"/>
+					</h:form>
+					<h:form >
+						<h:commandLink rendered="#{loginBean.userAbleToEditImages}"
+							           action="/lepidoptera/specimen/CountryQCList"
+									   value="Edit Unique Country Names"/>
+					</h:form>
+					<h:form >
+						<h:commandLink rendered="#{loginBean.userAbleToEditImages}"
+							           action="/lepidoptera/specimen/CountryStateQCList"
+									   value="Edit Unique State/Province Names"/>
+					</h:form>
+					<h:form>
+						<h:commandLink rendered="#{loginBean.userAbleToEditImages}"
+							           action="/lepidoptera/image/List?faces-redirect=true"
+									   value="Show All Images"/>
+					</h:form>
+					<h:form>
+						<h:commandLink rendered="#{loginBean.userAbleToEditImages}" action="#{imageController.prepareProblemView}"
+									   value="List Problem Images"/>
+					</h:form>
+					<h:form>
+						<h:commandLink rendered="#{loginBean.userChiefEditor}"
+									   action="/lepidoptera/image/RemoveBatch?faces-redirect=true"
+									   value="Delete unwanted image batches/folders"/>
+					</h:form>
+					<h:form>
+						<h:commandLink rendered="#{loginBean.userChiefEditor}" action="/lepidoptera/unitTrayLabel/List?faces-redirect=true"
+									   value="Show All UnitTrayLabels"/>
+					</h:form>
+					<h:form>
+						<h:commandLink rendered="#{loginBean.userChiefEditor}" action="/lepidoptera/tag/List?faces-redirect=true"
+									   value="Show All Tags for Labels"/>
+					</h:form>
+					<h:form>
+						<h:commandLink action="/lepidoptera/label/List?faces-redirect=true"
+									   value="Show All Exemplar Pin Labels"/>
+					</h:form>
+				</h:panelGrid>
+				<h:panelGrid columns="3">
+					<h:form>
+						<h:commandButton action="#{imageController.prepareBarcodesListFromIndex}"
+										 value="Find Images for Barcodes" />
+						<h:outputLabel value="Barcodes:" for="it_bar" />
+						<h:inputText id="it_bar"
+									 value="#{imageController.barcodeListFilterCriterion}"
+									 size="80"
+									 label="Comma Separated List of Barcodes (up to 100)" />
+					</h:form>
+				</h:panelGrid>
+			</h:panelGrid>
+		</p:panel>
+		<p:panel header="Administrative Links" toggleable="true" toggleSpeed="500"
+				 rendered="#{loginBean.userAdministrator}" >
+			<h:form>
+				<h:commandLink action="/lepidoptera/collector/List" value="Show All Collectors"/>
+			</h:form>
+			<h:form>
+				<h:commandLink action="/lepidoptera/determination/ListProblems" value="Show All Determinations"/>
+			</h:form>
+			<h:form>
+				<h:commandLink action="/lepidoptera/higherTaxon/List" value="Show All Higher Taxa"/>
+			</h:form>
+			<h:form>
+				<h:commandLink action="/lepidoptera/otherNumbers/List" value="Show All OtherNumbers"/>
+			</h:form>
+			<h:form>
+				<h:commandLink action="/lepidoptera/specimen/List_generated" value="Show All Specimen Items [original generated form]"/>
+			</h:form>
+			<h:form>
+				<h:commandLink action="/lepidoptera/template/List" value="Show All Templates"/>
+			</h:form>
+			<h:form>
+				<h:commandLink action="/lepidoptera/tracking/List" value="Show All Tracking Entries"/>
+			</h:form>
+			<h:form>
+				<h:commandLink action="/lepidoptera/labelTag/List" value="Show All LabelTag Items"/>
+			</h:form>
+		</p:panel>
+		<p:panel rendered="true" header="User" toggleable="true" toggleSpeed="250" >
+			<components:userStatus showRoles="true" showLogout="false" ></components:userStatus>
+		</p:panel>
+		<p:panel rendered="true" header="Progress" toggleable="true" collapsed="#{loginBean.userNotChiefEditorWorkaround}" toggleSpeed="250" >
+			<components:status></components:status>
+		</p:panel>
+    </ui:define>
+</ui:composition>
+</html>

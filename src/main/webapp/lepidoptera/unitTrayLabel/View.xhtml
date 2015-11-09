@@ -1,0 +1,72 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.ViewUnitTrayLabelTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:panelGroup id="messagePanel" layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            </h:panelGroup>
+            <h:form>
+                <h:panelGrid columns="2">
+                    <h:outputText value="#{bundle.ViewUnitTrayLabelLabel_id}"/>
+                    <h:outputText value="#{unitTrayLabelController.selected.id}" title="#{bundle.ViewUnitTrayLabelTitle_id}"/>
+                    <h:outputText value="#{bundle.ViewUnitTrayLabelLabel_family}"/>
+                    <h:outputText value="#{unitTrayLabelController.selected.family}" title="#{bundle.ViewUnitTrayLabelTitle_family}"/>
+                    <h:outputText value="#{bundle.ViewUnitTrayLabelLabel_subfamily}"/>
+                    <h:outputText value="#{unitTrayLabelController.selected.subfamily}" title="#{bundle.ViewUnitTrayLabelTitle_subfamily}"/>
+                    <h:outputText value="#{bundle.ViewUnitTrayLabelLabel_tribe}"/>
+                    <h:outputText value="#{unitTrayLabelController.selected.tribe}" title="#{bundle.ViewUnitTrayLabelTitle_tribe}"/>
+                    <h:outputText value="#{bundle.ViewUnitTrayLabelLabel_genus}"/>
+                    <h:outputText value="#{unitTrayLabelController.selected.genus}" title="#{bundle.ViewUnitTrayLabelTitle_genus}"/>
+                    <h:outputText value="#{bundle.ViewUnitTrayLabelLabel_specificEpithet}"/>
+                    <h:outputText value="#{unitTrayLabelController.selected.specificEpithet}" title="#{bundle.ViewUnitTrayLabelTitle_specificEpithet}"/>
+                    <h:outputText value="#{bundle.ViewUnitTrayLabelLabel_subspecificEpithet}"/>
+                    <h:outputText value="#{unitTrayLabelController.selected.subspecificEpithet}" title="#{bundle.ViewUnitTrayLabelTitle_subspecificEpithet}"/>
+                    <h:outputText value="#{bundle.ViewUnitTrayLabelLabel_infraspecificEpithet}"/>
+                    <h:outputText value="#{unitTrayLabelController.selected.infraspecificEpithet}" title="#{bundle.ViewUnitTrayLabelTitle_infraspecificEpithet}"/>
+                    <h:outputText value="#{bundle.ViewUnitTrayLabelLabel_infraspecificRank}"/>
+                    <h:outputText value="#{unitTrayLabelController.selected.infraspecificRank}" title="#{bundle.ViewUnitTrayLabelTitle_infraspecificRank}"/>
+                    <h:outputText value="#{bundle.ViewUnitTrayLabelLabel_authorship}"/>
+                    <h:outputText value="#{unitTrayLabelController.selected.authorship}" title="#{bundle.ViewUnitTrayLabelTitle_authorship}"/>
+                    <h:outputText value="#{bundle.ViewUnitTrayLabelLabel_drawerNumber}"/>
+                    <h:outputText value="#{unitTrayLabelController.selected.drawerNumber}" title="#{bundle.ViewUnitTrayLabelTitle_drawerNumber}"/>
+                    <h:outputText value="#{bundle.ViewUnitTrayLabelLabel_unNamedForm}"/>
+                    <h:outputText value="#{unitTrayLabelController.selected.unNamedForm}" title="#{bundle.ViewUnitTrayLabelTitle_unNamedForm}"/>
+                    <h:outputText value="#{bundle.ViewUnitTrayLabelLabel_printed}"/>
+                    <h:outputText value="#{unitTrayLabelController.selected.printed}" title="#{bundle.ViewUnitTrayLabelTitle_printed}"/>
+                    <h:outputText value="#{bundle.ViewUnitTrayLabelLabel_numberToPrint}"/>
+                    <h:outputText value="#{unitTrayLabelController.selected.numberToPrint}" title="#{bundle.ViewUnitTrayLabelTitle_numberToPrint}"/>
+                    <h:outputText value="#{bundle.ViewUnitTrayLabelLabel_dateCreated}"/>
+                    <h:outputText value="#{unitTrayLabelController.selected.dateCreated}" title="#{bundle.ViewUnitTrayLabelTitle_dateCreated}">
+                        <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                    </h:outputText>
+                    <h:outputText value="#{bundle.ViewUnitTrayLabelLabel_dateLastUpdated}"/>
+                    <h:outputText value="#{unitTrayLabelController.selected.dateLastUpdated}" title="#{bundle.ViewUnitTrayLabelTitle_dateLastUpdated}">
+                        <f:convertDateTime pattern="MM/dd/yyyy" />
+                    </h:outputText>
+                </h:panelGrid>
+                <br />
+                <h:commandLink action="#{unitTrayLabelController.destroyAndView}" value="#{bundle.ViewUnitTrayLabelDestroyLink}"/>
+                <br />
+                <br />
+                <h:commandLink action="Edit" value="#{bundle.ViewUnitTrayLabelEditLink}"/>
+                <br />
+                <h:commandLink action="#{unitTrayLabelController.prepareCreate}" value="#{bundle.ViewUnitTrayLabelCreateLink}" />
+                <br />
+                <h:commandLink action="#{unitTrayLabelController.prepareList}" value="#{bundle.ViewUnitTrayLabelShowAllLink}"/>
+                <br />
+                <br />
+                <h:commandLink value="#{bundle.ViewUnitTrayLabelIndexLink}" action="/index" immediate="true" />
+
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>

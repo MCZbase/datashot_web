@@ -1,0 +1,42 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.EditOtherNumbersTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:panelGroup id="messagePanel" layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            </h:panelGroup>
+            <h:form>
+                <h:panelGrid columns="2">
+                    <h:outputLabel value="#{bundle.EditOtherNumbersLabel_numberId}" for="numberId" />
+                    <h:inputText id="numberId" value="#{otherNumbersController.selected.numberId}" title="#{bundle.EditOtherNumbersTitle_numberId}" required="true" requiredMessage="#{bundle.EditOtherNumbersRequiredMessage_numberId}"/>
+                    <h:outputLabel value="#{bundle.EditOtherNumbersLabel_otherNumber}" for="otherNumber" />
+                    <h:inputText id="otherNumber" value="#{otherNumbersController.selected.otherNumber}" title="#{bundle.EditOtherNumbersTitle_otherNumber}" />
+                    <h:outputLabel value="#{bundle.EditOtherNumbersLabel_numberType}" for="numberType" />
+                    <h:inputText id="numberType" value="#{otherNumbersController.selected.numberType}" title="#{bundle.EditOtherNumbersTitle_numberType}" />
+                    <h:outputLabel value="#{bundle.EditOtherNumbersLabel_specimenId}" for="specimenId" />
+                    <h:selectOneMenu id="specimenId" value="#{otherNumbersController.selected.specimenId}" title="#{bundle.EditOtherNumbersTitle_specimenId}" required="true" requiredMessage="#{bundle.EditOtherNumbersRequiredMessage_specimenId}">
+                        <f:selectItems value="#{specimenController.itemsAvailableSelectOne}"/>
+                    </h:selectOneMenu>
+                </h:panelGrid>
+                <h:commandLink action="#{otherNumbersController.update}" value="#{bundle.EditOtherNumbersSaveLink}"/>
+                <br />
+                <br />
+                <h:commandLink action="View" value="#{bundle.EditOtherNumbersViewLink}" immediate="true"/>
+                <br />
+                <h:commandLink action="#{otherNumbersController.prepareList}" value="#{bundle.EditOtherNumbersShowAllLink}" immediate="true"/>
+                <br />
+                <br />
+                <h:commandLink value="#{bundle.EditOtherNumbersIndexLink}" action="/index" immediate="true" />
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>

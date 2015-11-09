@@ -1,0 +1,50 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+	  xmlns:p="http://primefaces.org/ui"
+      >
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.CreateLabelTitle}"></h:outputText>
+        </ui:define>
+		<ui:define name="menu">
+            <h:form>
+					<p:commandButton value="#{bundle.ListLabelIndexLink}"
+									 action="/index?faces-redirect=true"
+									 immediate="true"  />
+                    <p:commandButton action="#{labelController.prepareList}" value="#{bundle.ViewLabelShowAllLink}"/>
+			</h:form>
+		</ui:define>
+        <ui:define name="body">
+            <h:panelGroup id="messagePanel" layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            </h:panelGroup>
+            <h:form>
+                <h:panelGrid columns="2">
+                    <h:outputLabel value="#{bundle.CreateLabelLabel_labelid}" for="labelid" />
+                    <h:inputText id="labelid" value="#{labelController.selected.labelid}" title="#{bundle.CreateLabelTitle_labelid}" required="true" requiredMessage="#{bundle.CreateLabelRequiredMessage_labelid}"/>
+                    <h:outputLabel value="#{bundle.CreateLabelLabel_imageid}" for="imageid" />
+                    <h:inputText id="imageid" value="#{labelController.selected.imageid}" title="#{bundle.CreateLabelTitle_imageid}" required="true" requiredMessage="#{bundle.CreateLabelRequiredMessage_imageid}"/>
+                    <h:outputLabel value="#{bundle.CreateLabelLabel_offsettop}" for="offsettop" />
+                    <h:inputText id="offsettop" value="#{labelController.selected.offsettop}" title="#{bundle.CreateLabelTitle_offsettop}" />
+                    <h:outputLabel value="#{bundle.CreateLabelLabel_offsetleft}" for="offsetleft" />
+                    <h:inputText id="offsetleft" value="#{labelController.selected.offsetleft}" title="#{bundle.CreateLabelTitle_offsetleft}" />
+                    <h:outputLabel value="#{bundle.CreateLabelLabel_width}" for="width" />
+                    <h:inputText id="width" value="#{labelController.selected.width}" title="#{bundle.CreateLabelTitle_width}" />
+                    <h:outputLabel value="#{bundle.CreateLabelLabel_height}" for="height" />
+                    <h:inputText id="height" value="#{labelController.selected.height}" title="#{bundle.CreateLabelTitle_height}" />
+                    <h:outputLabel value="#{bundle.CreateLabelLabel_verbatimtext}" for="verbatimtext" />
+                    <h:inputText id="verbatimtext" value="#{labelController.selected.verbatimtext}" title="#{bundle.CreateLabelTitle_verbatimtext}" />
+                    <h:outputLabel value="#{bundle.CreateLabelLabel_interpretation}" for="interpretation" />
+                    <h:inputTextarea rows="4" cols="30" id="interpretation" value="#{labelController.selected.interpretation}" title="#{bundle.CreateLabelTitle_interpretation}" />
+                </h:panelGrid>
+                <p:commandButton action="#{labelController.create}" value="#{bundle.CreateLabelSaveLink}" />
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>

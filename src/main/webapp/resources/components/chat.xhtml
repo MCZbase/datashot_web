@@ -1,0 +1,45 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+	  xmlns:p="http://primefaces.org/ui"
+      xmlns:cc="http://java.sun.com/jsf/composite"
+	  xmlns:components="http://java.sun.com/jsf/composite/components">
+<cc:interface>
+	  <cc:attribute name="collapsed" default="true"  />
+</cc:interface>
+<cc:implementation>
+		<h:form id="chatform" >
+			<p:panel id="chathead" collapsed="true" toggleable="false" style="#{chatController.styleForChatHead}"
+					 header="Chat: #{chatController.getOnlineUserCount()} users online. (#{chatController.getMessageCount()} messages)"
+					 />
+			<p:panel id="chatpanel" collapsed="#{cc.attrs.collapsed}"
+					 header="Chat"
+					 toggleable="true">
+				<h:panelGrid columns="3">
+					<h:outputText value="Message:" />
+					<h:inputText id="txt" value="#{chatController.message}"  size="75" />
+					<p:commandButton value="Send" update="chatwindow,txt,chathead"
+									 actionListener="#{chatController.send}"
+									 oncomplete="jQuery('#txt').val('');"/>
+				</h:panelGrid>
+				<h:outputText id="chatwindow" 
+				       value="#{chatController.messages}" 
+				       escape="false" 
+				       style="line-height: 90%; 
+				       padding-top: 0px; padding-bottom: 0px;" />
+                <p:socket channel="/chat" >
+                    <p:ajax event="message" update="chatform:chatwindow chatform:chathead" />
+                </p:socket>
+                <p:socket onMessage="handleMessage" channel="/serverNotifications" />
+                <script type="text/javascript">
+                     function handleMessage(msg) {
+                         PF('servergrowl').show([msg]);
+                     }
+                </script>
+                <p:growl widgetVar="servergrowl" id="servergrowl" showDetail="true" sticky="true" autoUpdate="false" />
+			</p:panel>
+		</h:form>
+</cc:implementation>
+</html>

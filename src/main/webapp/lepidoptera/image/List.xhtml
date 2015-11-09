@@ -1,0 +1,124 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+	  xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.ListImageTitle}"></h:outputText>
+        </ui:define>
+		<ui:define name="menu">
+            <h:form>
+					<p:commandButton value="#{bundle.ListImageIndexLink}"
+									 action="/index?faces-redirect=true"
+									 immediate="true"  />
+					<p:commandButton disabled="#{!loginBean.userFullAccess}"
+									 action="#{imageController.prepareProblemView}"
+									 value="List Problem Images"/>
+					<p:commandButton
+						rendered="#{loginBean.userAdministrator}"
+						action="#{imageController.prepareCreate}"
+						value="#{bundle.ViewImageCreateLink}"
+						immediate="true"/>
+			</h:form>
+		</ui:define>
+        <ui:define name="body">
+			<h:form styleClass="jsfcrud_list_form">
+				<h:panelGroup id="messagePanel" layout="block">
+					<h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+				</h:panelGroup>
+				<h:outputText escape="false" value="#{bundle.ListImageEmpty}" rendered="#{imageController.items.rowCount == 0}"/>
+				<h:commandLink action="#{imageController.prepareListAll}" value="Show All"
+							   rendered="#{imageController.items.rowCount == 0}"/>
+				<h:panelGroup >
+					<h:outputText value="#{imageController.pagination.pageFirstItem + 1}..#{imageController.pagination.pageLastItem + 1}/#{imageController.pagination.itemsCount}"/>&nbsp;
+					<h:commandLink action="#{imageController.previous}" value="#{bundle.Previous} #{imageController.pagination.pageSize}" rendered="#{imageController.pagination.hasPreviousPage}"/>&nbsp;
+					<h:commandLink action="#{imageController.next}" value="#{bundle.Next} #{imageController.pagination.pageSize}" rendered="#{imageController.pagination.hasNextPage}"/>&nbsp;
+					<h:selectManyCheckbox >
+						<h:commandLink action="#{imageController.sameReSort}" value="Sort by" />
+						<h:outputLabel value="Barcode" for="ch_bar" />
+						<h:selectBooleanCheckbox id="ch_bar" value="#{imageController.sortByBarcode}" />
+						<h:outputLabel value="Filename" for="ch_fil" />
+						<h:selectBooleanCheckbox id="ch_fil" value="#{imageController.sortByFilename}" />
+					</h:selectManyCheckbox>
+					<h:commandLink action="#{imageController.sameReSort}" value="Filter by" />
+					<h:outputLabel value="Barcode" for="it_bar" />
+					<h:inputText id="it_bar" value="#{imageController.barcodeFilterCriterion}" size="10" />
+					<h:outputLabel value="Filename" for="it_fil" />
+					<h:inputText id="it_fil" value="#{imageController.filenameFilterCriterion}" size="10" />
+
+
+					<p:dataTable value="#{imageController.items}" id="imagetable"
+								 rendered="#{imageController.pagination.itemsCount > 0}"
+								 var="item"
+								 style="border:solid 1px">
+						<p:column width="6em">
+							<f:facet name="header">
+								<h:outputText value="&nbsp;"/>
+							</f:facet>
+							<h:commandLink rendered="#{!loginBean.userAbleToEditImages}"
+										   action="#{imageController.prepareView}" value="#{bundle.ListImageViewLink}"/>
+							<h:outputText value=" "/>
+							<h:commandLink rendered="#{loginBean.userAbleToEditImages}"
+										   action="#{imageController.prepareEdit}" value="#{bundle.ListImageEditLink}"/>
+							<h:outputText value=" "/>
+						</p:column>
+						<p:column>
+							<f:facet name="header">
+								<h:outputText value="#{bundle.ListImageTitle_path}"/>
+							</f:facet>
+							<h:outputText value="#{item.path}"/>
+						</p:column>
+						<p:column width="10em" >
+							<f:facet name="header">
+								<h:outputText value="#{bundle.ListImageTitle_filename}"/>
+							</f:facet>
+							<h:outputText value="#{item.filename}"/>
+						</p:column>
+						<p:column width="11em">
+							<f:facet name="header">
+								<h:outputText value="#{bundle.ListSpecimenTitle_barcode}"/>
+							</f:facet>
+							<h:commandLink action="#{imageController.prepareEditSpecimen}" value="#{item.specimenId.barcode}"
+								   disabled="${!loginBean.userDataEntry or item.specimenId.stateDoneMigrated}" />
+						</p:column>
+						<p:column width="10em">
+							<f:facet name="header">
+								<h:outputText value="#{bundle.ListImageTitle_rawBarcode}"/>
+							</f:facet>
+							<h:outputText value="#{item.rawBarcode}"/>
+						</p:column>
+						<p:column width="10em">
+							<f:facet name="header">
+								<h:outputText value="#{bundle.ListImageTitle_rawExifBarcode}"/>
+							</f:facet>
+							<h:outputText value="#{item.rawExifBarcode}"/>
+						</p:column>
+						<p:column width="12em">
+							<f:facet name="header">
+								<h:outputText value="#{bundle.ListImageTitle_templateId}"/>
+							</f:facet>
+							<h:outputText value="#{item.templateId}"/>
+						</p:column>
+						<p:column>
+							<f:facet name="header">
+								<h:outputText value="#{bundle.ListImageTitle_drawernumber}"/>
+							</f:facet>
+							<h:outputText value="#{item.drawernumber}"/>
+						</p:column>
+						<p:column width="80em" >
+							<f:facet name="header">
+								<h:outputText value="#{bundle.ListImageTitle_rawOCR}"/>
+							</f:facet>
+							<h:outputText value="#{item.rawOCR}"/>
+						</p:column>
+					</p:dataTable>
+				</h:panelGroup>
+			</h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>

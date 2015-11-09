@@ -1,0 +1,65 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+	  xmlns:p="http://primefaces.org/ui"
+      >
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.ViewLabelTitle}"></h:outputText>
+        </ui:define>
+		<ui:define name="menu">
+            <h:form>
+					<p:commandButton value="#{bundle.ListLabelIndexLink}"
+									 action="/index?faces-redirect=true"
+									 immediate="true"  />
+                    <p:commandButton action="#{labelController.prepareList}" value="#{bundle.ViewLabelShowAllLink}"/>
+			</h:form>
+		</ui:define>
+        <ui:define name="body">
+            <h:panelGroup id="messagePanel" layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            </h:panelGroup>
+            <h:form>
+                <h:panelGrid columns="2">
+                    <h:outputText value="#{bundle.ViewLabelLabel_labelid}"/>
+                    <h:outputText value="#{labelController.selected.labelid}" title="#{bundle.ViewLabelTitle_labelid}"/>
+                    <h:outputText value="#{bundle.ViewLabelLabel_imageid}"/>
+                    <h:outputText value="#{labelController.selected.imageid}" title="#{bundle.ViewLabelTitle_imageid}"/>
+                    <h:outputText value="#{bundle.ViewLabelLabel_offsettop}"/>
+                    <h:outputText value="#{labelController.selected.offsettop}" title="#{bundle.ViewLabelTitle_offsettop}"/>
+                    <h:outputText value="#{bundle.ViewLabelLabel_offsetleft}"/>
+                    <h:outputText value="#{labelController.selected.offsetleft}" title="#{bundle.ViewLabelTitle_offsetleft}"/>
+                    <h:outputText value="#{bundle.ViewLabelLabel_width}"/>
+                    <h:outputText value="#{labelController.selected.width}" title="#{bundle.ViewLabelTitle_width}"/>
+                    <h:outputText value="#{bundle.ViewLabelLabel_height}"/>
+                    <h:outputText value="#{labelController.selected.height}" title="#{bundle.ViewLabelTitle_height}"/>
+                    <h:outputText value="#{bundle.ViewLabelLabel_verbatimtext}"/>
+                    <h:outputText value="#{labelController.selected.verbatimtext}" title="#{bundle.ViewLabelTitle_verbatimtext}"/>
+                    <h:outputText value="#{bundle.ViewLabelLabel_interpretation}"/>
+                    <h:outputText value="#{labelController.selected.interpretation}" title="#{bundle.ViewLabelTitle_interpretation}"/>
+                </h:panelGrid>
+                <h:dataTable value="#{labelController.selected.labelTagCollection}" var="item" border="0" cellpadding="2" cellspacing="0" rowClasses="jsfcrud_odd_row,jsfcrud_even_row" rules="all" style="border:solid 1px">
+                    <h:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{bundle.ListLabelTagTitle_value}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.value}"/>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{bundle.ListLabelTagTitle_tagname}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.tagname}"/>
+                    </h:column>
+                </h:dataTable>
+                <p:commandButton action="Edit?faces-redirect=true" value="#{bundle.ViewLabelEditLink}"/>
+                <p:commandButton readonly="#{loginBean.userAdministrator}" action="#{labelController.destroyAndView}" value="#{bundle.ViewLabelDestroyLink}"/>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>

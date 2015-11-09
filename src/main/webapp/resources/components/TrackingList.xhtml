@@ -1,0 +1,76 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.ListTrackingTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+        <h:form styleClass="jsfcrud_list_form">
+            <h:panelGroup id="messagePanel" layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            </h:panelGroup>
+            <h:outputText escape="false" value="#{bundle.ListTrackingEmpty}" rendered="#{trackingController.items.rowCount == 0}"/>
+            <h:panelGroup rendered="#{trackingController.items.rowCount > 0}">
+                <h:outputText value="#{trackingController.pagination.pageFirstItem + 1}..#{trackingController.pagination.pageLastItem + 1}/#{trackingController.pagination.itemsCount}"/>&nbsp;
+                <h:commandLink action="#{trackingController.previous}" value="#{bundle.Previous} #{trackingController.pagination.pageSize}" rendered="#{trackingController.pagination.hasPreviousPage}"/>&nbsp;
+                <h:commandLink action="#{trackingController.next}" value="#{bundle.Next} #{trackingController.pagination.pageSize}" rendered="#{trackingController.pagination.hasNextPage}"/>&nbsp;
+                <h:dataTable value="#{trackingController.items}" var="item" border="0" cellpadding="2" cellspacing="0" rowClasses="jsfcrud_odd_row,jsfcrud_even_row" rules="all" style="border:solid 1px">
+                    <h:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{bundle.ListTrackingTitle_trackingId}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.trackingId}"/>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{bundle.ListTrackingTitle_username}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.username}"/>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{bundle.ListTrackingTitle_eventType}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.eventType}"/>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{bundle.ListTrackingTitle_eventDateTime}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.eventDateTime}">
+                            <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                        </h:outputText>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{bundle.ListTrackingTitle_specimenId}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.specimenId}"/>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">
+                            <h:outputText value="&nbsp;"/>
+                        </f:facet>
+                        <h:commandLink action="#{trackingController.prepareView}" value="#{bundle.ListTrackingViewLink}"/>
+                        <h:outputText value=" "/>
+                        <h:commandLink action="#{trackingController.prepareEdit}" value="#{bundle.ListTrackingEditLink}"/>
+                        <h:outputText value=" "/>
+                        <h:commandLink action="#{trackingController.destroy}" value="#{bundle.ListTrackingDestroyLink}"/>
+                    </h:column>
+                </h:dataTable>
+            </h:panelGroup>
+            <br />
+            <h:commandLink action="#{trackingController.prepareCreate}" value="#{bundle.ListTrackingCreateLink}"/>
+            <br />
+            <br />
+            <h:commandLink value="#{bundle.ListTrackingIndexLink}" action="/index" immediate="true" />
+        </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>

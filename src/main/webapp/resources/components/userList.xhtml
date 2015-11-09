@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!--
+    Component: userList
+    Usage:
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:f="http://java.sun.com/jsf/core"
+  xmlns:h="http://java.sun.com/jsf/html"
+  xmlns:ui="http://java.sun.com/jsf/facelets"
+  xmlns:components="http://java.sun.com/jsf/composite/components/">
+  <components:userList heading="#{bundle.userListHeading}"
+                       listAction="#{user.findAll()}"
+                       managedBean="#{userBean}"/>
+</ui:composition>
+
+
+-->
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:composite="http://java.sun.com/jsf/composite">
+
+
+    <!-- INTERFACE -->
+    <composite:interface>
+        <composite:attribute name="heading"/>
+        <composite:attribute name="listAction"
+                             method-signature="java.lang.String findAll()"
+                             required="true"/>
+        <composite:attribute name="managedBean" required="true"/>
+    </composite:interface>
+
+    <!-- IMPLEMENTATION -->
+    <composite:implementation>
+
+        <f:view>
+            <h:form>
+                <div class="componentHeading">
+                    #{cc.attrs.heading}
+                </div>
+                <h:dataTable value="#{cc.attrs.managedBean.findAll()}" var="item">
+                    <h:column>
+                        <f:facet name="header">
+                            <h:outputText value="Userid"/>
+                        </f:facet>
+                        <h:outputText value="#{item.userid}"/>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">
+                            <h:outputText value="Username"/>
+                        </f:facet>
+                        <h:outputText value="#{item.username}"/>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">
+                            <h:outputText value="Fullname"/>
+                        </f:facet>
+                        <h:outputText value="#{item.fullname}"/>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">
+                            <h:outputText value="Description"/>
+                        </f:facet>
+                        <h:outputText value="#{item.description}"/>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">
+                            <h:outputText value="Role"/>
+                        </f:facet>
+                        <h:outputText value="#{item.role}"/>
+                    </h:column>
+                </h:dataTable>
+            </h:form>
+        </f:view>
+
+    </composite:implementation>
+</html>

@@ -1,0 +1,142 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+	  xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+	  >
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.ViewImageTitle}"></h:outputText>
+        </ui:define>
+		<ui:define name="menu">
+            <h:form>
+					<p:commandButton
+						value="#{bundle.EditImageIndexLink}"
+						action="/index?faces-redirect=true"
+						immediate="true" />
+					<p:commandButton
+						action="#{imageController.prepareList}"
+						value="#{bundle.EditImageShowAllLink}"
+						immediate="true"/>
+			        <p:commandButton
+						rendered="#{loginBean.userAbleToEditImages}"
+					    action="#{imageController.prepareProblemView}"
+						value="List Problem Images"
+						immediate="true"/>
+					<p:commandButton
+						rendered="#{loginBean.userAdministrator}"
+						action="#{imageController.prepareCreate}"
+						value="#{bundle.ViewImageCreateLink}"
+						immediate="true"/>
+			</h:form>
+		</ui:define>
+        <ui:define name="body">
+            <h:panelGroup id="messagePanel" layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            </h:panelGroup>
+			<table>
+				<tr>
+					<td valign="top">
+						<h:form>
+							<h:panelGrid columns="2">
+								<h:outputText value="#{bundle.ViewImageLabel_imageId}"/>
+								<h:outputText value="#{imageController.selected.imageId}" title="#{bundle.ViewImageTitle_imageId}"/>
+								<h:outputText value="#{bundle.ViewImageLabel_rawBarcode}"/>
+								<h:outputText value="#{imageController.selected.rawBarcode}" title="#{bundle.ViewImageTitle_rawBarcode}"/>
+								<h:outputText value="#{bundle.ViewImageLabel_filename}"/>
+								<h:outputText value="#{imageController.selected.filename}" title="#{bundle.ViewImageTitle_filename}"/>
+								<h:outputText value="#{bundle.ViewImageLabel_rawOCR}"/>
+								<h:outputText value="#{imageController.selected.rawOCR}" title="#{bundle.ViewImageTitle_rawOCR}"/>
+								<h:outputText value="#{bundle.ViewImageLabel_path}"/>
+								<h:outputText value="#{imageController.selected.path}" title="#{bundle.ViewImageTitle_path}"/>
+								<h:outputText value="#{bundle.ViewImageLabel_uri}"/>
+								<h:outputText value="#{imageController.selected.uri}" title="#{bundle.ViewImageTitle_uri}"/>
+								<h:outputText value="#{bundle.ViewImageLabel_rawExifBarcode}"/>
+								<h:outputText value="#{imageController.selected.rawExifBarcode}" title="#{bundle.ViewImageTitle_rawExifBarcode}"/>
+								<h:outputText value="#{bundle.ViewImageLabel_templateId}"/>
+								<h:outputText value="#{imageController.selected.templateId}" title="#{bundle.ViewImageTitle_templateId}"/>
+								<h:outputText value="#{bundle.ViewImageLabel_drawernumber}"/>
+								<h:outputText value="#{imageController.selected.drawernumber}" title="#{bundle.ViewImageTitle_drawernumber}"/>
+								<h:outputText value="#{bundle.ViewImageLabel_specimenId}"/>
+								<h:outputText value="#{imageController.selected.specimenId}" title="#{bundle.ViewImageTitle_specimenId}"/>
+							</h:panelGrid>
+							<br />
+							<p:commandButton rendered="#{loginBean.userAdministrator}" 
+							                 value="#{bundle.ViewImageDestroyLink}"
+							                 type="button"
+							                 onclick="popup_confirm_delete.show(); " 
+							                 />
+							<p:confirmDialog id="popup_confirm_delete"
+							                 widgetvar="popup_confirm_delete"
+											 modal="true" 
+											 severity="alert"
+											 header="Delete Image Record?" >
+								<h:outputLabel value="Are you sure you want to delete this image record from the database?" />
+								<h:panelGrid columns="1" >
+									<p:commandButton value="Delete"
+													 onclick="popup_confirm_delete.hide()"
+													 actionListener="#{imageController.destroyAndView}" />
+									<p:commandButton value="Cancel"
+													 onclick="popup_confirm_delete.hide()"
+													 />
+								</h:panelGrid>
+							</p:confirmDialog>
+							<br />
+							<h:commandButton rendered="#{loginBean.userFullAccess}"
+										   action="Edit?faces-redirect=true" value="#{bundle.ViewImageEditLink}"/>
+						</h:form>
+					</td>
+					<td valign="top">
+						<h:dataTable value="#{imageController.selected}" var="iitem" border="0" cellpadding="2" cellspacing="0" rowClasses="jsfcrud_odd_row,jsfcrud_even_row" rules="all" style="border:solid 1px" >
+							<h:column>
+								<f:facet name="header">
+									<h:outputText value="#{bundle.ListImageTitle_path}"/>
+								</f:facet>
+								<h:outputText value="#{iitem.path}"/>
+							</h:column>
+							<h:column>
+								<f:facet name="header">
+									<h:outputText value="#{bundle.ListImageTitle_filename}"/>
+								</f:facet>
+								<h:outputText value="#{iitem.filename}"/>
+							</h:column>
+							<h:column>
+								<f:facet name="header">
+									<h:outputText value="#{bundle.ListImageTitle_templateId}"/>
+								</f:facet>
+								<h:outputText value="#{iitem.templateId}"/>
+							</h:column>
+							<h:column>
+								<f:facet name="header">
+									<h:outputText value="#{bundle.ListImageTitle_rawBarcode}"/>
+								</f:facet>
+								<h:outputText value="#{iitem.rawBarcode}"/>
+							</h:column>
+							<h:column>
+								<f:facet name="header">
+									<h:outputText value="#{bundle.ListImageTitle_drawernumber}"/>
+								</f:facet>
+								<h:outputText value="#{iitem.drawernumber}"/>
+							</h:column>
+							<h:column>
+								<f:facet name="header">
+									<h:outputText value="Image"/>
+								</f:facet>
+								<h:outputText value="#{iitem.fileStatus()}"/>
+							</h:column>
+						</h:dataTable>
+						<ui:repeat value="#{imageController.selected}" var="image">
+							<p:panel header="#{image.rawBarcode} #{image.drawernumber} #{image.rawExifBarcode}">
+								<img src="#{imageController.imageURI}/imageserver/image.php?imageid=#{image.imageId}" height="854" width="570" />
+							</p:panel >
+						</ui:repeat>
+					</td>
+				</tr>
+			</table>
+        </ui:define>
+    </ui:composition>
+
+</html>

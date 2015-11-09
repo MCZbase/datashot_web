@@ -1,0 +1,54 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+	  xmlns:p="http://primefaces.org/ui"
+      >
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.CreateHigherTaxonTitle}"></h:outputText>
+        </ui:define>
+		<ui:define name="menu">
+			<h:form>
+                   <p:commandButton
+					   value="#{bundle.ListHigherTaxonIndexLink}"
+					   action="/index?faces-redirect=true"
+					   immediate="true" />
+                   <p:commandButton
+					   rendered="#{loginBean.userChiefEditor}"
+					   action="#{higherTaxonController.prepareCreate}"
+					   value="#{bundle.ListHigherTaxonCreateLink}"
+					   immediate="true" />
+			</h:form>
+		</ui:define>
+        <ui:define name="body">
+            <h:panelGroup id="messagePanel" layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            </h:panelGroup>
+            <h:form>
+                <h:panelGrid columns="2">
+                    <h:outputLabel value="#{bundle.CreateHigherTaxonLabel_family}" for="family" />
+                    <h:inputText id="family" value="#{higherTaxonController.selected.family}" title="#{bundle.CreateHigherTaxonTitle_family}" required="true" requiredMessage="#{bundle.CreateHigherTaxonRequiredMessage_family}"/>
+                    <h:outputLabel value="#{bundle.CreateHigherTaxonLabel_subfamily}" for="subfamily" />
+                    <h:inputText id="subfamily" value="#{higherTaxonController.selected.subfamily}" title="#{bundle.CreateHigherTaxonTitle_subfamily}" />
+                    <h:outputLabel value="#{bundle.CreateHigherTaxonLabel_tribe}" for="tribe" />
+                    <h:inputText id="tribe" value="#{higherTaxonController.selected.tribe}" title="#{bundle.CreateHigherTaxonTitle_tribe}" />
+                    <h:outputLabel value="#{bundle.CreateHigherTaxonLabel_id}" for="id" />
+                    <h:inputText id="id" value="#{higherTaxonController.selected.id}" title="#{bundle.CreateHigherTaxonTitle_id}" required="true" requiredMessage="#{bundle.CreateHigherTaxonRequiredMessage_id}"/>
+                </h:panelGrid>
+                <br />
+                <h:commandLink action="#{higherTaxonController.create}" value="#{bundle.CreateHigherTaxonSaveLink}" />
+                <br />
+                <br />
+                <h:commandLink action="#{higherTaxonController.prepareList}" value="#{bundle.CreateHigherTaxonShowAllLink}" immediate="true"/>
+                <br />
+                <br />
+                <h:commandLink value="#{bundle.CreateHigherTaxonIndexLink}" action="/index" immediate="true" />
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>

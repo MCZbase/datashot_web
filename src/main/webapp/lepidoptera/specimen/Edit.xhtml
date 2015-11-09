@@ -1,0 +1,1922 @@
+<?xml version='1.0' encoding='UTF-8' ?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:pe="http://primefaces.org/ui/extensions"      
+      xmlns:components="http://java.sun.com/jsf/composite/components"
+      xmlns:c="http://java.sun.com/jsp/jstl/core"
+      >
+<ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.EditSpecimenTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="menu">
+            <h:form>
+                <p:commandButton
+                        value="#{bundle.EditSpecimenIndexLink}"
+                        action="/index?faces-redirect=true"
+                        ajax="false"
+                        immediate="true" />
+                <p:commandButton
+                        action="View?faces-redirect=true"
+                        value="#{bundle.EditSpecimenViewLink}"
+                        ajax="false"
+                        immediate="true"/>
+                <p:commandButton
+                        action="#{specimenController.prepareList}"
+                        value="#{bundle.EditSpecimenShowAllLink}"
+                        ajax="false"
+                        immediate="true"/>
+            </h:form>
+        </ui:define>
+        <ui:define name="body" >
+            <table>
+                <tr><td width="675" valign="top">
+                    <h:form id="mainForm">
+                        <h:panelGroup id="messagePanel" layout="block">
+                            <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+                        </h:panelGroup>
+                            <p:toolbar rendered="${specimenController.selected.stateNotDoneMigrated}"  >
+                              <p:toolbarGroup>
+                                <h:outputLabel value="Save:" for="submitButtonTop" />
+                                <p:commandButton id="submitTaxonEButtonTop"
+                                                 disabled="${loginBean.userNotDataEntry}"
+                                                 action="#{specimenController.updateAsTaxonEntered}"
+                                                 rendered="${loginBean.userDataEntry and specimenController.selected.stateNotDoneMigrated}"
+                                                 process=":mainForm @this"
+                                                 ajax="FALSE"
+                                                 icon="${specimenController.iconForState('Taxon Entered')}"
+                                                 value="Taxon Entered" >
+                                </p:commandButton>
+                                <p:commandButton id="submitTEButtonTop"
+                                                 disabled="${!loginBean.userDataEntry or specimenController.selected.stateDoneMigrated}"
+                                                 action="#{specimenController.updateAsTextEntered}"
+                                                 rendered="${loginBean.userDataEntry and !specimenController.selected.stateDoneMigrated}"
+                                                 process=":mainForm @this"
+                                                 style="color: #FFFFFF; background-image: url('/ic/faces/javax.faces.resource/images/ui-bg_glass_50_3baae3_1x400.png?ln=primefaces-cupertino')"
+                                                 ajax="FALSE"
+                                                 icon="#{specimenController.iconForState('Text Entered')}"
+                                                 value="Text Entered" >
+                                </p:commandButton>
+                                <p:commandButton id="submitSRButtonTop"
+                                                 disabled="${!loginBean.userEditor or specimenController.selected.stateDoneMigrated}"
+                                                 action="#{specimenController.updateAsSpecialistReviewed}"
+                                                 rendered="${loginBean.userEditor and !specimenController.selected.stateDoneMigrated}"
+                                                 process=":mainForm @this"
+                                                 ajax="FALSE"
+                                                 icon="#{specimenController.iconForState('Specialist Reviewed')}"
+                                                 value="Specialist Reviewed" >
+                                </p:commandButton>
+                                <p:commandButton id="submitOCRButtonTop"
+                                                 action="#{specimenController.updateAsOCR}" 
+                                                 process=":mainForm @this"
+                                                 ajax="false"
+                                                 icon="#{specimenController.iconForState('OCR')}"
+                                                 rendered="${specimenController.selected.stateOCR}"
+                                                 value="OCR" >
+                                </p:commandButton>
+                                <p:commandButton id="submitQCFailButtonTop"
+                                                 disabled="${!loginBean.userDataEntry or specimenController.selected.stateDoneMigrated}"
+                                                 action="#{specimenController.updateAsQCProblems}"
+                                                 rendered="${loginBean.userDataEntry and !specimenController.selected.stateDoneMigrated}"
+                                                 process=":mainForm @this"
+                                                 ajax="FALSE"
+                                                 icon="#{specimenController.iconForState('QC Problems')}"
+                                                 value="QC Problems" >
+                                </p:commandButton>
+                                <p:commandButton id="submitQCPassButtonTop"
+                                                 disabled="${!loginBean.userAbleToEditImages or specimenController.selected.stateDoneMigrated}"
+                                                 action="#{specimenController.updateAsQCReviewed}"
+                                                 rendered="${loginBean.userAbleToEditImages and !specimenController.selected.stateDoneMigrated}"
+                                                 process=":mainForm @this"
+                                                 ajax="FALSE"
+                                                 icon="#{specimenController.iconForState('QC Reviewed')}"
+                                                 value="QC Reviewed" >
+                                </p:commandButton>
+                                <h:outputLabel value="and" for="saveandgoto" />
+                                <h:selectOneMenu
+                                    id="saveandgoto" value="#{specimenController.andGoTo}"
+                                    title="choose what happens after you save this record."
+                                    required="false"
+                                    disabled="false" >
+                                    <f:selectItems value="#{pickListsManagedBean.andGoToValues}"  />
+                                </h:selectOneMenu>   
+                                <h:outputText value = "At last Record." rendered="#{!specimenController.hasNextRow}" /> 
+                                <h:outputText value = "At first Record." rendered="#{!specimenController.hasPreviousRow}" /> 
+
+                              </p:toolbarGroup>
+                            </p:toolbar>
+                            <p:panel header="Extended Characters for copy and paste" 
+                                     toggleable="true" 
+                                     collapsed="true" 
+                                     style="padding: 0px;"
+                                     >
+                                <components:extendedCharacters />
+                            </p:panel>
+                            <p:panel header="#{specimenController.selected.barcode} #{specimenController.selected.locationInCollection} #{specimenController.selected.typeStatus}"
+                                                   toggleable="true" 
+                                                   collapsed="${!specimenController.isPasteAll()}"
+                                                   style="padding: 0px;"
+                                                   >
+                                <h:panelGrid columns="2" style="padding: 0px;" >
+                                
+                                   <p:commandButton value="Fill All from Last" 
+                                                       rendered="${specimenController.isPasteAll()}"
+                                                       action="#{specimenController.pasteAllFromPrevious}"
+                                                       process="@this mainForm:verbatimLocality mainForm:specificLocality mainForm:country mainForm:primaryDivison 
+                                                       mainForm:Minimum_Elevation mainForm:Maximum_Elevation mainForm:Elev_Units 
+                                                       mainForm:dateEmerged mainForm:dateCollected mainForm:dateNOS mainForm:dateEmergedIndicator mainForm:dateCollectedIndicator mainForm:ISODate 
+                                                       mainForm:collectorList mainForm:collectingMethod mainForm:pl_highergeog mainForm:collection 
+                                                       mainForm:locationInCollection mainForm:drawerNumber mainForm:typeStatus mainForm:typeNumber mainForm:citedInPublication
+                                                       mainForm:determinationList mainForm:family mainForm:subfamily mainForm:tribe mainForm:unNamedForm
+                                                       mainForm:genus mainForm:specificEpithet mainForm:subspecificEpithet mainForm:infraspecificEpithet mainForm:infraspecificRank mainForm:authorship 
+                                                       mainForm:otherNumberList mainForm:specimenNotes mainForm:sex mainForm:lifeStage mainForm:features mainForm:habitat
+                                                       mainForm:microhabitat mainForm:SpecimenPartList
+                                                       mainForm:associatedTaxon mainForm:validDistributionFlag mainForm:questions mainForm:inferences"
+                                                       update="mainForm:verbatimLocality mainForm:specificLocality mainForm:country mainForm:primaryDivison
+                                                       mainForm:Minimum_Elevation mainForm:Maximum_Elevation mainForm:Elev_Units 
+                                                       mainForm:dateEmerged mainForm:dateCollected mainForm:dateNOS mainForm:dateEmergedIndicator mainForm:dateCollectedIndicator mainForm:ISODate 
+                                                       mainForm:collectorList mainForm:collectingMethod mainForm:historyTable mainForm:pl_highergeog mainForm:collection
+                                                       mainForm:locationInCollection mainForm:drawerNumber mainForm:typeStatus mainForm:typeNumber mainForm:citedInPublication
+                                                       mainForm:determinationList mainForm:family mainForm:subfamily mainForm:tribe mainForm:unNamedForm
+                                                       mainForm:genus mainForm:specificEpithet mainForm:subspecificEpithet mainForm:infraspecificEpithet mainForm:infraspecificRank mainForm:authorship 
+                                                       mainForm:otherNumberList mainForm:specimenNotes mainForm:sex mainForm:lifeStage mainForm:features mainForm:habitat
+                                                       mainForm:microhabitat mainForm:SpecimenPartList
+                                                       mainForm:associatedTaxon mainForm:validDistributionFlag mainForm:questions mainForm:inferences
+                                                       mainForm:georefPopupButton :georeferenceDialog:georeferencePanel 
+                                                       "
+                                                       title="Click to copy all information from last edited record."
+                                                       /> 
+                                    <h:panelGrid columns="3"
+                                                 rendered="${specimenController.isPasteAll()}"
+                                                 >
+                                    <h:graphicImage library="images" name="information.png"
+                                                       title="Click to copy all information from last edited record."
+                                                       id="fillallfromlastinfo"  />
+                                    <p:overlayPanel for="fillallfromlastinfo" >
+                                          <f:facet name="header" >
+                                                 <h:outputText value = "Definition for Fill from Last" />
+                                          </f:facet>
+                                         <h:outputText value="Click Fill from last to copy all fields except barcode, type number, parts/preparations and current identification from the last record you edited.  This will overwrite any existing values.  Click undo fill to restore to previous state.  Both fill and undo record a change to the record in the tracking history." />
+                                    </p:overlayPanel>      
+                                    <p:commandButton value="Undo fill" 
+                                                       action="#{specimenController.pasteAllFromUndo}"
+                                                       process="@this"
+                                                       update="mainForm:verbatimLocality mainForm:specificLocality mainForm:country mainForm:primaryDivison
+                                                       mainForm:Minimum_Elevation mainForm:Maximum_Elevation mainForm:Elev_Units 
+                                                       mainForm:dateEmerged mainForm:dateCollected mainForm:dateNOS mainForm:dateEmergedIndicator mainForm:dateCollectedIndicator mainForm:ISODate 
+                                                       mainForm:collectorList mainForm:collectingMethod mainForm:historyTable mainForm:pl_highergeog mainForm:collection
+                                                       mainForm:locationInCollection mainForm:drawerNumber mainForm:typeStatus mainForm:typeNumber mainForm:citedInPublication
+                                                       mainForm:determinationList mainForm:otherNumberList mainForm:specimenNotes mainForm:sex mainForm:lifeStage mainForm:features mainForm:habitat
+                                                       mainForm:associatedTaxon mainForm:validDistributionFlag mainForm:questions mainForm:inferences
+                                                       mainForm:georefPopupButton :georeferenceDialog:georeferencePanel 
+                                                       "
+                                                       title="Click to undo change to locality/collectors/date/collecting method."
+                                                       /> 
+                                    </h:panelGrid>                                
+                                
+                                
+                                
+                                
+                                
+                                    <h:outputLabel value="#{bundle.EditSpecimenLabel_barcode}" for="barcode" />
+                                    <h:outputText id="barcode" value="#{specimenController.selected.barcode}"
+                                                  title="#{MetadataRetrieverBean.tipForField('Specimen','Barcode')}"/>
+                                    <h:outputLabel value="#{bundle.EditSpecimenLabel_locationInCollection}" for="locationInCollection" />
+                                    <h:panelGrid columns="2" >
+                                        <h:selectOneMenu id="locationInCollection" value="#{specimenController.selected.locationInCollection}"
+                                                         title="#{MetadataRetrieverBean.tipForField('Specimen','LocationInCollection')}" >
+                                            <f:selectItems value="#{pickListsManagedBean.locationInCollectionValues}"  />
+                                        </h:selectOneMenu>
+                                        <components:fieldInfoPopup field="LocationInCollection" table="Specimen" tipName="LocationInCollTip"  />
+                                    </h:panelGrid>
+                                    <h:outputLabel value="#{bundle.EditSpecimenLabel_drawerNumber}" for="drawerNumber" />
+                                    <h:panelGrid columns="2" >
+                                        <h:inputText id="drawerNumber" value="#{specimenController.selected.drawerNumber}"
+                                                     title="#{MetadataRetrieverBean.tipForField('Specimen','DrawerNumber')}"
+                                                     maxlength="#{MetadataRetrieverBean.lengthForField('Specimen','DrawerNumber')}"  />
+                                        <components:fieldInfoPopup field="DrawerNumber" table="Specimen" tipName="DrawerNumberTip"  />
+                                    </h:panelGrid>
+                                    <h:outputLabel value="#{bundle.EditSpecimenLabel_typeStatus}" for="typeStatus" />
+                                    <h:panelGrid columns="2" >
+                                        <h:selectOneMenu
+                                            id="typeStatus" value="#{specimenController.selected.typeStatus}"
+                                            title="#{MetadataRetrieverBean.tipForField('Specimen','TypeStatus')}"
+                                            required="true" requiredMessage="#{bundle.EditSpecimenRequiredMessage_typeStatus}"
+                                            disabled="false" >
+                                            <f:selectItems value="#{pickListsManagedBean.typeStatusValues}"  />
+                                        </h:selectOneMenu>
+                                        <components:fieldInfoPopup field="TypeStatus" table="Specimen" tipName="TypeStatusTip"  />
+                                    </h:panelGrid>
+                                    <h:outputLabel value="#{bundle.EditSpecimenLabel_typeNumber}" for="typeNumber" />
+                                    <h:panelGrid columns="2" >
+                                        <h:inputText id="typeNumber" value="#{specimenController.selected.typeNumber}"
+                                                     maxlength="#{MetadataRetrieverBean.lengthForField('Specimen','TypeNumber')}"
+                                                     title="#{MetadataRetrieverBean.tipForField('Specimen','TypeNumber')}" />
+                                        <components:fieldInfoPopup field="TypeNumber" table="Specimen" tipName="TypeNumberTip"  />
+                                    </h:panelGrid>
+                                    <h:outputLabel value="#{bundle.EditSpecimenLabel_citedInPublication}" for="citedInPublication" />
+                                    <h:panelGrid columns="2" >
+                                        <h:inputText id="citedInPublication" value="#{specimenController.selected.citedInPublication}"
+                                                     maxlength="#{MetadataRetrieverBean.lengthForField('Specimen','citedInPublication')}"
+                                                     title="#{MetadataRetrieverBean.tipForField('Specimen','citedInPublication')}" />
+                                        <components:fieldInfoPopup field="citedInPublication" table="Specimen" tipName="citedInPublicationTip"  />
+                                    </h:panelGrid>
+                                </h:panelGrid>
+                            </p:panel>
+                            <p:panel id="identification_coll_panel"
+                                                   header="Id: #{specimenController.selected.family}:#{specimenController.selected.subfamily}:#{specimenController.selected.genus} #{specimenController.selected.specificEpithet}"
+                                                   toggleable="true"
+                                                   style="padding: 0px;"
+                                                   >
+                                <h:panelGrid columns="2"  style="padding: 0px;" >
+                                    <h:outputLabel value="Current Determination" />
+                                    <h:panelGrid columns="4" style="padding: 0px;" >
+                                        <h:graphicImage library="images"
+                                                        id="currentDetTipI" 
+                                                        name="information.png" 
+                                                        title="Enter the current determination from the unit tray label in these fields.  If you have specialist knowledge and wish to add an additional determination, click the add determination button."
+                                                          />
+                                        <p:overlayPanel id="currentDetTip" for="currentDetTipI"
+                                                        showEvent="mouseDown"
+                                                        hideEvent="mouseDown"
+                                                         >
+                                            <f:facet name="header" >
+                                                <h:outputText value = "Definition for the Current Determination" />
+                                            </f:facet>
+                                            <h:outputText value="Enter the current determination from the unit tray label in these fields.  If you have specialist knowledge and wish to add an additional determination, click the add determination button." />
+                                        </p:overlayPanel>
+                                    
+                                       <p:commandButton value="Fill Taxon from Last" 
+                                                       rendered="${!specimenController.isPasteAll()}"
+                                                       action="#{specimenController.pasteTaxonFromPrevious}"
+                                                       process="@this mainForm:determinationList mainForm:family mainForm:subfamily mainForm:tribe mainForm:unNamedForm
+                                                       mainForm:genus mainForm:specificEpithet mainForm:subspecificEpithet mainForm:infraspecificEpithet mainForm:infraspecificRank mainForm:authorship 
+                                                       "
+                                                       update="mainForm:determinationList mainForm:family mainForm:subfamily mainForm:tribe mainForm:unNamedForm
+                                                       mainForm:genus mainForm:specificEpithet mainForm:subspecificEpithet mainForm:infraspecificEpithet mainForm:infraspecificRank mainForm:authorship 
+                                                       "
+                                                       title="Click to copy identifications from last edited record."
+                                                       />                                     
+                                       <p:commandButton value="Undo Fill"  
+                                                       rendered="${!specimenController.isPasteAll()}"
+                                                       action="#{specimenController.pasteTaxonFromUndo}"
+                                                       process="@this"
+                                                       update="mainForm:determinationList mainForm:family mainForm:subfamily mainForm:tribe mainForm:unNamedForm
+                                                       mainForm:genus mainForm:specificEpithet mainForm:subspecificEpithet mainForm:infraspecificEpithet mainForm:infraspecificRank mainForm:authorship 
+                                                       "
+                                                       title="Click to copy identifications from last edited record."
+                                                       />                                     
+                                    
+                                    </h:panelGrid>
+                                    <h:outputLabel value="#{bundle.EditSpecimenLabel_family}" for="family" title="#{MetadataRetrieverBean.tipForField('Specimen','Family')}" />
+                                    <h:panelGrid columns="2" style="pdding:0; margin: 0px; " >
+                                        <p:autoComplete id="family" 
+                                                           value="#{specimenController.selected.family}"
+                                                           completeMethod="#{higherTaxonController.autocompleteFamily}"
+                                                           >
+                                        </p:autoComplete>
+                                        <components:fieldInfoPopup field="Family" table="Specimen" tipName="FamilyTip"  />
+                                    </h:panelGrid>
+                                    <h:outputLabel value="#{bundle.EditSpecimenLabel_subfamily}" for="subfamily" title="#{MetadataRetrieverBean.tipForField('Specimen','Subfamily')}" />
+                                    <h:panelGrid columns="2" style="padding:0;" >
+                                        <p:autoComplete id="subfamily" 
+                                                           value="#{specimenController.selected.subfamily}"
+                                                           completeMethod="#{higherTaxonController.autocompleteSubfamily}"
+                                                           >
+                                        </p:autoComplete>
+                                        <components:fieldInfoPopup field="Subfamily" table="Specimen" tipName="SubfamilyTip"  />
+                                    </h:panelGrid>
+                                    <h:outputLabel value="#{bundle.EditSpecimenLabel_tribe}" for="tribe" title="#{MetadataRetrieverBean.tipForField('Specimen','Tribe')}" />
+                                    <h:panelGrid columns="2" style="padding:0;" >
+                                        <p:autoComplete id="tribe"
+                                                           value="#{specimenController.selected.tribe}"
+                                                           completeMethod="#{higherTaxonController.autocompleteTribe}"
+                                                           >
+                                        </p:autoComplete>
+                                        <components:fieldInfoPopup field="Tribe" table="Specimen" tipName="TribeTip"  />
+                                    </h:panelGrid>
+                                    <h:outputLabel value="#{bundle.EditSpecimenLabel_genus}" for="genus" />
+                                    <h:panelGrid columns="2" >
+                                        <h:inputText id="genus" style="font-style: italic"
+                                                     maxlength="#{MetadataRetrieverBean.lengthForField('Specimen','Genus')}"
+                                                     title="#{MetadataRetrieverBean.tipForField('Specimen','Genus')}"
+                                                     value="#{specimenController.selected.genus}" />
+                                        <components:fieldInfoPopup field="Genus" table="Specimen" tipName="GenusTip" />
+                                    </h:panelGrid>
+                                    <h:outputLabel value="#{bundle.EditSpecimenLabel_specificEpithet}" for="specificEpithet" />
+                                    <h:panelGrid columns="2" >
+                                        <h:inputText id="specificEpithet"  style="font-style: italic"
+                                                     maxlength="#{MetadataRetrieverBean.lengthForField('Specimen','SpecificEpithet')}"
+                                                     title="#{MetadataRetrieverBean.tipForField('Specimen','SpecificEpithet')}"
+                                                     value="#{specimenController.selected.specificEpithet}"  />
+                                        <components:fieldInfoPopup field="SpecificEpithet" table="Specimen" tipName="SpecificEpithetTip" />
+                                    </h:panelGrid>
+                                    <h:outputLabel value="#{bundle.EditSpecimenLabel_subspecificEpithet}" for="subspecificEpithet" />
+                                    <h:panelGrid columns="2" >
+                                        <h:inputText id="subspecificEpithet"  style="font-style: italic"
+                                                     maxlength="#{MetadataRetrieverBean.lengthForField('Specimen','SubspecificEpithet')}"
+                                                     title="#{MetadataRetrieverBean.tipForField('Specimen','SubspecificEpithet')}"
+                                                     value="#{specimenController.selected.subspecificEpithet}" />
+                                        <components:fieldInfoPopup field="SubspecificEpithet" table="Specimen" tipName="SubspecificEpithetTip" />
+                                    </h:panelGrid>
+                                    <h:outputLabel value="#{bundle.EditSpecimenLabel_infraspecificEpithet}" for="infraspecificEpithet" />
+                                    <h:panelGrid columns="2" >
+                                        <h:inputText id="infraspecificEpithet"  style="font-style: italic"
+                                                     maxlength="#{MetadataRetrieverBean.lengthForField('Specimen','InfraspecificEpithet')}"
+                                                     title="#{MetadataRetrieverBean.tipForField('Specimen','InfraspecificEpithet')}"
+                                                     value="#{specimenController.selected.infraspecificEpithet}" />
+                                        <components:fieldInfoPopup field="InfraspecificEpithet" table="Specimen" tipName="InfraspecificEpithetTip" />
+                                    </h:panelGrid>
+                                    <h:outputLabel value="#{bundle.EditSpecimenLabel_infraspecificRank}" for="infraspecificRank" />
+                                    <h:panelGrid columns="2" >
+                                        <h:inputText id="infraspecificRank" value="#{specimenController.selected.infraspecificRank}"
+                                                     maxlength="#{MetadataRetrieverBean.lengthForField('Specimen','InfraspecificRank')}"
+                                                     title="#{MetadataRetrieverBean.tipForField('Specimen','InfraspecificRank')}" />
+                                        <components:fieldInfoPopup field="InfraspecificRank" table="Specimen" tipName="InfraspecificRankTip" />
+                                    </h:panelGrid>
+                                    <h:outputLabel value="#{bundle.EditSpecimenLabel_authorship}" for="authorship" />
+                                    <h:panelGrid columns="2" >
+                                        <p:keyboard id="authorship" value="#{specimenController.selected.authorship}"
+                                                     maxlength="#{MetadataRetrieverBean.lengthForField('Specimen','Authorship')}"
+                                                     title="#{MetadataRetrieverBean.tipForField('Specimen','Authorship')}"
+                                                     showMode="button"
+                                                     layoutTemplate="ÀÁÂÃÄÅÆÇ,ÈÉÊËÌÍÎÏ,ÐÑÒÓÔÕÖØ,ÙÚÛÜÝÞß,àáâãäåæç,èéêëìíîï,ðñòóôõöø,ùúûüýþÿ"
+                                                     />
+                                        <components:fieldInfoPopup field="Authorship" table="Specimen" tipName="AuthorshipTip" />
+                                    </h:panelGrid>
+                                    <h:outputLabel value="#{bundle.EditSpecimenLabel_unNamedForm}" for="unNamedForm" />
+                                    <h:panelGrid columns="2" >
+                                        <h:inputText id="unNamedForm" value="#{specimenController.selected.unNamedForm}"
+                                                     maxlength="#{MetadataRetrieverBean.lengthForField('Specimen','UnnamedForm')}"
+                                                     title="#{MetadataRetrieverBean.tipForField('Specimen','UnnamedForm')}"
+                                                     />
+                                        <components:fieldInfoPopup field="UnnamedForm" table="Specimen" tipName="UnnamedFormTip" />
+                                    </h:panelGrid>
+                                    
+                                    <h:outputLabel value="Nature Of ID" for="natureOfId"/>
+                                    <h:panelGrid columns="2" >
+                                        <h:selectOneMenu id="natureOfId" value="#{specimenController.selected.natureOfId}"
+                                                     title="#{MetadataRetrieverBean.tipForField('Specimen','natureOfId')}"
+                                                     >  
+                                            <f:selectItems value="#{pickListsManagedBean.natureOfIdValues}"  />
+                                        </h:selectOneMenu>                                                     
+                                                     
+                                        <components:fieldInfoPopup field="natureOfId" table="Specimen" tipName="NatureOfIdTip" />
+                                    </h:panelGrid>
+                                    <h:outputLabel value="Date Determined"/>
+                                    <h:panelGrid columns="2" >
+                                        <p:inputMask value="#{specimenController.selected.dateIdentified}"
+                                                     maxlength="#{MetadataRetrieverBean.lengthForField('Specimen','identificationDate')}"
+                                                     title="#{MetadataRetrieverBean.tipForField('Specimen','identificationDate')}"
+                                                     mask="9999?/99/99-9999/99/99"
+                                                     validatorMessage="Date must be in the format yyyy/mm/dd-yyyy/mm/dd where at least a 4 digit year must be supplied"
+                                                     >
+                                                  <f:validateRegex pattern="${MetadataRetrieverBean.regexForField('Specimen','ISODate')}" />
+                                        </p:inputMask>                                                      
+                                        <components:fieldInfoPopup field="identificationDate" table="Specimen" tipName="NatureOfIdTip" />
+                                    </h:panelGrid>
+                                    
+                                    <h:outputLabel value="Determined By"/>
+                                    <h:panelGrid columns="2" >
+                                            <p:autoComplete id="determineragentName" size="30"
+                                                         autofill="true"
+                                                         minQueryLength="4"
+                                                         process="@this"
+                                                         value="#{specimenController.selected.identifiedBy}"
+                                                         completeMethod="#{specimenController.autocompleteAgent}"
+                                                         maxlength="#{MetadataRetrieverBean.lengthForField('Collector','CollectorName')}"
+                                                         /> 
+                                        <components:fieldInfoPopup field="identifiedBy" table="Specimen" tipName="specidentifiedbyTip" />
+                                    </h:panelGrid>                                         
+                                    
+                                    <h:outputLabel value="ID Remarks" for="detRemarks" />
+                                    <h:panelGrid columns="2" >
+                                        <h:inputText id="detRemarks" value="#{specimenController.selected.identificationRemarks}" 
+                                                     maxlength="#{MetadataRetrieverBean.lengthForField('Specimen','identificationRemarks')}"
+                                                     title="#{MetadataRetrieverBean.tipForField('Specimen','identificationRemarks')}"
+                                                     />                                    
+                                        <components:fieldInfoPopup field="identificationRemarks" table="Specimen" tipName="DetRemarksTip" />
+                                    </h:panelGrid>
+                                    
+                                    
+                                    <p:commandButton value="Add another determination"
+                                                     type="button" 
+                                                     onclick="PF('newDetDialog').show()"
+                                                         />
+                                    <h:outputLabel value=" " />
+                                </h:panelGrid>
+                                
+                                <p:dataTable id="determinationList"
+                                             value="#{specimenController.selected.determinationCollection}"
+                                             var="det_item"
+                                             style="border:solid 1px" >
+                                    <p:column>
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ListDeterminationTitle_verbatimText}"/>
+                                        </f:facet>
+                                        <h:inputText value="#{det_item.verbatimText}" size="10"
+                                                     maxlength="#{MetadataRetrieverBean.lengthForField('Determination','VerbatimText')}"
+                                                     title="#{MetadataRetrieverBean.tipForField('Determination','VerbatimText')}"
+                                                     />
+                                    </p:column>
+                                    <p:column>
+                                        <f:facet name="header">
+                                            <h:outputText value="Scientific Name"/>
+                                        </f:facet>
+                                        <h:outputText value="#{det_item.genus} #{det_item.specificEpithet} #{det_item.subspecificEpithet} " />
+                                    </p:column>
+                                    <p:column>
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ListDeterminationTitle_identifiedBy}"/>
+                                        </f:facet>
+                                        <p:autoComplete id="dettable_agentName" size="8"
+                                                        autofill="true"
+                                                        minQueryLength="4"
+                                                        process="@this"
+                                                        value="#{det_item.identifiedBy}"
+                                                        completeMethod="#{specimenController.autocompleteAgent}"
+                                                        maxlength="#{MetadataRetrieverBean.lengthForField('Determination','IdentifiedBy')}"
+                                                 />                                          
+                                    </p:column>
+                                    <p:column>
+                                        <f:facet name="header">
+                                            <h:outputText value=""/>
+                                        </f:facet>
+                                        <p:commandButton value="more"
+                                                     oncomplete="PF('detEditPanel').show()"
+                                                     update="determinationList :detEditForm:detEditGrid" >
+                                            <f:setPropertyActionListener value="#{det_item}"
+                                                    target="#{specimenController.temp_CurrentEditIdentification}" />
+                                       </p:commandButton>
+                                     </p:column>        
+                                    
+                                </p:dataTable>
+                            </p:panel>
+                            <p:panel header="Label data: #{specimenController.selected.verbatimLocality}"
+                                     toggleable="true" 
+                                     collapsed="false" 
+                                     style="padding: 0px;"
+                                     >
+                                <h:panelGrid columns="2">
+                                
+                                    <p:commandButton value="Fill from Last" 
+                                                       rendered="${!specimenController.isPasteAll()}"
+                                                       action="#{specimenController.pasteFromPrevious}"
+                                                       process="@this mainForm:verbatimLocality mainForm:specificLocality mainForm:country mainForm:primaryDivison
+                                                       mainForm:Minimum_Elevation mainForm:Maximum_Elevation mainForm:Elev_Units 
+                                                       mainForm:dateEmerged mainForm:dateCollected mainForm:dateNOS mainForm:dateEmergedIndicator mainForm:dateCollectedIndicator mainForm:ISODate 
+                                                       mainForm:collectorList mainForm:collectingMethod mainForm:collection mainForm:pl_highergeog "
+                                                       update="mainForm:verbatimLocality mainForm:specificLocality mainForm:country mainForm:primaryDivison
+                                                       mainForm:Minimum_Elevation mainForm:Maximum_Elevation mainForm:Elev_Units 
+                                                       mainForm:dateEmerged mainForm:dateCollected mainForm:dateNOS mainForm:dateEmergedIndicator mainForm:dateCollectedIndicator mainForm:ISODate 
+                                                       mainForm:collectorList mainForm:collectingMethod mainForm:collection mainForm:historyTable mainForm:pl_highergeog
+                                                       mainForm:georefPopupButton :georeferenceDialog:georeferencePanel 
+                                                       "
+                                                       title="Click to copy locality/collectors/date/collecting method from last edited record."
+                                                       /> 
+                                    <h:panelGrid columns="3"
+                                                 rendered="${!specimenController.isPasteAll()}"
+                                                 >
+                                    <h:graphicImage library="images" name="information.png"
+                                                       title="Click to copy all information in Label data section from last edited record."
+                                                       id="fillfromlastinfo"  />
+                                    <p:overlayPanel for="fillfromlastinfo" >
+                                          <f:facet name="header" >
+                                                 <h:outputText value = "Definition for Fill from Last" />
+                                          </f:facet>
+                                         <h:outputText value="Click Fill from last to copy locality/collectors/date/collecting method fields from the last record you edited.  This will overwrite any existing values.  Click undo fill to restore to previous state.  Both fill and undo record a change to the record in the tracking history." />
+                                    </p:overlayPanel>      
+                                    <p:commandButton value="Undo fill" 
+                                                       action="#{specimenController.pasteFromUndo}"
+                                                       process="@this"
+                                                       update="mainForm:verbatimLocality mainForm:specificLocality mainForm:country mainForm:primaryDivison 
+                                                       mainForm:Minimum_Elevation mainForm:Maximum_Elevation mainForm:Elev_Units 
+                                                       mainForm:dateEmerged mainForm:dateCollected mainForm:dateNOS mainForm:dateEmergedIndicator mainForm:dateCollectedIndicator mainForm:ISODate 
+                                                       mainForm:collectorList mainForm:collectingMethod mainForm:collection mainForm:historyTable mainForm:pl_highergeog
+                                                       mainForm:georefPopupButton :georeferenceDialog:georeferencePanel
+                                                       "
+                                                       title="Click to undo change to locality/collectors/date/collecting method."
+                                                       /> 
+                                    </h:panelGrid>
+                                    
+                                    <h:outputLabel value="#{bundle.EditSpecimenLabel_verbatimLocality}" for="verbatimLocality" />
+                                    <h:panelGrid columns="2">
+                                        <p:inputText id="verbatimLocality" size="50"
+                                                     autocomplete="on"
+                                                     value="#{specimenController.selected.verbatimLocality}"
+                                                     maxlength="#{MetadataRetrieverBean.lengthForField('Specimen','VerbatimLocality')}"
+                                                     title="#{MetadataRetrieverBean.tipForField('Specimen','VerbatimLocality')}"
+                                                     />
+                                        <components:fieldInfoPopup field="VerbatimLocality" table="Specimen" tipName="VerbatimLocalityTip"  />
+                                    </h:panelGrid>
+                                    
+                                    <h:outputLabel value="Elevation" for="Minimum_Elevation" />
+                                    <h:panelGrid columns="5">
+                                        <h:inputText id="Minimum_Elevation" value="#{specimenController.selected.minimum_elevation}"
+                                                     maxlength="5"
+                                                     title="Minimum Elevation"
+                                                     />
+                                        <h:outputLabel value="-" />             
+                                        <h:inputText id="Maximum_Elevation" value="#{specimenController.selected.maximum_elevation}"
+                                                     maxlength="5"
+                                                     title="Maximum Elevation"
+                                                     />                                                     
+                                        <h:selectOneMenu id="Elev_Units" value="#{specimenController.selected.elev_units}"
+                                                         title="#{MetadataRetrieverBean.tipForField('Specimen','Elev_Units')}"
+                                                         >
+                                            <f:selectItems value="#{pickListsManagedBean.elevUnitsValues}"  />
+                                        </h:selectOneMenu>
+                                        <components:fieldInfoPopup field="VerbatimElevation" table="Specimen" tipName="VerbatimElevationTip"  />
+                                    </h:panelGrid>
+                                    
+                                    <h:outputLabel value="#{bundle.EditSpecimenLabel_country}" for="country" />
+                                    <h:panelGrid columns="3">
+                                        <h:inputText id="country" value="#{specimenController.selected.country}"
+                                                     maxlength="#{MetadataRetrieverBean.lengthForField('Specimen','Country')}"
+                                                     title="#{MetadataRetrieverBean.tipForField('Specimen','Country')}"
+                                                     />
+                                        <components:fieldInfoPopup field="Country" table="Specimen" tipName="CountryTip"  />
+                                        
+                                        <p:commandButton id="georefPopupButton" 
+                                                     value="Georeference #{specimenController.selected.georeference.decLatFormatted} #{specimenController.selected.georeference.decLongFormatted}"
+                                                     type="button"
+                                                     onclick="PF('georeferencePanel').show()"
+                                                     />
+                                        
+                                    </h:panelGrid>
+                                    <h:outputLabel value="#{bundle.EditSpecimenLabel_primaryDivison}" for="primaryDivison" />
+                                    <h:panelGrid columns="2">
+                                        <h:inputText id="primaryDivison" value="#{specimenController.selected.primaryDivison}"
+                                                     maxlength="#{MetadataRetrieverBean.lengthForField('Specimen','PrimaryDivision')}"
+                                                     title="#{MetadataRetrieverBean.tipForField('Specimen','PrimaryDivision')}"
+                                                     />
+                                        <components:fieldInfoPopup field="PrimaryDivision" table="Specimen" tipName="PrimaryDivisionTip"  />
+                                    </h:panelGrid>
+                                    
+                                    <h:outputLabel value="Higher Geography" for="pl_highergeog" />
+                                    <h:panelGrid columns="2">
+                                        <p:autoComplete id="pl_highergeog" size="50"
+                                           autofill="true"
+                                           minQueryLength="4"
+                                           process="@this mainForm:country mainForm:primaryDivision"
+                                           value="#{specimenController.selected.higherGeography}"
+                                           completeMethod="#{specimenController.autocompleteHigherGeography}"
+                                           maxlength="#{MetadataRetrieverBean.lengthForField('Specimen','Higher_Geography')}"
+                                           />              
+                                        <components:fieldInfoPopup field="Higher_Geography" table="Specimen" tipName="HigherGeogTip"  />
+                                    </h:panelGrid>                                                                 
+                                    
+
+                                    <p:commandButton value="#{bundle.EditSpecimenLabel_specificLocality}"
+                                                       action="#{specimenController.selected.copyLocalitySpecificVerbatim}"
+                                                       process="mainForm:verbatimLocality mainForm:specificLocality @this"
+                                                       update="mainForm:verbatimLocality mainForm:specificLocality"
+                                                       title="Click to copy verbatim locality to specific locality."
+                                                       />
+                                    <h:panelGrid columns="2">
+                                        <h:inputText id="specificLocality" size="50"
+                                                     value="#{specimenController.selected.specificLocality}"
+                                                     maxlength="#{MetadataRetrieverBean.lengthForField('Specimen','SpecificLocality')}"
+                                                     title="#{MetadataRetrieverBean.tipForField('Specimen','SpecificLocality')}"
+                                                     />
+                                        <h:panelGrid columns="2">
+                                             <components:fieldInfoPopup field="SpecificLocality" table="Specimen" tipName="SpecificLocalityTip"  />
+                                             <p:commandButton value="No Data" 
+                                                       action="#{specimenController.noSpecificLocalityData}"
+                                                       process="@this"
+                                                       update="mainForm:specificLocality"
+                                                       title="Click if this specimen has no specific locality data."
+                                                       />                                              
+                                        </h:panelGrid>
+                                    </h:panelGrid>
+                                    
+                                    
+                                    <p:commandButton value="Add another collector"
+                                                     type="button" 
+                                                     onclick="PF('collectorAddPanel').show()"
+                                                         />
+                                                         
+                                    <h:panelGrid columns="2" >
+                                        <h:dataTable id="collectorList"
+                                                     value="#{specimenController.selected.collectorCollection}"
+                                                     var="coll_item"
+                                                     border="0" cellpadding="2" cellspacing="0" rowClasses="jsfcrud_odd_row,jsfcrud_even_row" rules="all" style="border:solid 1px" >
+                                            <h:column>
+                                                <f:facet name="header">
+                                                    <h:outputText value="#{bundle.ListCollectorTitle_collectorName}"/>
+                                                </f:facet>
+                                                <p:autoComplete id="cl_collectorAdd_agentName" size="30"
+                                                        autofill="true"
+                                                        minQueryLength="4"
+                                                        process="@this"
+                                                        value="#{coll_item.collectorName}"
+                                                        completeMethod="#{specimenController.autocompleteAgent}"
+                                                        maxlength="#{MetadataRetrieverBean.lengthForField('Collector','CollectorName')}"
+                                                 />              
+                                            </h:column>
+                                        </h:dataTable>
+                                        <h:graphicImage id="collectorsInMCZbaseIcon"
+                                                        library="images" name="#{specimenController.iconForCollectorsInMCZbase}"
+                                                        height="24" width="33"
+                                                        rendered="#{specimenController.hasCollectors}" />
+                                    </h:panelGrid>
+                                    
+                                </h:panelGrid>
+                                
+                                <h:panelGrid columns="2">
+                                    <h:outputLabel value="#{bundle.EditSpecimenLabel_dateNOS}" for="dateNOS" />
+                                    <h:inputText id="dateNOS" value="#{specimenController.selected.dateNOS}"
+                                                 maxlength="#{MetadataRetrieverBean.lengthForField('Specimen','DateNOS')}"
+                                                 title="#{MetadataRetrieverBean.tipForField('Specimen','DateNOS')}"
+                                                 />
+                                    <h:outputLabel value="#{bundle.EditSpecimenLabel_ISODate}" for="ISODate" />
+                                    <p:inputMask id="ISODate" value="#{specimenController.selected.ISODate}"
+                                                 mask="9999?/99/99-9999/99/99"
+                                                 maxlength="#{MetadataRetrieverBean.lengthForField('Specimen','ISODate')}"
+                                                 title="#{MetadataRetrieverBean.tipForField('Specimen','ISODate')}"
+                                                 validatorMessage="ISO Date does not follow the correct format of yyyy/mm/dd-yyyy/mm/dd where at least a 4 digit year must be supplied"
+                                                 
+                                                 >
+                                                 <f:validateRegex pattern="${MetadataRetrieverBean.regexForField('Specimen','ISODate')}" />
+                                    </p:inputMask>
+                                    
+                                    <p:commandButton value="#{bundle.EditSpecimenLabel_dateEmerged}"
+                                                     rendered="#{specimenController.isShowDateEmerged()}"
+                                                     action="#{specimenController.selected.copyDateEmergedDate}"
+                                                     update="dateEmerged,dateNOS"
+                                                     title="Copies Verbatim Date to Date Emerged."
+                                                     />
+                                    <h:inputText id="dateEmerged" value="#{specimenController.selected.dateEmerged}"
+                                                 rendered="#{specimenController.isShowDateEmerged()}"
+                                                 maxlength="#{MetadataRetrieverBean.lengthForField('Specimen','DateEmerged')}"
+                                                 title="#{MetadataRetrieverBean.tipForField('Specimen','DateEmerged')}"
+                                                 />
+                                    <h:outputLabel value="#{bundle.EditSpecimenLabel_dateEmergedIndicator}" 
+                                                   rendered="#{specimenController.isShowDateEmerged()}"
+                                                   for="dateEmergedIndicator" />
+                                    <h:inputText id="dateEmergedIndicator" value="#{specimenController.selected.dateEmergedIndicator}"
+                                                 rendered="#{specimenController.isShowDateEmerged()}"
+                                                 maxlength="#{MetadataRetrieverBean.lengthForField('Specimen','DateEmergedIndicator')}"
+                                                 title="#{MetadataRetrieverBean.tipForField('Specimen','DateEmergedIndicator')}"
+                                                 />
+
+                                    <p:commandButton value="#{bundle.EditSpecimenLabel_dateCollected}"
+                                                       rendered="#{!loginBean.userExactlyAnyEditor}"
+                                                       action="#{specimenController.selected.copyDateCollectedDate}"
+                                                       update="dateCollected,dateNOS"
+                                                       title="Copies Verbatim Date to Date Collected."
+                                                       />
+                                    <h:inputText id="dateCollected" rendered="#{!loginBean.userExactlyAnyEditor}"
+                                                 value="#{specimenController.selected.dateCollected}"
+                                                 maxlength="#{MetadataRetrieverBean.lengthForField('Specimen','DateCollected')}"
+                                                 title="#{MetadataRetrieverBean.tipForField('Specimen','DateCollected')}"
+                                                 />
+                                    <h:outputLabel
+                                        rendered="#{!loginBean.userEditor}"
+                                        value="#{bundle.EditSpecimenLabel_dateCollectedIndicator}"
+                                        for="dateCollectedIndicator" />
+                                    <h:inputText
+                                        rendered="#{!loginBean.userEditor}"
+                                        id="dateCollectedIndicator"
+                                        value="#{specimenController.selected.dateCollectedIndicator}"
+                                        maxlength="#{MetadataRetrieverBean.lengthForField('Specimen','DateCollectedIndicator')}"
+                                        title="#{MetadataRetrieverBean.tipForField('Specimen','DateCollectedIndicator')}"
+                                        />
+
+                                    <h:outputLabel value="#{bundle.EditSpecimenLabel_collection}" for="collection"
+                                                   title="#{MetadataRetrieverBean.tipForField('Specimen','Collection')}"
+                                                   />
+                                    <h:panelGrid columns="2">
+                                        <p:autoComplete  id="collection"
+                                                            size="50"
+                                                            value="#{specimenController.selected.collection}"
+                                                            completeMethod="#{specimenController.autocompleteCollection}"
+                                                            />
+                                        <h:graphicImage library="images" name="information.png" title="#{MetadataRetrieverBean.tipForField('Specimen','Collection')}" />
+                                    </h:panelGrid>
+                                    <h:outputLabel value="#{bundle.EditSpecimenLabel_collectingMethod}" for="collectingMethod" />
+                                    <h:inputText id="collectingMethod" value="#{specimenController.selected.collectingMethod}"
+                                                 maxlength="#{MetadataRetrieverBean.lengthForField('Specimen','CollectingMethod')}"
+                                                 title="#{MetadataRetrieverBean.tipForField('Specimen','CollectingMethod')}"
+                                                 />
+                                </h:panelGrid>
+                            </p:panel>
+                            <p:panel header="Other Numbers"
+                                     toggleable="true" 
+                                     collapsed="true" 
+                                     style="padding: 0px;"
+                                     >
+                                     
+                                <p:commandButton value="Add another Other Number"
+                                                     type="button" 
+                                                     onclick="PF('numberAddPanel').show()"
+                                                         />     
+                                     
+                                <h:dataTable id="otherNumberList"
+                                             value="#{specimenController.selected.otherNumbersCollection}"
+                                             var="on_item"
+                                             border="0" cellpadding="2" cellspacing="0" rowClasses="jsfcrud_odd_row,jsfcrud_even_row" rules="all" style="border:solid 1px" >
+                                    <h:column>
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ListOtherNumbersTitle_numberType}" />
+                                        </f:facet>
+                                        <p:selectOneMenu id="otherNumberListnumbertype" editable="true" value="#{on_item.numberType}"
+                                                         title="#{MetadataRetrieverBean.tipForField('Number','NumberType')}"
+                                                     >
+                                            <f:selectItems value="#{pickListsManagedBean.numberTypeValues}" />
+                                        </p:selectOneMenu>
+                                    </h:column>
+                                    <h:column>
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ListOtherNumbersTitle_otherNumber}"/>
+                                        </f:facet>
+                                        <h:inputText value="#{on_item.otherNumber}"
+                                                     maxlength="#{MetadataRetrieverBean.lengthForField('Number','Number')}"
+                                                     title="#{MetadataRetrieverBean.tipForField('Number','Number')}"
+                                                     />
+                                    </h:column>
+                                </h:dataTable>
+                            </p:panel>
+                            <p:panel header="Notes"
+                                     toggleable="true"
+                                     collapsed="false" 
+                                     style="padding: 0px;"
+                                     >
+                                <h:panelGrid columns="2">
+                                    <h:outputLabel value="#{bundle.EditSpecimenLabel_specimenNotes}" for="specimenNotes" />
+                                    <h:panelGrid columns="2" >
+                                        <h:inputText size="50" id="specimenNotes" value="#{specimenController.selected.specimenNotes}"
+                                                     maxlength="#{MetadataRetrieverBean.lengthForField('Specimen','SpecimenNotes')}"
+                                                     title="#{MetadataRetrieverBean.tipForField('Specimen','SpecimenNotes')}"
+                                                     />
+                                        <components:fieldInfoPopup field="SpecimenNotes" table="Specimen" tipName="SpecimenNotesTip"  />
+                                    </h:panelGrid>
+                                    
+                                    <h:outputLabel value="#{bundle.EditSpecimenLabel_sex}" for="sex"
+                                                   rendered="${!specimenController.isTaxonWithPartAttributes()}" 
+                                                   />
+                                    <h:panelGrid columns="2" 
+                                                 rendered="${!specimenController.isTaxonWithPartAttributes()}" 
+                                                 >
+                                        <h:selectOneMenu id="sex" value="#{specimenController.selected.sex}"
+                                                         title="#{MetadataRetrieverBean.tipForField('Specimen','Sex')}"
+                                                         >
+                                            <f:selectItems value="#{pickListsManagedBean.sexValues}"  />
+                                        </h:selectOneMenu>
+                                        <components:fieldInfoPopup field="Sex" table="Specimen" tipName="SexTip"  />
+                                    </h:panelGrid>
+                                    <h:outputLabel value="#{bundle.EditSpecimenLabel_lifeStage}" for="lifeStage" 
+                                                   rendered="${!specimenController.isTaxonWithPartAttributes()}" 
+                                                   />
+                                    <h:panelGrid columns="2" 
+                                                 rendered="${!specimenController.isTaxonWithPartAttributes()}" 
+                                                 >
+                                        <h:selectOneMenu id="lifeStage" value="#{specimenController.selected.lifeStage}"
+                                                         title="#{MetadataRetrieverBean.tipForField('Specimen','LifeStage')}"
+                                                         >
+                                            <f:selectItems value="#{pickListsManagedBean.lifeStageValues}"  />
+                                        </h:selectOneMenu>
+                                        <components:fieldInfoPopup field="LifeStage" table="Specimen" tipName="LifeStageTip"  />
+                                    </h:panelGrid>
+                                    
+                                    <h:outputLabel value="#{bundle.EditSpecimenLabel_features}" for="features" />
+                                    <h:panelGrid columns="2" >
+                                        <h:panelGrid style="padding:0; " columns="2" >
+                                            <p:autoComplete completeMethod="#{pickListsManagedBean.autocompleteFeaturesValues}"
+                                                            id="features"
+                                                            value="#{specimenController.selected.features}"
+                                                               >
+                                            </p:autoComplete>
+                                            <h:graphicImage library="images" name="information.png" title="#{MetadataRetrieverBean.tipForField('Specimen','Features')}" />
+                                        </h:panelGrid>
+                                        <components:fieldInfoPopup field="Features" table="Specimen" tipName="FeaturesTip"  />
+                                    </h:panelGrid>
+                                    <h:outputLabel value="#{bundle.EditSpecimenLabel_habitat}" for="habitat" />
+                                    <h:panelGrid columns="2" >
+                                        <h:inputText id="habitat" size="50" value="#{specimenController.selected.habitat}"
+                                                     maxlength="#{MetadataRetrieverBean.lengthForField('Specimen','Habitat')}"
+                                                     title="#{MetadataRetrieverBean.tipForField('Specimen','Habitat')}"
+                                                     />
+                                        <components:fieldInfoPopup field="Habitat" table="Specimen" tipName="HabitatTip"  />
+                                    </h:panelGrid>
+                                    <h:outputLabel value="Microhabitat" for="microhabitat" />
+                                    <h:panelGrid columns="2" >
+                                        <h:inputText id="microhabitat" size="50" value="#{specimenController.selected.microhabitat}"
+                                                     maxlength="#{MetadataRetrieverBean.lengthForField('Specimen','Microhabitat')}"
+                                                     title="#{MetadataRetrieverBean.tipForField('Specimen','Microhabitat')}"
+                                                     />
+                                        <components:fieldInfoPopup field="Habitat" table="Specimen" tipName="HabitatTip"  />
+                                    </h:panelGrid>                                    
+                                    <h:outputLabel value="#{bundle.EditSpecimenLabel_associatedTaxon}" for="associatedTaxon" />
+                                    <h:panelGrid columns="2" >
+                                        <h:inputText id="associatedTaxon" size="50" value="#{specimenController.selected.associatedTaxon}"
+                                                     maxlength="#{MetadataRetrieverBean.lengthForField('Specimen','AssociatedTaxon')}"
+                                                     title="#{MetadataRetrieverBean.tipForField('Specimen','AssociatedTaxon')}"
+                                                     />
+                                        <components:fieldInfoPopup field="AssociatedTaxon" table="Specimen" tipName="AssociatedTaxonTip"  />
+                                    </h:panelGrid>
+                                    <h:outputLabel value="#{bundle.EditSpecimenLabel_validDistributionFlag}" for="validDistributionFlag" />
+                                    <h:panelGrid columns="2" >
+                                        <h:selectBooleanCheckbox id="validDistributionFlag" value="#{specimenController.selected.validDistributionFlag}"
+                                                                 title="#{MetadataRetrieverBean.tipForField('Specimen','ValidDistributionFlag')}"
+                                                                 />
+                                        <components:fieldInfoPopup field="ValidDistributionFlag" table="Specimen" tipName="ValidDistributionFlagTip"  />
+                                    </h:panelGrid>
+                                </h:panelGrid>
+                                <p:dataTable id="SpecimenPartList"
+                                             value="#{specimenController.selected.partCollection}"
+                                             var="specimenPart"
+                                             rowKey="specimenPart.specimenPartId"
+                                             editable="true"
+                                             editMode="cell"
+                                             expandedRow="${specimenController.isTaxonWithPartAttributes()}"
+                                    >
+                                    <f:facet name="footer">
+                                          <p:commandButton value="Add A Specimen Part"
+                                                           action="#{specimenController.selected.addPinnedInsect}"
+                                                           process="SpecimenPartList"                                                        
+                                                           update="SpecimenPartList"
+                                                           title="Add a record for an specimen on the pin."
+                                                           />
+                                    </f:facet>
+                                    <p:column>
+                                        <f:facet name="header">
+                                            <h:outputText value="Part"/>
+                                        </f:facet>
+                                        <p:cellEditor>
+                                           <f:facet name="output">
+                                              <h:outputText value = "#{specimenPart.partName}" />
+                                           </f:facet>
+                                           <f:facet name="input">
+                                        <h:selectOneMenu value="#{specimenPart.partName}"
+                                                         title="#{MetadataRetrieverBean.tipForField('SpecimenPart','Part_Name')}"
+                                                         >
+                                            <f:selectItems value="#{pickListsManagedBean.partNameValues}"  />
+                                        </h:selectOneMenu>
+                                           </f:facet>
+                                        </p:cellEditor>
+                                    </p:column>      
+                                    <p:column>
+                                        <f:facet name="header">
+                                            <h:outputText value="Preparation"/>
+                                        </f:facet>
+                                        <p:cellEditor>
+                                           <f:facet name="output">
+                                              <h:outputText value = "#{specimenPart.preserveMethod}" />
+                                           </f:facet>
+                                           <f:facet name="input">
+                                        <h:selectOneMenu value="#{specimenPart.preserveMethod}"
+                                                         title="#{MetadataRetrieverBean.tipForField('SpecimenPart','Preserve_Method')}"
+                                                         >
+                                            <f:selectItems value="#{pickListsManagedBean.preserveMethodValues}"  />
+                                        </h:selectOneMenu>
+                                            </f:facet>
+                                        </p:cellEditor>
+                                    </p:column>
+                                    <p:column>
+                                        <f:facet name="header">
+                                            <h:outputText value="Count"/>
+                                        </f:facet>
+                                        <p:cellEditor>
+                                           <f:facet name="output">
+                                              <h:outputText value = "#{specimenPart.lotCount}" />
+                                           </f:facet>
+                                           <f:facet name="input">
+                                              <h:inputText value="#{specimenPart.lotCount}" 
+                                                           size="5" 
+                                                           maxlength="#{MetadataRetrieverBean.lengthForField('SpecimenPart','Lot_Count')}"
+                                                           title="#{MetadataRetrieverBean.tipForField('SpecimenPart','Lot_Count')}"
+                                                     />
+                                             </f:facet>
+                                          </p:cellEditor>
+                                    </p:column>    
+                                    <p:column>
+                                        <f:facet name="header">
+                                            <h:outputText value="Modifier"/>
+                                        </f:facet>
+                                        <p:cellEditor>
+                                           <f:facet name="output">
+                                              <h:outputText value = "#{specimenPart.lotCountModifier}" />
+                                           </f:facet>
+                                           <f:facet name="input">
+                                        <h:selectOneMenu value="#{specimenPart.lotCountModifier}"
+                                                         title="#{MetadataRetrieverBean.tipForField('SpecimenPart','Lot_Count_Modifier')}"
+                                                         >
+                                            <f:selectItems value="#{pickListsManagedBean.countModifierValues}"  />
+                                        </h:selectOneMenu>
+                                        </f:facet>
+                                        </p:cellEditor>
+                                    </p:column>
+                                    <p:rowExpansion rendered="${specimenController.isTaxonWithPartAttributes()}" >
+                                    <p:dataTable id="partAttributeTable"
+                                                 var="partAttribute" 
+                                                 value="#{specimenPart.attributeCollection}"
+                                                 rowKey="#{partAttribute.specimenPartAttributeId}"
+                                                 >
+                                        <p:column>
+                                            <f:facet name="header">
+                                                <h:outputText value="Attribute"/>
+                                            </f:facet>
+                                            <h:outputText value = "#{partAttribute.attributeType}" />
+                                            <f:facet name="footer">
+                                                <h:outputText value=" "/>
+                                            </f:facet>
+                                        </p:column>
+                                        <p:column>
+                                            <f:facet name="header">
+                                                <h:outputText value="Value"/>
+                                            </f:facet>
+                                            <h:outputText value = "#{partAttribute.attributeValue}" />
+                                        </p:column>         
+                                        <p:column rendered="false" >
+                                            <f:facet name="header">
+                                                <h:outputText value="Units"/>
+                                            </f:facet>
+                                            <h:outputText value = "#{partAttribute.attributeUnits}" />
+                                        </p:column>
+                                        <p:column>
+                                            <f:facet name="header">
+                                                <h:outputText value="Remarks"/>
+                                            </f:facet>
+                                            <h:outputText value = "#{partAttribute.attributeRemark}" />
+                                        </p:column> 
+                                        <p:column>
+                                            <f:facet name="header">
+                                              <p:commandButton id="addcastebutton"
+                                                               value="Add Attributes"
+                                                               action="#{specimenController.addCasteAttributeToSpecimenPart(specimenPart)}"
+                                                               update="partAttributeTable :mainForm:SpecimenPartList"
+                                                               title="Add an attribute such as caste description for an insect on this pin."
+                                                               />
+                                            </f:facet>
+                                            <p:commandButton value="Edit" 
+                                                     oncomplete="PF('partAttributesPanel').show()"
+                                                     update="partAttributeTable :partAttributesDialog:partAttributesPanel" >
+                                                <f:setPropertyActionListener value="#{partAttribute}"
+                                                     target="#{specimenController.temp_CurrentPartAttribute}" />
+                                            </p:commandButton>
+                                     </p:column>                                          
+                                    </p:dataTable>
+                                    </p:rowExpansion>
+                                </p:dataTable>
+                            </p:panel>
+                            <h:panelGrid columns="2">
+                                <h:outputLabel value="#{bundle.EditSpecimenLabel_questions}" for="questions" />
+                                <h:panelGrid columns="2" >
+                                    <h:inputText id="questions" value="#{specimenController.selected.questions}" size="50"
+                                                 maxlength="#{MetadataRetrieverBean.lengthForField('Specimen','Questions')}"
+                                                 title="#{MetadataRetrieverBean.tipForField('Specimen','Questions')}"
+                                                 />
+                                    <components:fieldInfoPopup field="Questions" table="Specimen" tipName="QuestionsTip"  />
+                                </h:panelGrid>
+                                <h:outputLabel value="#{bundle.EditSpecimenLabel_inferences}" for="inferences" />
+                                <h:panelGrid columns="2" >
+                                    <h:inputText id="inferences" value="#{specimenController.selected.inferences}" size="50"
+                                                 maxlength="#{MetadataRetrieverBean.lengthForField('Specimen','Inferences')}"
+                                                 title="#{MetadataRetrieverBean.tipForField('Specimen','Inferences')}"
+                                                 />
+                                    <components:fieldInfoPopup field="Inferences" table="Specimen" tipName="InferencesTip"  />
+                                </h:panelGrid>
+                                <h:outputLabel value="#{bundle.EditSpecimenLabel_workFlowStatus}" for="workFlowStatus" />
+                                <h:panelGrid columns="2" >
+                                    <h:selectOneMenu id="workFlowStatus" value="#{specimenController.selected.workFlowStatus}"
+                                                     title="#{MetadataRetrieverBean.tipForField('Specimen','WorkFlowStatus')}"
+                                                     required="true" disabled="${!loginBean.userAdministrator}" >
+                                        <f:selectItems value="#{workFlowStatusManagedBean.workFlowStatusValues}"  />
+                                    </h:selectOneMenu>
+                                    <components:fieldInfoPopup field="WorkFlowStatus" table="Specimen" tipName="WorkFlowStatusTip"  />
+                                </h:panelGrid>
+                            </h:panelGrid>
+                            <p:panel header="Record History since #{specimenController.selected.dateCreated}"
+                                     toggleable="true" 
+                                     collapsed="true" >
+                                <h:panelGrid columns="2">
+                                    <h:outputLabel value="#{bundle.EditSpecimenLabel_createdBy}" for="createdBy" />
+                                    <h:outputText id="createdBy" value="#{specimenController.selected.createdBy}" title="#{bundle.EditSpecimenTitle_createdBy}" />
+                                    <h:outputLabel value="#{bundle.EditSpecimenLabel_dateCreated}" for="dateCreated" />
+                                    <h:outputText id="dateCreated" value="#{specimenController.selected.dateCreated}" title="#{bundle.EditSpecimenTitle_dateCreated}" >
+                                        <f:convertDateTime pattern="yyyy-MMM-dd HH:mm:ss" />
+                                    </h:outputText>
+                                    <h:outputLabel value="#{bundle.EditSpecimenLabel_dateLastUpdated}" for="dateLastUpdated" />
+                                    <h:outputText id="dateLastUpdated" value="#{specimenController.selected.dateLastUpdated}" title="#{bundle.EditSpecimenTitle_dateLastUpdated}" >
+                                        <f:convertDateTime pattern="yyyy-MMM-dd HH:mm:ss" />
+                                    </h:outputText>
+                                    <h:outputLabel value="#{bundle.EditSpecimenLabel_lastUpdatedBy}" for="lastUpdatedBy" />
+                                    <h:outputText  id="lastUpdatedBy" value="#{specimenController.selected.lastUpdatedBy}" title="#{bundle.EditSpecimenTitle_lastUpdatedBy}" />
+                                </h:panelGrid>
+                                <p:dataTable value="#{specimenController.selected.trackingCollection}" 
+                                             var="item" 
+                                             id="historyTable"
+                                             border="0" cellpadding="2" cellspacing="0" 
+                                             >
+                                    <p:column>
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ListTrackingTitle_username}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.username}"/>
+                                    </p:column>
+                                    <p:column>
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ListTrackingTitle_eventType}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.eventType}"/>
+                                    </p:column>
+                                    <p:column>
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ListTrackingTitle_eventDateTime}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.eventDateTime}">
+                                            <f:convertDateTime pattern="yyyy-MMM-dd HH:mm:ss" />
+                                        </h:outputText>
+                                    </p:column>
+                                </p:dataTable>
+                            </p:panel>
+                            <p:toolbar rendered="${!specimenController.selected.stateDoneMigrated}"  >
+                               <p:toolbarGroup>
+                                <h:outputLabel value="Save:" for="submitButtonBottom" />
+                                <p:commandButton id="submitButtonAdminBottom"
+                                                 disabled="${specimenController.selected.stateDoneMigrated}"
+                                                 action="#{specimenController.update}"
+                                                 ajax="false"
+                                                 process=":mainForm @this"
+                                                 rendered="${loginBean.userAdministrator}"
+                                                 value="Picklist" >
+                                </p:commandButton>
+                                <p:commandButton id="submitTaxonEButtonBottom"
+                                                 disabled="${!loginBean.userDataEntry or specimenController.selected.stateDoneMigrated}"
+                                                 action="#{specimenController.updateAsTaxonEntered}"
+                                                 process=":mainForm @this"
+                                                 ajax="false"
+                                                 icon="#{specimenController.iconForState('Taxon Entered')}"
+                                                 rendered="${loginBean.userDataEntry}"
+                                                 value="Taxon Entered" >
+                                </p:commandButton>
+                                <p:commandButton id="submitTEButtonBottom"
+                                                 disabled="${!loginBean.userDataEntry or specimenController.selected.stateDoneMigrated}"
+                                                 action="#{specimenController.updateAsTextEntered}"
+                                                 process=":mainForm @this"
+                                                 ajax="false"
+                                                 icon="#{specimenController.iconForState('Text Entered')}"
+                                                 style="color: #FFFFFF; background-image: url('/ic/faces/javax.faces.resource/images/ui-bg_glass_50_3baae3_1x400.png?ln=primefaces-cupertino')"
+                                                 rendered="${loginBean.userDataEntry}"
+                                                 value="Text Entered" >
+                                </p:commandButton>
+                                <p:commandButton id="submitSRButtonBottom"
+                                                 disabled="${!loginBean.userEditor or specimenController.selected.stateDoneMigrated}"
+                                                 action="#{specimenController.updateAsSpecialistReviewed}" 
+                                                 process=":mainForm @this"
+                                                 ajax="false"
+                                                 icon="#{specimenController.iconForState('Specialist Reviewed')}"
+                                                 rendered="${loginBean.userEditor}"
+                                                 value="Specialist Reviewed" >
+                                </p:commandButton>
+                                <p:commandButton id="submitOCRButtonBottom"
+                                                 action="#{specimenController.updateAsOCR}" 
+                                                 process=":mainForm @this"
+                                                 ajax="false"
+                                                 icon="#{specimenController.iconForState('OCR')}"
+                                                 rendered="${specimenController.selected.stateOCR}"
+                                                 value="OCR" >
+                                </p:commandButton>
+                                <p:commandButton id="submitQCFailButtonBottom"
+                                                 disabled="${!loginBean.userDataEntry or specimenController.selected.stateDoneMigrated}"
+                                                 action="#{specimenController.updateAsQCProblems}" 
+                                                 process=":mainForm @this"
+                                                 ajax="false"
+                                                 icon="#{specimenController.iconForState('QC Problems')}"
+                                                 rendered="${loginBean.userDataEntry}"
+                                                 value="QC Problems" >
+                                </p:commandButton>
+                                <p:commandButton id="submitQCPassButtonBottom"
+                                                 disabled="${!loginBean.userAbleToEditImages or specimenController.selected.stateDoneMigrated}"
+                                                 action="#{specimenController.updateAsQCReviewed}" 
+                                                 process=":mainForm @this"
+                                                 ajax="false"
+                                                 icon="#{specimenController.iconForState('QC Reviewed')}"
+                                                 rendered="${loginBean.userAbleToEditImages}"
+                                                 value="QC Reviewed" >
+                                </p:commandButton>
+                               </p:toolbarGroup>
+                            </p:toolbar>
+                    </h:form>
+                        
+                        <!-- ************** Dialogs ***************** -->
+                               <h:form id="newDetForm">
+                                   <p:dialog id="newDetDialog"
+                                        widgetVar="newDetDialog"
+                                        >
+                                        <f:facet name="header">
+                                            <h:outputText value="Add an Identification" />
+                                        </f:facet>
+                                        <h:outputText value="Put the name in either verbatim text or Genus/Species/Subspecies/Author, but not both." />
+                                        <h:panelGrid columns="2" id="detAddGrid">
+                                            <h:outputText value="#{bundle.ListDeterminationTitle_verbatimText}"/>
+                                            <h:inputText value="#{specimenController.temp_verbatimText}" size="30"
+                                                         maxlength="#{MetadataRetrieverBean.lengthForField('Determination','VerbatimText')}"
+                                                         title="#{MetadataRetrieverBean.tipForField('Determination','VerbatimText')}"
+                                                         />
+                                            <h:outputText value="#{bundle.ListDeterminationTitle_genus}"/>
+                                            <h:inputText value="#{specimenController.temp_genus}" size="30"
+                                                         maxlength="#{MetadataRetrieverBean.lengthForField('Determination','Genus')}"
+                                                         title="#{MetadataRetrieverBean.tipForField('Determination','Genus')}"
+                                                         />
+                                            <h:outputText value="#{bundle.ListDeterminationTitle_specificEpithet}"/>
+                                            <h:inputText value="#{specimenController.temp_specificEpithet}" size="30"
+                                                         maxlength="#{MetadataRetrieverBean.lengthForField('Determination','SubspecificEpithet')}"
+                                                         title="#{MetadataRetrieverBean.tipForField('Determination','SubspecificEpithet')}"
+                                                         />
+                                            <h:outputText value="#{bundle.ListDeterminationTitle_subspecificEpithet}"/>
+                                            <h:inputText value="#{specimenController.temp_subspecificEpithet}" size="30"
+                                                         maxlength="#{MetadataRetrieverBean.lengthForField('Determination','SubspecificEpithet')}"
+                                                         title="#{MetadataRetrieverBean.tipForField('Determination','SubspecificEpithet')}"
+                                                         />
+                                            <h:outputText value="#{bundle.ListDeterminationTitle_infraspecificEpithet}"/>
+                                            <h:inputText value="#{specimenController.temp_infraspecificEpithet}" size="30"
+                                                         maxlength="#{MetadataRetrieverBean.lengthForField('Determination','InfraspecificEpithet')}"
+                                                         title="#{MetadataRetrieverBean.tipForField('Determination','InfraspecificEpithet')}"
+                                                         />
+                                            <h:outputText value="#{bundle.ListDeterminationTitle_infraspecificRank}"/>
+                                            <h:inputText value="#{specimenController.temp_infraspecificRank}" size="30"
+                                                         maxlength="#{MetadataRetrieverBean.lengthForField('Determination','InfraspecificRank')}"
+                                                         title="#{MetadataRetrieverBean.tipForField('Determination','InfraspecificRank')}"
+                                                         />
+                                            <h:outputText value="#{bundle.ListDeterminationTitle_authorship}"/>
+                                            <h:inputText value="#{specimenController.temp_authorship}" size="30"
+                                                         maxlength="#{MetadataRetrieverBean.lengthForField('Determination','Authorship')}"
+                                                         title="#{MetadataRetrieverBean.tipForField('Determination','Authorship')}"
+                                                         />
+                                            <h:outputText value="#{bundle.ListDeterminationTitle_speciesNumber}"/>
+                                            <h:inputText value="#{specimenController.temp_speciesNumber}" size="30"
+                                                         maxlength="#{MetadataRetrieverBean.lengthForField('Determination','SpeciesNumber')}"
+                                                         title="#{MetadataRetrieverBean.tipForField('Determination','SpeciesNumber')}"
+                                                         />
+                                            <h:outputText value="#{bundle.ListDeterminationTitle_unNamedForm}"/>
+                                            <h:inputText value="#{specimenController.temp_unNamedForm}" size="30"
+                                                         maxlength="#{MetadataRetrieverBean.lengthForField('Determination','UnnamedForm')}"
+                                                         title="#{MetadataRetrieverBean.tipForField('Determination','UnnamedForm')}"
+                                                         />
+                                            <h:outputText value="#{bundle.ListDeterminationTitle_identifiedBy}"/>
+                                            <p:autoComplete id="pl_determinerAdd_agentName" size="30"
+                                                         autofill="true"
+                                                         minQueryLength="4"
+                                                         process="@this"
+                                                         value="#{specimenController.temp_identifiedBy}"
+                                                         completeMethod="#{specimenController.autocompleteAgent}"
+                                                         maxlength="#{MetadataRetrieverBean.lengthForField('Collector','CollectorName')}"
+                                                         />                                          
+                                            <h:outputText value="#{bundle.ListDeterminationTitle_typeStatus}"/>
+                                            <h:selectOneMenu
+                                                        id="crdetfm_typeStatus" value="#{specimenController.temp_typeStatus}"
+                                                        title="#{MetadataRetrieverBean.tipForField('Determination','TypeStatus')}"
+                                                        disabled="false" >
+                                                    <f:selectItems value="#{pickListsManagedBean.typeStatusValues}"  />
+                                            </h:selectOneMenu>
+                                            <h:outputText value="Nature Of ID"/>
+                                            <h:selectOneMenu id="crdetfrnatureOfId" value="#{specimenController.temp_natureOfId}"
+                                                     title="#{MetadataRetrieverBean.tipForField('Determination','natureOfId')}"
+                                                     >  
+                                                <f:selectItems value="#{pickListsManagedBean.natureOfIdValues}"  />
+                                            </h:selectOneMenu>                                                
+                                            <h:outputText value="Date Determined"/>
+                                            <p:inputMask value="#{specimenController.temp_dateIdentified}" size="30"
+                                                         maxlength="#{MetadataRetrieverBean.lengthForField('Determination','natureOfId')}"
+                                                         title="#{MetadataRetrieverBean.tipForField('Determination','natureOfId')}"
+                                                         mask="9999?/99/99-9999/99/99"
+                                                         validatorMessage="Date must be in the format yyyy/mm/dd-yyyy/mm/dd where at least a 4 digit year must be supplied"
+                                                         >
+                                                  <f:validateRegex pattern="${MetadataRetrieverBean.regexForField('Specimen','ISODate')}" />
+                                            </p:inputMask>                                                         
+                                            <h:outputText value="Remarks"/>
+                                            <h:inputText value="#{specimenController.temp_remarks}" size="30"
+                                                         maxlength="#{MetadataRetrieverBean.lengthForField('Determination','natureOfId')}"
+                                                         title="#{MetadataRetrieverBean.tipForField('Determination','natureOfId')}"
+                                                         />                                                         
+                                            <p:commandButton value="Cancel"
+                                                             onclick="PF('newDetDialog').hide(); return false;" />
+                                            <p:commandButton value="Store" actionListener="#{specimenController.createNewDetermination()}"
+                                                             update=":mainForm:determinationList"
+                                                             oncomplete="PF('newDetDialog').hide(); " />
+                                        </h:panelGrid>
+                                    </p:dialog>                                 
+                                </h:form> 
+                                
+                                <h:form id="detEditForm">
+                                <p:dialog id="detEditPanel"
+                                        widgetVar="detEditPanel"
+                                                 >
+                                    <f:facet name="header">
+                                        <h:outputText value="Edit determination details" />
+                                    </f:facet>
+                                    <h:outputText value="Put the name in either verbatim text or Genus/Species/Subspecies/Author, but not both." />
+                                    <h:panelGrid columns="2" id="detEditGrid">
+                                        <h:outputText value="#{bundle.ListDeterminationTitle_verbatimText}"/>
+                                        <h:inputText value="#{specimenController.temp_CurrentEditIdentification.verbatimText}" size="30"
+                                                     maxlength="#{MetadataRetrieverBean.lengthForField('Determination','VerbatimText')}"
+                                                     title="#{MetadataRetrieverBean.tipForField('Determination','VerbatimText')}"
+                                                     />
+                                        <h:outputText value="#{bundle.ListDeterminationTitle_genus}"/>
+                                        <h:inputText value="#{specimenController.temp_CurrentEditIdentification.genus}" size="30"
+                                                     maxlength="#{MetadataRetrieverBean.lengthForField('Determination','Genus')}"
+                                                     title="#{MetadataRetrieverBean.tipForField('Determination','Genus')}"
+                                                     />
+                                        <h:outputText value="#{bundle.ListDeterminationTitle_specificEpithet}"/>
+                                        <h:inputText value="#{specimenController.temp_CurrentEditIdentification.specificEpithet}" size="30"
+                                                     maxlength="#{MetadataRetrieverBean.lengthForField('Determination','SpecificEpithet')}"
+                                                     title="#{MetadataRetrieverBean.tipForField('Determination','SpecificEpithet')}"
+                                                     />
+                                        <h:outputText value="#{bundle.ListDeterminationTitle_subspecificEpithet}"/>
+                                        <h:inputText value="#{specimenController.temp_CurrentEditIdentification.subspecificEpithet}" size="30"
+                                                     maxlength="#{MetadataRetrieverBean.lengthForField('Determination','SubspecificEpithet')}"
+                                                     title="#{MetadataRetrieverBean.tipForField('Determination','SubspecificEpithet')}"
+                                                     />
+                                        <h:outputText value="#{bundle.ListDeterminationTitle_infraspecificEpithet}"/>
+                                        <h:inputText value="#{specimenController.temp_CurrentEditIdentification.infraspecificEpithet}" size="30"
+                                                     maxlength="#{MetadataRetrieverBean.lengthForField('Determination','InfraspecificEpithet')}"
+                                                     title="#{MetadataRetrieverBean.tipForField('Determination','InfraspecificEpithet')}"
+                                                     />
+                                        <h:outputText value="#{bundle.ListDeterminationTitle_infraspecificRank}"/>
+                                        <h:inputText value="#{specimenController.temp_CurrentEditIdentification.infraspecificRank}" size="30"
+                                                     maxlength="#{MetadataRetrieverBean.lengthForField('Determination','InfraspecificRank')}"
+                                                     title="#{MetadataRetrieverBean.tipForField('Determination','InfraspecificRanke')}"
+                                                     />
+                                        <h:outputText value="#{bundle.ListDeterminationTitle_authorship}"/>
+                                        <h:inputText value="#{specimenController.temp_CurrentEditIdentification.authorship}" size="30"
+                                                     maxlength="#{MetadataRetrieverBean.lengthForField('Determination','Authorship')}"
+                                                     title="#{MetadataRetrieverBean.tipForField('Determination','Authorship')}"
+                                                     />
+                                        <h:outputText value="#{bundle.ListDeterminationTitle_speciesNumber}"/>
+                                        <h:inputText value="#{specimenController.temp_CurrentEditIdentification.speciesNumber}" size="30"
+                                                     maxlength="#{MetadataRetrieverBean.lengthForField('Determination','SpeciesNumber')}"
+                                                     title="#{MetadataRetrieverBean.tipForField('Determination','SpeciesNumber')}"
+                                                     />
+                                        <h:outputText value="#{bundle.ListDeterminationTitle_unNamedForm}"/>
+                                        <h:inputText value="#{specimenController.temp_CurrentEditIdentification.unNamedForm}" size="30"
+                                                     maxlength="#{MetadataRetrieverBean.lengthForField('Determination','UnNamedForm')}"
+                                                     title="#{MetadataRetrieverBean.tipForField('Determination','UnNamedForm')}"
+                                                     />
+                                        <h:outputText value="#{bundle.ListDeterminationTitle_identifiedBy}"/>
+                                        <p:autoComplete id="pl_determinerAdd_agentName" size="30"
+                                                        autofill="true"
+                                                        minQueryLength="4"
+                                                        process="@this"
+                                                        value="#{specimenController.temp_CurrentEditIdentification.identifiedBy}"
+                                                        completeMethod="#{specimenController.autocompleteAgent}"
+                                                        maxlength="#{MetadataRetrieverBean.lengthForField('Collector','CollectorName')}"
+                                                 />                                          
+                                        <h:outputText value="#{bundle.ListDeterminationTitle_typeStatus}"/>
+                                        <h:selectOneMenu
+                                                        id="editdetfm_typeStatus" value="#{specimenController.temp_CurrentEditIdentification.typeStatus}"
+                                                        title="#{MetadataRetrieverBean.tipForField('Determination','TypeStatus')}"
+                                                        disabled="false" >
+                                                    <f:selectItems value="#{pickListsManagedBean.typeStatusValues}"  />
+                                        </h:selectOneMenu>
+                                        <h:outputText value="Nature Of ID"/>
+                                        <h:selectOneMenu id="editdetfrnatureOfId" value="#{specimenController.temp_CurrentEditIdentification.natureOfId}"
+                                                     title="#{MetadataRetrieverBean.tipForField('Determination','natureOfId')}"
+                                                     >  
+                                                <f:selectItems value="#{pickListsManagedBean.natureOfIdValues}"  />
+                                        </h:selectOneMenu>                                                
+                                        <h:outputText value="Date Determined"/>
+                                        <p:inputMask value="#{specimenController.temp_CurrentEditIdentification.dateIdentified}" size="30"
+                                                     maxlength="#{MetadataRetrieverBean.lengthForField('Determination','natureOfId')}"
+                                                     title="#{MetadataRetrieverBean.tipForField('Determination','natureOfId')}"
+                                                     mask="9999?/99/99-9999/99/99"
+                                                     validatorMessage="Date must be in the format yyyy/mm/dd-yyyy/mm/dd where at least a 4 digit year must be supplied"
+                                                     >
+                                              <f:validateRegex pattern="${MetadataRetrieverBean.regexForField('Specimen','ISODate')}" />
+                                        </p:inputMask>                                                         
+                                        <h:outputText value="Remarks"/>
+                                        <h:inputText value="#{specimenController.temp_CurrentEditIdentification.remarks}" size="30"
+                                                     maxlength="#{MetadataRetrieverBean.lengthForField('Determination','natureOfId')}"
+                                                     title="#{MetadataRetrieverBean.tipForField('Determination','natureOfId')}"
+                                                     />
+                                                     
+                                        <p:commandButton value="Store" action="#{specimenController.updateCurrentEditIdentification()}" 
+                                                         update=":mainForm:determinationList"
+                                                         process=":detEditForm:detEditGrid"
+                                                         oncomplete="PF('detEditPanel').hide(); " />                                                     
+                                    </h:panelGrid>
+                                </p:dialog> 
+                                </h:form>
+                                
+                                <h:form id="collectorAddForm">
+                                <p:dialog id="collectorAddPanel"
+                                          widgetVar="collectorAddPanel"
+                                          >
+                                        <f:facet name="header">
+                                            <h:outputText value="Add another Collector" />
+                                        </f:facet>
+                                            <h:panelGrid columns="2" id="collectorAddGrid">
+                                                <h:outputText value="#{bundle.ListCollectorTitle_collectorName}"/>
+                                                <p:autoComplete id="pl_collectorAdd_agentName" size="50"
+                                                        autofill="true"
+                                                        minQueryLength="4"
+                                                        process="@this"
+                                                        value="#{specimenController.temp_CollectorName}"
+                                                        completeMethod="#{specimenController.autocompleteAgent}"
+                                                        maxlength="#{MetadataRetrieverBean.lengthForField('Collector','CollectorName')}"
+                                                        forceSelection="false"
+                                                        queryDelay="200"
+                                                        dropdownMode="current"
+                                                 />              
+                                            <p:commandButton value="Cancel"
+                                                             update=":mainForm:collectorsInMCZbaseIcon"
+                                                             onclick="PF('collectorAddPanel').hide(); return false;" />
+                                            <p:commandButton value="Store" action="#{specimenController.createNewCollector()}" immediate="false"
+                                                             update=":mainForm:collectorList :mainForm:collectorsInMCZbaseIcon"
+                                                             process=":collectorAddForm:collectorAddGrid"
+                                                             oncomplete="PF('collectorAddPanel').hide(); " />                                                             
+                                            </h:panelGrid>
+                                </p:dialog>
+                                </h:form>
+                                
+                                <h:form id="numberAddForm">
+                                <p:dialog id="numberAddPanel"
+                                          widgetVar="numberAddPanel"
+                                                 >
+                                    <f:facet name="header">
+                                        <h:outputText value="Add an Other Number" />
+                                    </f:facet>
+                                        <h:panelGrid columns="2" id="numberAddGrid">
+                                            <h:outputLabel value="#{bundle.ListOtherNumbersTitle_otherNumber}" for="txt_on"></h:outputLabel>
+                                            <h:inputText id="txt_on" value="#{specimenController.temp_Number}" required="false"
+                                                         maxlength="#{MetadataRetrieverBean.lengthForField('Number','Number')}"
+                                                         title="#{MetadataRetrieverBean.tipForField('Number','Number')}"
+                                                         />
+                                            <h:outputLabel value="#{bundle.ListOtherNumbersTitle_numberType}" for="txt_nt"></h:outputLabel>
+                                            <p:selectOneMenu editable="true" id="txt_nt" value="#{specimenController.temp_NumberType}"
+                                                         title="#{MetadataRetrieverBean.tipForField('Number','NumberType')}"
+                                                         >
+                                                <f:selectItems value="#{pickListsManagedBean.numberTypeValues}" />
+                                            </p:selectOneMenu>
+                                            <p:commandButton value="Cancel"
+                                                             onclick="PF('numberAddPanel').hide(); return false;" />
+                                            <p:commandButton value="Store" action="#{specimenController.createNewOtherNumber()}" 
+                                                             update=":mainForm:otherNumberList" 
+                                                             oncomplete="PF('numberAddPanel').hide(); " />
+                                        </h:panelGrid>
+                                </p:dialog> 
+                                </h:form>
+                                
+                                <h:form id="partAttributesDialog">
+                                <p:dialog id="partAttributesPanel" 
+                                          widgetVar="partAttributesPanel"
+                                          >
+                                       <f:facet name="header">
+                                             <h:outputText value = "Edit Part Attribute"/>
+                                       </f:facet>
+                                       <h:panelGrid columns="2" id="partAttributeEditGrid">
+                                            <h:outputText value="Attribute"/>
+                                            <p:selectOneMenu value="#{specimenController.temp_CurrentPartAttribute.attributeType}"
+                                                             style="width:100%;"
+                                                             title="#{MetadataRetrieverBean.tipForField('SpecimenPartAttribute','Attribute_Type')}"
+                                                             >
+                                                     <f:selectItems value="#{pickListsManagedBean.partAttributeNameValues}"  />
+                                                     <p:ajax update="pa_attributeValueMenu" />
+                                            </p:selectOneMenu>
+                                            
+                                            <h:outputText value="Value"/>
+                                            <p:selectOneMenu id = "pa_attributeValueMenu"
+                                                             style="width:100%;"
+                                                             value="#{specimenController.temp_CurrentPartAttribute.attributeValue}"
+                                                             editable = "#{specimenController.temp_CurrentPartAttribute.hasEditablePartAttributeType()}"
+                                                                    title="#{MetadataRetrieverBean.tipForField('SpecimenPartAttribute','Attribute_Value')}"
+                                                                >
+                                                       <f:selectItems value="#{specimenController.temp_CurrentPartAttribute.getPicklistValuesForAttributeType()}"  />
+                                            </p:selectOneMenu>
+                                            
+                                            <h:outputText value="Units"/>
+                                            <p:inputText value="#{specimenController.temp_CurrentPartAttribute.attributeUnits}"
+                                                         style="width:100%;"
+                                                         maxlength="#{MetadataRetrieverBean.lengthForField('SpecimenPartAttribute','Attribute_Units')}"
+                                                         title="#{MetadataRetrieverBean.tipForField('SpecimenPartAttribute','Attribute_Units')}"
+                                                         /> 
+                                                         
+                                            <h:outputText value="Remarks"/>
+                                            <p:inputText value="#{specimenController.temp_CurrentPartAttribute.attributeRemark}"
+                                                         style="width:100%;"
+                                                         maxlength="#{MetadataRetrieverBean.lengthForField('SpecimenPartAttribute','Attribute_Remark')}"
+                                                         title="#{MetadataRetrieverBean.tipForField('SpecimenPartAttribute','Attribute_Remark')}"
+                                                         /> 
+                                      </h:panelGrid>                                       
+                                      <p:commandButton value="Store" action="#{specimenController.updateCurrentPartAttribute()}" 
+                                                       update=":mainForm:SpecimenPartList" 
+                                                       oncomplete="PF('partAttributesPanel').hide(); " />
+                                      <p:commandButton value="Delete" action="#{specimenController.removeFromCurrentPartAttribute()}" 
+                                                       update=":mainForm:SpecimenPartList" 
+                                                       oncomplete="PF('partAttributesPanel').hide(); " />
+                                </p:dialog>
+                                </h:form>
+                                
+                                
+                                <h:form id="georeferenceDialog">
+                                <p:dialog id="georeferencePanel" 
+                                          widgetVar="georeferencePanel"
+                                          >
+                                       <f:facet name="header">
+                                             <h:outputText value = "Edit Georeference"/>
+                                       </f:facet>
+                                       <h:panelGrid columns="2" id="georeferenceGrid">
+                                       
+                                            <h:outputText value="Decimal Latitude"/>
+                                            <p:inputText id = "tf_decLat"
+                                                         disabled="#{!specimenController.selected.georeference.enableDecimalDegrees}"
+                                                         value="#{specimenController.selected.georeference.decLat}"
+                                                         style="width:100%;"
+                                                         maxlength="#{MetadataRetrieverBean.lengthForField('LatLong','decLat')}"
+                                                         size="#{MetadataRetrieverBean.lengthForField('LatLong','decLat')}"
+                                                         title="#{MetadataRetrieverBean.tipForField('LatLong','decLat')}"
+                                                         >
+                                                     <p:ajax process="@this tf_decLong" update="georeferenceGrid" />
+                                            </p:inputText>
+                                            
+                                            
+                                            <h:outputText value="Decimal Longitude"/>
+                                            <p:inputText id="tf_decLong" 
+                                                         value="#{specimenController.selected.georeference.decLong}"
+                                                         disabled="#{!specimenController.selected.georeference.enableDecimalDegrees}"
+                                                         style="width:100%;"
+                                                         maxlength="#{MetadataRetrieverBean.lengthForField('LatLong','decLong')}"
+                                                         size="#{MetadataRetrieverBean.lengthForField('LatLong','decLong')}"
+                                                         title="#{MetadataRetrieverBean.tipForField('LatLong','decLong')}"
+                                                         >
+                                                     <p:ajax process="@this tf_decLat" update="georeferenceGrid" />
+                                            </p:inputText>
+ 
+ 
+                                            <h:outputText value="Original Lat/Long Units"/>
+                                            <p:selectOneMenu id="tf_origlatlongunits" editable="true" value="#{specimenController.selected.georeference.origLatLongUnits}"
+                                                             title="#{MetadataRetrieverBean.tipForField('LatLong','origLatLongUnits')}"
+                                                         >
+                                                <f:selectItems value="#{pickListsManagedBean.origLatLongUnitsValues}" />
+                                                <p:ajax process="@this tf_decLat tf_decLong tf_latDeg tf_latMin tf_latDecMin tf_latSec tf_latDir tf_longDeg tf_longMin tf_longDecMin tf_longSec tf_longDir " 
+                                                        update="georeferenceGrid tf_decLat tf_decLong " />
+                                            </p:selectOneMenu>                                            
+                                           
+                                            <h:outputText value="Datum"/>
+                                            <p:selectOneMenu id="tf_datum" editable="true" value="#{specimenController.selected.georeference.datum}"
+                                                             title="#{MetadataRetrieverBean.tipForField('LatLong','datum')}"
+                                                         >
+                                                <f:selectItems value="#{pickListsManagedBean.datumValues}" />
+                                            </p:selectOneMenu>                                            
+                                            
+                                            <h:outputText value="Georeference Method"/>
+                                            <p:selectOneMenu id="tf_georefmethod" editable="true" value="#{specimenController.selected.georeference.georefmethod}"
+                                                             title="#{MetadataRetrieverBean.tipForField('LatLong','georefmethod}')}"
+                                                         >
+                                                <f:selectItems value="#{pickListsManagedBean.georefMethodValues}" />
+                                            </p:selectOneMenu>                                              
+                                            
+                                            <h:outputText value="Latitude Degrees"/>
+                                            <p:inputText id = "tf_latDeg"
+                                                         disabled="#{!specimenController.selected.georeference.enableDegrees}"
+                                                         value="#{specimenController.selected.georeference.latDeg}"
+                                                         style="width:100%;"
+                                                         maxlength="#{MetadataRetrieverBean.lengthForField('LatLong','latDeg')}"
+                                                         size="#{MetadataRetrieverBean.lengthForField('LatLong','latDeg')}"
+                                                         title="#{MetadataRetrieverBean.tipForField('LatLong','latDeg')}"
+                                                         >
+                                                     <p:ajax process="tf_latDeg tf_latMin tf_latDecMin tf_latSec tf_latDir tf_longDeg tf_longMin tf_longDecMin tf_longSec tf_longDir" 
+                                                             update="tf_decLat tf_decLong" />
+                                            </p:inputText> 
+                                               
+                                            <h:outputText value="Latitude Decimal Minutes"/>
+                                            <p:inputText id = "tf_latDecMin"
+                                                         disabled="#{!specimenController.selected.georeference.unitsDecimalMin}"
+                                                         value="#{specimenController.selected.georeference.decLatMin}"
+                                                         style="width:100%;"
+                                                         maxlength="#{MetadataRetrieverBean.lengthForField('LatLong','decLatMin')}"
+                                                         size="#{MetadataRetrieverBean.lengthForField('LatLong','decLatMin')}"
+                                                         title="#{MetadataRetrieverBean.tipForField('LatLong','decLatMin')}"
+                                                         >
+                                                     <p:ajax process="tf_latDeg tf_latMin tf_latDecMin tf_latSec tf_latDir tf_longDeg tf_longMin tf_longDecMin tf_longSec tf_longDir" update="tf_decLat tf_decLong" />
+                                            </p:inputText>    
+
+                                            <h:outputText value="Latitude Minutes"/>
+                                            <p:inputText id = "tf_latMin"
+                                                         disabled="#{!specimenController.selected.georeference.unitsDegMinSec}"
+                                                         value="#{specimenController.selected.georeference.latMin}"
+                                                         style="width:100%;"
+                                                         maxlength="#{MetadataRetrieverBean.lengthForField('LatLong','latMin')}"
+                                                         size="#{MetadataRetrieverBean.lengthForField('LatLong','latMin')}"
+                                                         title="#{MetadataRetrieverBean.tipForField('LatLong','latMin')}"
+                                                         >
+                                                     <p:ajax process="tf_latDeg tf_latMin tf_latDecMin tf_latSec tf_latDir tf_longDeg tf_longMin tf_longDecMin tf_longSec tf_longDir" update="tf_decLat tf_decLong" />
+                                            </p:inputText>        
+
+                                            <h:outputText value="Latitude Seconds"/>
+                                            <p:inputText id = "tf_latSec"
+                                                         disabled="#{!specimenController.selected.georeference.unitsDegMinSec}"
+                                                         value="#{specimenController.selected.georeference.latSec}"
+                                                         style="width:100%;"
+                                                         maxlength="#{MetadataRetrieverBean.lengthForField('LatLong','latSec')}"
+                                                         size="#{MetadataRetrieverBean.lengthForField('LatLong','latSec')}"
+                                                         title="#{MetadataRetrieverBean.tipForField('LatLong','latSec')}"
+                                                         >
+                                                     <p:ajax process="tf_latDeg tf_latMin tf_latDecMin tf_latSec tf_latDir tf_longDeg tf_longMin tf_longDecMin tf_longSec tf_longDir" update="tf_decLat tf_decLong" />
+                                            </p:inputText>    
+    
+
+                                            <h:outputText value="Latitude Direction"/>
+                                            <p:selectOneMenu id="tf_latDir" 
+                                                             disabled="#{!specimenController.selected.georeference.enableDegrees}"
+                                                             editable="true" value="#{specimenController.selected.georeference.latDir}"
+                                                             title="#{MetadataRetrieverBean.tipForField('LatLong','latDir}')}"
+                                                         >
+                                                <f:selectItems value="#{pickListsManagedBean.latDirValues}" />
+                                                <p:ajax process="tf_latDeg tf_latMin tf_latDecMin tf_latSec tf_latDir tf_longDeg tf_longMin tf_longDecMin tf_longSec tf_longDir" update="tf_decLat tf_decLong" />
+                                            </p:selectOneMenu>     
+ 
+
+                                            <h:outputText value="Longitude Degrees"/>
+                                            <p:inputText id = "tf_longDeg"
+                                                         disabled="#{!specimenController.selected.georeference.enableDegrees}"
+                                                         value="#{specimenController.selected.georeference.longDeg}"
+                                                         style="width:100%;"
+                                                         maxlength="#{MetadataRetrieverBean.lengthForField('LatLong','longDeg')}"
+                                                         size="#{MetadataRetrieverBean.lengthForField('LatLong','longDeg')}"
+                                                         title="#{MetadataRetrieverBean.tipForField('LatLong','longDeg')}"
+                                                         >
+                                                     <p:ajax process="tf_latDeg tf_latMin tf_latDecMin tf_latSec tf_latDir tf_longDeg tf_longMin tf_longDecMin tf_longSec tf_longDir" update="tf_decLat tf_decLong" />
+                                            </p:inputText> 
+                                               
+                                            <h:outputText value="Longitude Decimal Minutes"/>
+                                            <p:inputText id = "tf_longDecMin"
+                                                         disabled="#{!specimenController.selected.georeference.unitsDecimalMin}"
+                                                         value="#{specimenController.selected.georeference.decLongMin}"
+                                                         style="width:100%;"
+                                                         maxlength="#{MetadataRetrieverBean.lengthForField('LatLong','decLongMin')}"
+                                                         size="#{MetadataRetrieverBean.lengthForField('LatLong','decLongMin')}"
+                                                         title="#{MetadataRetrieverBean.tipForField('LatLong','decLongMin')}"
+                                                         >
+                                                     <p:ajax process="tf_latDeg tf_latMin tf_latDecMin tf_latSec tf_latDir tf_longDeg tf_longMin tf_longDecMin tf_longSec tf_longDir" update="tf_decLat tf_decLong" />
+                                            </p:inputText>    
+
+                                            <h:outputText value="Longitude Minutes"/>
+                                            <p:inputText id = "tf_longMin"
+                                                         disabled="#{!specimenController.selected.georeference.unitsDegMinSec}"
+                                                         value="#{specimenController.selected.georeference.longMin}"
+                                                         style="width:100%;"
+                                                         maxlength="#{MetadataRetrieverBean.lengthForField('LatLong','longMin')}"
+                                                         size="#{MetadataRetrieverBean.lengthForField('LatLong','longMin')}"
+                                                         title="#{MetadataRetrieverBean.tipForField('LatLong','longMin')}"
+                                                         >
+                                                     <p:ajax process="@this tf_latDeg tf_latMin tf_latDecMin tf_latSec tf_latDir tf_longDeg tf_longDecMin tf_longSec tf_longDir" update="georeferenceGrid" />
+                                            </p:inputText>        
+
+                                            <h:outputText value="Longitude Seconds"/>
+                                            <p:inputText id = "tf_longSec"
+                                                         disabled="#{!specimenController.selected.georeference.unitsDegMinSec}"
+                                                         value="#{specimenController.selected.georeference.longSec}"
+                                                         style="width:100%;"
+                                                         maxlength="#{MetadataRetrieverBean.lengthForField('LatLong','longSec')}"
+                                                         size="#{MetadataRetrieverBean.lengthForField('LatLong','longSec')}"
+                                                         title="#{MetadataRetrieverBean.tipForField('LatLong','longSec')}"
+                                                         >
+                                                     <p:ajax process="tf_latDeg tf_latMin tf_latDecMin tf_latSec tf_latDir tf_longDeg tf_longMin tf_longDecMin tf_longSec tf_longDir" update="tf_decLat tf_decLong" />
+                                            </p:inputText>    
+    
+                                            <h:outputText value="Longitude Direction"/>
+                                            <p:selectOneMenu id="tf_longDir" 
+                                                             disabled="#{!specimenController.selected.georeference.enableDegrees}"
+                                                             editable="true" value="#{specimenController.selected.georeference.longDir}"
+                                                             title="#{MetadataRetrieverBean.tipForField('LatLong','longDir}')}"
+                                                         >
+                                                <f:selectItems value="#{pickListsManagedBean.longDirValues}" />
+                                                <p:ajax process="tf_latDeg tf_latMin tf_latDecMin tf_latSec tf_latDir tf_longDeg tf_longMin tf_longDecMin tf_longSec tf_longDir" update="tf_decLat tf_decLong" />
+                                            </p:selectOneMenu>     
+
+                                            <h:outputText value="Determined By"/>
+                                            <p:inputText id = "tf_detbyagent"
+                                                         value="#{specimenController.selected.georeference.determinedByAgent}"
+                                                         style="width:100%;"
+                                                         maxlength="#{MetadataRetrieverBean.lengthForField('LatLong','determinedByAgent')}"
+                                                         title="#{MetadataRetrieverBean.tipForField('LatLong','determinedByAgent')}"
+                                                         >
+                                            </p:inputText>       
+
+                                            <h:outputText value="Date Determined"/>
+                                            <p:inputText id = "tf_determinedDate"
+                                                         value="#{specimenController.selected.georeference.determinedDate}"
+                                                         style="width:100%;"
+                                                         maxlength="#{MetadataRetrieverBean.lengthForField('LatLong','determinedDate')}"
+                                                         title="#{MetadataRetrieverBean.tipForField('LatLong','determinedDate')}"
+                                                         >
+                                            </p:inputText>   
+
+                                            <h:outputText value="Field Verified"/>
+                                            <h:selectBooleanCheckbox id="chbfieldverifeid" value="#{specimenController.selected.georeference.fieldVerifiedFg}"
+                                                                 title="#{MetadataRetrieverBean.tipForField('LatLong','fieldVerifiedFg')}"
+                                                                 /> 
+                                                                    
+                                            <h:outputText value="Verification Status"/>
+                                            <p:inputText id = "tf_verificationsstatus"
+                                                         value="#{specimenController.selected.georeference.verificationstatus}"
+                                                         style="width:100%;"
+                                                         maxlength="#{MetadataRetrieverBean.lengthForField('LatLong','verificationstatus')}"
+                                                         title="#{MetadataRetrieverBean.tipForField('LatLong','verificationstatus')}"
+                                                         >
+                                            </p:inputText>  
+                                            
+                                            <h:outputText value="GPS Accuracy"/>
+                                            <p:inputText id = "tf_gpsaccuracy"
+                                                         value="#{specimenController.selected.georeference.gpsaccuracy}"
+                                                         style="width:100%;"
+                                                         maxlength="#{MetadataRetrieverBean.lengthForField('LatLong','gpsaccuracy')}"
+                                                         title="#{MetadataRetrieverBean.tipForField('LatLong','gpsaccuracy')}"
+                                                         >
+                                            </p:inputText>  
+                                            <h:outputText value="Source"/>
+                                            <p:inputText id = "tf_latlongRefSource"
+                                                         value="#{specimenController.selected.georeference.latLongRefSource}"
+                                                         style="width:100%;"
+                                                         maxlength="#{MetadataRetrieverBean.lengthForField('LatLong','latLongRefSource')}"
+                                                         title="#{MetadataRetrieverBean.tipForField('LatLong','latLongRefSource')}"
+                                                         >
+                                            </p:inputText>  
+                                            <h:outputText value="Georeference Remarks"/>
+                                            <p:inputText id = "tf_latLongRemarks"
+                                                         value="#{specimenController.selected.georeference.latLongRemarks}"
+                                                         style="width:100%;"
+                                                         maxlength="#{MetadataRetrieverBean.lengthForField('LatLong','latLongRemarks')}"
+                                                         title="#{MetadataRetrieverBean.tipForField('LatLong','latLongRemarks')}"
+                                                         >
+                                            </p:inputText>     
+                                            <h:outputText value="Error Radius"/>
+                                            <p:inputText id = "tf_maxErrorDistance"
+                                                         value="#{specimenController.selected.georeference.maxErrorDistance}"
+                                                         style="width:100%;"
+                                                         maxlength="#{MetadataRetrieverBean.lengthForField('LatLong','maxErrorDistance')}"
+                                                         title="#{MetadataRetrieverBean.tipForField('LatLong','maxErrorDistance')}"
+                                                         >
+                                            </p:inputText>
+                                            <h:outputText value="Error Radius Units"/>
+                                            <p:selectOneMenu id="tf_maxErrorUnits" editable="false" value="#{specimenController.selected.georeference.maxErrorUnits}"
+                                                             title="#{MetadataRetrieverBean.tipForField('LatLong','maxErrorUnits}')}"
+                                                         >
+                                                <f:selectItems value="#{pickListsManagedBean.maxErrorUnitValues}" />
+                                            </p:selectOneMenu>     
+
+
+                                            <h:outputText value="UTM Zone"/>
+                                            <p:inputText id = "tf_utmZone"
+                                                         value="#{specimenController.selected.georeference.utmZone}"
+                                                         style="width:100%;"
+                                                         maxlength="#{MetadataRetrieverBean.lengthForField('LatLong','utmZone')}"
+                                                         title="#{MetadataRetrieverBean.tipForField('LatLong','utmZone')}"
+                                                         >
+                                            </p:inputText>     
+                                            <h:outputText value="UTM Easting"/>
+                                            <p:inputText id = "tf_utmEw"
+                                                         value="#{specimenController.selected.georeference.utmEw}"
+                                                         style="width:100%;"
+                                                         maxlength="#{MetadataRetrieverBean.lengthForField('LatLong','utmEw')}"
+                                                         title="#{MetadataRetrieverBean.tipForField('LatLong','utmEw')}"
+                                                         >
+                                            </p:inputText>    
+                                            <h:outputText value="UTM Northing"/>
+                                            <p:inputText id = "tf_utmNs"
+                                                         value="#{specimenController.selected.georeference.utmNs}"
+                                                         style="width:100%;"
+                                                         maxlength="#{MetadataRetrieverBean.lengthForField('LatLong','utmNs')}"
+                                                         title="#{MetadataRetrieverBean.tipForField('LatLong','utmNs')}"
+                                                         >
+                                            </p:inputText>                                              
+                                            
+                                      </h:panelGrid>                                       
+                                      <p:commandButton value="OK" action="#{specimenController.updateGeoreference()}" 
+                                                       oncomplete="PF('georeferencePanel').hide(); " >
+                                                <p:ajax update=":mainForm:georefPopupButton" />
+                                                       </p:commandButton>
+                                </p:dialog>
+                                </h:form>                                
+                                
+                                
+                        <!--  **************** End of Dialogs ************* -->
+                        
+                        
+                </td>
+                
+                
+                
+                <!--  **************** Images ************* -->
+                
+                
+                
+                <td valign="top">
+                        <h:dataTable value="#{specimenController.selected.imageCollection}"
+                                     id="imageTable"
+                                     var="iitem" border="0" cellpadding="2" cellspacing="0"
+                                     rowClasses="jsfcrud_odd_row,jsfcrud_even_row"
+                                     rules="all" style="border:solid 1px" >
+                            <h:column>
+                                <f:facet name="header">
+                                    <h:outputText value="#{bundle.ListImageTitle_path}"/>
+                                </f:facet>
+                                <h:outputText value="#{iitem.path}"/>
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">
+                                    <h:outputText value="#{bundle.ListImageTitle_filename}"/>
+                                </f:facet>
+                                <h:outputText value="#{iitem.filename}"/>
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">
+                                    <h:outputText value="#{bundle.ListImageTitle_templateId}"/>
+                                </f:facet>
+                                <h:outputText id="displayTemplateId" value="#{iitem.templateId}"/>
+                            </h:column>
+                            
+                            <h:column rendered="false" >
+                                <!---  TODO: Get user change of template working, sets templateId to null.  -->
+                                <f:facet name="header">
+                                    <h:outputText value="#{bundle.ListImageTitle_templateId}"/>
+                                </f:facet>
+                                <p:selectOneMenu id="selectOneTemplateIdImage" 
+                                                 editable="false" 
+                                                 value="#{iitem.templateId}"
+                                                 title="Template for segmentation of Image"
+                                                     >
+                                            <f:selectItems value="#{pickListsManagedBean.templateValues}"
+                                               var="template" itemLabel="#{template}" itemValue="#{template}" 
+                                            />
+                                            <p:ajax update="imageTable" event="change" />
+                                </p:selectOneMenu>
+                            </h:column>
+                            
+                            <h:column>
+                                <f:facet name="header">
+                                    <h:outputText value="#{bundle.ListImageTitle_rawBarcode}"/>
+                                </f:facet>
+                                <h:outputText value="#{iitem.rawBarcode}"/>
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">
+                                    <h:outputText value="#{bundle.ListImageTitle_drawernumber}"/>
+                                </f:facet>
+                                <h:outputText value="#{iitem.drawernumber}"/>
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Image"/>
+                                </f:facet>
+                                <p:graphicImage value="#{imageController.imageURI}/imageserver/image.php?imageid=#{iitem.imageId}&amp;width=57" height="85" width="57" />
+                            </h:column>
+                        </h:dataTable>
+                        <p:dataGrid id="imageDisplayGrid"
+                                    value="#{specimenController.selected.imageCollection}" 
+                                    var="image"
+                                    rendered="${specimenController.selected.imageCollectionNonNull}" 
+                                    columns="1" rows="2" >
+                                    <h:outputText value="#{image.path}#{image.filename}" style=" font-weight: bold;" />
+                                    <p:tabView dynamic="true" >
+                                    <p:tab name="Pin Labels" title="Pin Labels" rendered="#{!image.isWholeImageOnly()}"  >
+                                        <ui:remove>
+                                            <!--
+                                                 public static final String REGION_BARCODE = "Barcode";
+                                                 public static final String REGION_SPECIMEN = "Specimen";
+                                                 public static final String REGION_CURRENTID = "CurrentIDLabel";
+                                                 public static final String REGION_PINLABELS = "PinLabels";
+                                                 public static final String REGION_LOOSEUT = "LooseUTLabels";
+                                          -->
+                                        </ui:remove>
+                                        <h:panelGrid columns="1">
+                                            <h:form id="icform">
+                                                 <p:imageCropper id="imagecropper"
+                                                                  value="#{imageCropBean.croppedImage}"
+                                                                  image="#{imageController.imageURI}/imageserver/image.php?imageid=#{image.imageId}&amp;width=675&amp;region=PinLabels"
+                                                                  />
+                                                 <p:ajaxStatus style="height:24px;display:block;">
+                                                      <f:facet name="start">
+                                                            <h:graphicImage library="images" name="ajaxloading.gif" />
+                                                      </f:facet>
+                                                      <f:facet name="complete">
+                                                            <h:outputText value="" />
+                                                      </f:facet>
+                                                 </p:ajaxStatus>
+                                                 <p:graphicImage id="localCroppedImage"
+                                                                 height = "#{imageCropBean.zoomHeight}"
+                                                                 width = "#{imageCropBean.zoomWidth}"                                                    
+                                                                 value="#{imageController.imageURI}/imageserver/image.php?imageid=#{image.imageId}&amp;region=PinLabels&amp;top=#{imageCropBean.top}&amp;left=#{imageCropBean.left}&amp;height=#{imageCropBean.height}&amp;cwidth=#{imageCropBean.width}"
+                                                                 />
+                                                 <h:outputText id="croppermessage" value="Click and drag on the image above to denote a label, then click 'Select Label'."  />
+                                                 <p:commandButton value="Select Label" id="selectlabel"
+                                                                  actionListener="#{imageCropBean.crop('PinLabels','675',image.imageId)}"
+                                                                  process="icform:selectlabel icform:imagecropper"
+                                                                  update="icform:localCroppedImage icform:makeExemplarButton icform:newLabelPanel"
+                                                                  />
+                                                 <p:commandButton value="Make Exemplar Label" disabled="#{!imageCropBean.renderable}"
+                                                                  id="makeExemplarButton"
+                                                                  type="button"
+                                                                  onclick="PF('newLabelPanel').show();"
+                                                                  >
+                                                 </p:commandButton>                 
+                                                 <p:dialog id="newLabelPanel"
+                                                           widgetVar="newLabelPanel" 
+                                                           >
+                                                       <f:facet name="header">
+                                                           <h:outputText value="Create Exemplar Label" />
+                                                       </f:facet>
+                                                       <h:panelGrid columns="2" >
+                                                            <h:outputText value="image" />
+                                                             <p:graphicImage id="localCroppedImage2"
+                                                                             height = "#{imageCropBean.zoomHeight}"
+                                                                             width = "#{imageCropBean.zoomWidth}"                                                    
+                                                                             value="#{imageController.imageURI}/imageserver/image.php?imageid=#{image.imageId}&amp;region=PinLabels&amp;top=#{imageCropBean.top}&amp;left=#{imageCropBean.left}&amp;height=#{imageCropBean.height}&amp;cwidth=#{imageCropBean.width}"
+                                                                             />
+                                                           <h:outputLabel value="imageid" for="imageid" />
+                                                           <h:outputText id="imageid" value="#{imageCropBean.newLabel.imageid}" />
+                                                           
+                                                           <h:outputLabel value="Verbatim Label Text" for="labelText" />
+                                                           <h:inputText id="labelText" value="#{imageCropBean.newLabel.verbatimtext}" />
+                                                           
+                                                           <h:outputLabel value="Interpretation Of Label" for="labelInterpretation" />
+                                                           <h:inputText id="labelInterpretation" value="#{imageCropBean.newLabel.interpretation}" />
+                                                           
+                                                           <p:commandButton value="Cancel"
+                                                                    actionListener="#{imageCropBean.cancelNewLabel()}"
+                                                                    process="@this"
+                                                                    update="icform:newLabelPanel  icform:makeExemplarButton" />
+                                                           <p:commandButton value="Save"
+                                                                    actionListener="#{imageCropBean.persistNewLabel}"
+                                                                    process="icform:newLabelPanel"
+                                                                    update="icform:newLabelPanel icform:makeExemplarButton"
+                                                           />
+                                                           <h:inputHidden value="#{imageCropBean.newLabel.imageid}" />
+                                                           <h:inputHidden value="#{imageCropBean.newLabel.offsettop}" />
+                                                           <h:inputHidden value="#{imageCropBean.newLabel.offsetleft}" />
+                                                           <h:inputHidden value="#{imageCropBean.newLabel.height}" />
+                                                           <h:inputHidden value="#{imageCropBean.newLabel.width}" />
+                                                      </h:panelGrid>
+                                                 </p:dialog> 
+
+
+                                             </h:form>
+                                        </h:panelGrid>
+                                    </p:tab >
+                                    <p:tab name="Barcode: #{image.filename}" title="Barcode:" rendered="#{!image.isWholeImageOnly()}" >
+                                        <img src="#{imageController.imageURI}/imageserver/image.php?imageid=#{image.imageId}&amp;region=Barcode" height="300" width="#{image.positionTemplate.barcodeSize.width}" />
+                                    </p:tab >
+                                    <p:tab name="UnitTrayLabels: #{image.filename}" title="Unit Tray Labels:" rendered="#{!image.isWholeImageOnly()}" >
+                                        <img src="#{imageController.imageURI}/imageserver/image.php?imageid=#{image.imageId}&amp;region=LooseUTLabels&amp;width=600" width="600"  />
+                                    </p:tab >
+                                    <p:tab name="Specimen: #{image.filename}" title="Specimen:" rendered="#{!image.isWholeImageOnly()}" >
+                                         <p:commandButton icon="ui-icon-arrowreturnthick-1-w" value="Rotate Left"
+                                            onclick="PF('rotateAndResizeWidget').rotateLeft(90);return false;"/>
+                                         <p:commandButton icon="ui-icon-arrowreturnthick-1-e" value="Rotate Right"
+                                            onclick="PF('rotateAndResizeWidget').rotateRight(90);return false;"/>
+                                         <p:commandButton icon="ui-icon-zoomin" value="Scale +"
+                                            onclick="PF('rotateAndResizeWidget').scale(2.0);return false;"/>
+                                         <p:commandButton icon="ui-icon-zoomin" value="Reset"
+                                            onclick="PF('rotateAndResizeWidget').restoreDefaults();return false;"/>                                            
+                                         <p:commandButton icon="ui-icon-zoomout" value="Scale -"
+                                            onclick="PF('rotateAndResizeWidget').scale(0.50);return false;"/>
+                                        <div id="imageWrapper" style="width:600px; height:418px; margin:auto; overflow:scroll; position:relative;">      
+                                           <h:graphicImage id="image1" value="#{imageController.imageURI}/imageserver/image.php?imageid=#{image.imageId}&amp;region=Specimen" height="418" width="600" />
+                                        </div>
+                                        <pe:imageRotateAndResize
+                                            id="rotateAndResize"
+                                            for="image1"
+                                            widgetVar="rotateAndResizeWidget">
+                                        </pe:imageRotateAndResize>
+
+                                    </p:tab >
+                                    <p:tab name="Image #{image.filename}" title="#{image.filename}">
+                                         <p:commandButton icon="ui-icon-arrowreturnthick-1-w" value="Rotate Left"
+                                            onclick="PF('rotateAndResizeWidgetI').rotateLeft(90);return false;"/>
+                                         <p:commandButton icon="ui-icon-arrowreturnthick-1-e" value="Rotate Right"
+                                            onclick="PF('rotateAndResizeWidgetI').rotateRight(90);return false;"/>
+                                         <p:commandButton icon="ui-icon-zoomin" value="Scale +"
+                                            onclick="PF('rotateAndResizeWidgetI').scale(2);return false;"/>
+                                         <p:commandButton icon="ui-icon-zoomin" value="Reset"
+                                            onclick="PF('rotateAndResizeWidgetI').restoreDefaults();return false;"/>
+                                         <p:commandButton icon="ui-icon-zoomout" value="Scale -"
+                                            onclick="PF('rotateAndResizeWidgetI').scale(0.50);return false;"/>
+                                        <div id="imageWrapperI" style="width:640px; height:854px; margin:auto; overflow:scroll; position:relative;">
+                                        <p:graphicImage id="imageI" value="#{imageController.imageURI}/imageserver/image.php?imageid=#{image.imageId}" height="854" width="570" />
+                                        </div>
+                                        <pe:imageRotateAndResize
+                                            id="rotateAndResizeI"
+                                            for="imageI"   
+                                            widgetVar="rotateAndResizeWidgetI">
+                                        </pe:imageRotateAndResize>
+
+                                    </p:tab >
+
+                                    </p:tabView>
+                        </p:dataGrid>
+                        <h:outputText value="No images found for this specimen." 
+                                      rendered="${!specimenController.selected.imageCollectionNonNull}"
+                                      />
+
+                        <components:labelList expanded="false" />
+                </td></tr>
+            </table>
+
+        </ui:define>
+    </ui:composition>
+</html>

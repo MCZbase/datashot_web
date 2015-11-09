@@ -1,0 +1,138 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:composite="http://java.sun.com/jsf/composite"
+>
+    <h:head>
+        <title>Specimen Details</title>
+    </h:head>
+    <h:body>
+
+	    <!-- INTERFACE -->
+	    <composite:interface>
+		    <composite:attribute name="heading"/>
+	    </composite:interface>
+
+	    <!-- IMPLEMENTATION -->
+	    <composite:implementation>
+
+        <f:view>
+		
+		<h:form >
+		    <div class="componentHeading">
+                        #{cc.attrs.heading}
+                    </div>
+                <h1><h:outputText value="Create/Edit"/></h1>
+
+		    <h:messages showDetail="true" />
+			<h:panelGrid columns="2">
+				<h:outputLabel value="SpecimenId:" for="specimenId" />
+				<h:outputText id="specimenId" value="#{SpecimenManagedBean.details.specimenId}" title="SpecimenId" />
+				<h:outputLabel value="Barcode:" for="barcode" />
+				<h:inputText id="barcode" value="#{SpecimenManagedBean.details.barcode}" title="Barcode" required="true" requiredMessage="The Barcode field is required."/>
+				<h:outputLabel value="DrawerNumber:" for="drawerNumber" />
+				<h:inputText id="drawerNumber" value="#{SpecimenManagedBean.details.drawerNumber}" title="DrawerNumber" />
+				<h:outputLabel value="TypeStatus:" for="typeStatus" />
+				<h:inputText id="typeStatus" value="#{SpecimenManagedBean.details.typeStatus}" title="TypeStatus" required="true" requiredMessage="The TypeStatus field is required."/>
+				<h:outputLabel value="TypeNumber:" for="typeNumber" />
+				<h:inputText id="typeNumber" value="#{SpecimenManagedBean.details.typeNumber}" title="TypeNumber" />
+				<h:outputLabel value="CitedInPublication:" for="citedInPublication" />
+				<h:inputText id="citedInPublication" value="#{SpecimenManagedBean.details.citedInPublication}" title="CitedInPublication" />
+				<h:outputLabel value="Features:" for="features" />
+				<h:inputText id="features" value="#{SpecimenManagedBean.details.features}" title="Features" />
+				<h:outputLabel value="Family:" for="family" />
+				<h:inputText id="family" value="#{SpecimenManagedBean.details.family}" title="Family" />
+				<h:outputLabel value="Subfamily:" for="subfamily" />
+				<h:inputText id="subfamily" value="#{SpecimenManagedBean.details.subfamily}" title="Subfamily" />
+				<h:outputLabel value="Tribe:" for="tribe" />
+				<h:inputText id="tribe" value="#{SpecimenManagedBean.details.tribe}" title="Tribe" />
+				<h:outputLabel value="Genus:" for="genus" />
+				<h:inputText id="genus" value="#{SpecimenManagedBean.details.genus}" title="Genus" />
+				<h:outputLabel value="SpecificEpithet:" for="specificEpithet" />
+				<h:inputText id="specificEpithet" value="#{SpecimenManagedBean.details.specificEpithet}" title="SpecificEpithet" />
+				<h:outputLabel value="SubspecificEpithet:" for="subspecificEpithet" />
+				<h:inputText id="subspecificEpithet" value="#{SpecimenManagedBean.details.subspecificEpithet}" title="SubspecificEpithet" />
+				<h:outputLabel value="InfraspecificEpithet:" for="infraspecificEpithet" />
+				<h:inputText id="infraspecificEpithet" value="#{SpecimenManagedBean.details.infraspecificEpithet}" title="InfraspecificEpithet" />
+				<h:outputLabel value="InfraspecificRank:" for="infraspecificRank" />
+				<h:inputText id="infraspecificRank" value="#{SpecimenManagedBean.details.infraspecificRank}" title="InfraspecificRank" />
+				<h:outputLabel value="Authorship:" for="authorship" />
+				<h:inputText id="authorship" value="#{SpecimenManagedBean.details.authorship}" title="Authorship" />
+				<h:outputLabel value="UnNamedForm:" for="unNamedForm" />
+				<h:inputText id="unNamedForm" value="#{SpecimenManagedBean.details.unNamedForm}" title="UnNamedForm" />
+				<h:outputLabel value="IdentifiedBy:" for="identifiedBy" />
+				<h:inputText id="identifiedBy" value="#{SpecimenManagedBean.details.identifiedBy}" title="IdentifiedBy" />
+				<h:outputLabel value="Country:" for="country" />
+				<h:inputText id="country" value="#{SpecimenManagedBean.details.country}" title="Country" />
+				<h:outputLabel value="PrimaryDivison:" for="primaryDivison" />
+				<h:inputText id="primaryDivison" value="#{SpecimenManagedBean.details.primaryDivison}" title="PrimaryDivison" />
+				<h:outputLabel value="SpecificLocality:" for="specificLocality" />
+				<h:inputTextarea rows="4" cols="30" id="specificLocality" value="#{SpecimenManagedBean.details.specificLocality}" title="SpecificLocality" />
+				<h:outputLabel value="VerbatimLocality:" for="verbatimLocality" />
+				<h:inputTextarea rows="4" cols="30" id="verbatimLocality" value="#{SpecimenManagedBean.details.verbatimLocality}" title="VerbatimLocality" />
+				<h:outputLabel value="VerbatimElevation:" for="verbatimElevation" />
+				<h:inputText id="verbatimElevation" value="#{SpecimenManagedBean.details.verbatimElevation}" title="VerbatimElevation" />
+				<h:outputLabel value="CollectingMethod:" for="collectingMethod" />
+				<h:inputText id="collectingMethod" value="#{SpecimenManagedBean.details.collectingMethod}" title="CollectingMethod" />
+				<h:outputLabel value="DateNOS:" for="dateNOS" />
+				<h:inputText id="dateNOS" value="#{SpecimenManagedBean.details.dateNOS}" title="DateNOS" />
+				<h:outputLabel value="DateEmerged:" for="dateEmerged" />
+				<h:inputText id="dateEmerged" value="#{SpecimenManagedBean.details.dateEmerged}" title="DateEmerged" />
+				<h:outputLabel value="DateEmergedIndicator:" for="dateEmergedIndicator" />
+				<h:inputText id="dateEmergedIndicator" value="#{SpecimenManagedBean.details.dateEmergedIndicator}" title="DateEmergedIndicator" />
+				<h:outputLabel value="DateCollected:" for="dateCollected" />
+				<h:inputText id="dateCollected" value="#{SpecimenManagedBean.details.dateCollected}" title="DateCollected" />
+				<h:outputLabel value="DateCollectedIndicator:" for="dateCollectedIndicator" />
+				<h:inputText id="dateCollectedIndicator" value="#{SpecimenManagedBean.details.dateCollectedIndicator}" title="DateCollectedIndicator" />
+				<h:outputLabel value="Collection:" for="collection" />
+				<h:inputText id="collection" value="#{SpecimenManagedBean.details.collection}" title="Collection" />
+				<h:outputLabel value="SpecimenNotes:" for="specimenNotes" />
+				<h:inputTextarea rows="4" cols="30" id="specimenNotes" value="#{SpecimenManagedBean.details.specimenNotes}" title="SpecimenNotes" />
+				<h:outputLabel value="LifeStage:" for="lifeStage" />
+				<h:inputText id="lifeStage" value="#{SpecimenManagedBean.details.lifeStage}" title="LifeStage" />
+				<h:outputLabel value="PreparationType:" for="preparationType" />
+				<h:inputText id="preparationType" value="#{SpecimenManagedBean.details.preparationType}" title="PreparationType" />
+				<h:outputLabel value="Habitat:" for="habitat" />
+				<h:inputText id="habitat" value="#{SpecimenManagedBean.details.habitat}" title="Habitat" />
+				<h:outputLabel value="AssociatedTaxon:" for="associatedTaxon" />
+				<h:inputText id="associatedTaxon" value="#{SpecimenManagedBean.details.associatedTaxon}" title="AssociatedTaxon" />
+				<h:outputLabel value="Questions:" for="questions" />
+				<h:inputText id="questions" value="#{SpecimenManagedBean.details.questions}" title="Questions" />
+				<h:outputLabel value="Inferences:" for="inferences" />
+				<h:inputText id="inferences" value="#{SpecimenManagedBean.details.inferences}" title="Inferences" />
+				<h:outputLabel value="LocationInCollection:" for="locationInCollection" />
+				<h:inputText id="locationInCollection" value="#{SpecimenManagedBean.details.locationInCollection}" title="LocationInCollection" />
+				<h:outputLabel value="WorkFlowStatus:" for="workFlowStatus" />
+				<h:inputText id="workFlowStatus" value="#{SpecimenManagedBean.details.workFlowStatus}" title="WorkFlowStatus" />
+				<h:outputLabel value="CreatedBy:" for="createdBy" />
+				<h:inputText id="createdBy" value="#{SpecimenManagedBean.details.createdBy}" title="CreatedBy" />
+				<h:outputLabel value="DateCreated:" for="dateCreated" />
+				<h:inputText id="dateCreated" value="#{SpecimenManagedBean.details.dateCreated}" title="DateCreated" required="true" requiredMessage="The DateCreated field is required.">
+					<f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+				</h:inputText>
+				<h:outputLabel value="DateLastUpdated:" for="dateLastUpdated" />
+				<h:inputText id="dateLastUpdated" value="#{SpecimenManagedBean.details.dateLastUpdated}" title="DateLastUpdated" >
+					<f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+				</h:inputText>
+				<h:outputLabel value="LastUpdatedBy:" for="lastUpdatedBy" />
+				<h:inputText id="lastUpdatedBy" value="#{SpecimenManagedBean.details.lastUpdatedBy}" title="LastUpdatedBy" />
+				<h:outputLabel value="ValidDistributionFlag:" for="validDistributionFlag" />
+				<h:inputText id="validDistributionFlag" value="#{SpecimenManagedBean.details.validDistributionFlag}" title="ValidDistributionFlag" />
+				<h:outputLabel value="Sex:" for="sex" />
+				<h:inputText id="sex" value="#{SpecimenManagedBean.details.sex}" title="Sex" />
+				<h:outputLabel value="ISODate:" for="ISODate" />
+				<h:inputText id="ISODate" value="#{SpecimenManagedBean.details.ISODate}" title="ISODate" />
+				<h:outputLabel value="Tracking1Collection:" for="tracking1Collection" />
+				<h:inputText id="tracking1Collection" value="#{SpecimenManagedBean.details.tracking1Collection}" title="Tracking1Collection" />
+			</h:panelGrid>
+
+		    <h:commandButton value="submit" />
+            </h:form>
+        </f:view>
+	    </composite:implementation>
+
+
+    </h:body>
+</html>

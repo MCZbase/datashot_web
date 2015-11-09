@@ -1,0 +1,59 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+	  xmlns:p="http://primefaces.org/ui"
+      >
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.ViewHigherTaxonTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="menu">
+            <h:form>
+                   <p:commandButton
+                       value="#{bundle.ListHigherTaxonIndexLink}"
+                       action="/index?faces-redirect=true"
+                       immediate="true" />
+                   <p:commandButton
+                       rendered="#{loginBean.userChiefEditor}"
+                       action="#{higherTaxonController.prepareCreate}"
+                       value="#{bundle.ListHigherTaxonCreateLink}"
+                       immediate="true" />
+            </h:form>
+        </ui:define>        
+        <ui:define name="body">
+            <h:panelGroup id="messagePanel" layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            </h:panelGroup>
+            <h:form>
+                <h:panelGrid columns="2">
+                    <h:outputText value="#{bundle.ViewHigherTaxonLabel_family}"/>
+                    <h:outputText value="#{higherTaxonController.selected.family}" title="#{bundle.ViewHigherTaxonTitle_family}"/>
+                    <h:outputText value="#{bundle.ViewHigherTaxonLabel_subfamily}"/>
+                    <h:outputText value="#{higherTaxonController.selected.subfamily}" title="#{bundle.ViewHigherTaxonTitle_subfamily}"/>
+                    <h:outputText value="#{bundle.ViewHigherTaxonLabel_tribe}"/>
+                    <h:outputText value="#{higherTaxonController.selected.tribe}" title="#{bundle.ViewHigherTaxonTitle_tribe}"/>
+                    <h:outputText value="#{bundle.ViewHigherTaxonLabel_id}"/>
+                    <h:outputText value="#{higherTaxonController.selected.id}" title="#{bundle.ViewHigherTaxonTitle_id}"/>
+                </h:panelGrid>
+                <br />
+                <h:commandLink action="#{higherTaxonController.destroyAndView}" value="#{bundle.ViewHigherTaxonDestroyLink}"/>
+                <br />
+                <br />
+                <h:commandLink action="Edit" value="#{bundle.ViewHigherTaxonEditLink}"/>
+                <br />
+                <h:commandLink action="#{higherTaxonController.prepareCreate}" value="#{bundle.ViewHigherTaxonCreateLink}" />
+                <br />
+                <h:commandLink action="#{higherTaxonController.prepareList}" value="#{bundle.ViewHigherTaxonShowAllLink}"/>
+                <br />
+                <br />
+                <h:commandLink value="#{bundle.ViewHigherTaxonIndexLink}" action="/index" immediate="true" />
+
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>

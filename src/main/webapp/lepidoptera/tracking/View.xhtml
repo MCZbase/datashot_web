@@ -1,0 +1,41 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.ViewTrackingTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:panelGroup id="messagePanel" layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            </h:panelGroup>
+            <h:form>
+                <h:panelGrid columns="2">
+                    <h:outputText value="#{bundle.ViewTrackingLabel_trackingId}"/>
+                    <h:outputText value="#{trackingController.selected.trackingId}" title="#{bundle.ViewTrackingTitle_trackingId}"/>
+                    <h:outputText value="#{bundle.ViewTrackingLabel_username}"/>
+                    <h:outputText value="#{trackingController.selected.username}" title="#{bundle.ViewTrackingTitle_username}"/>
+                    <h:outputText value="#{bundle.ViewTrackingLabel_eventType}"/>
+                    <h:outputText value="#{trackingController.selected.eventType}" title="#{bundle.ViewTrackingTitle_eventType}"/>
+                    <h:outputText value="#{bundle.ViewTrackingLabel_eventDateTime}"/>
+                    <h:outputText value="#{trackingController.selected.eventDateTime}" title="#{bundle.ViewTrackingTitle_eventDateTime}">
+                        <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                    </h:outputText>
+                    <h:outputText value="#{bundle.ViewTrackingLabel_specimenId}"/>
+                    <h:outputText value="#{trackingController.selected.specimenId}" title="#{bundle.ViewTrackingTitle_specimenId}"/>
+                </h:panelGrid>
+                <br />
+                <h:commandLink action="#{trackingController.prepareList}" value="#{bundle.ViewTrackingShowAllLink}"/>
+                <br />
+                <br />
+                <h:commandLink value="#{bundle.ViewTrackingIndexLink}" action="/index" immediate="true" />
+
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>

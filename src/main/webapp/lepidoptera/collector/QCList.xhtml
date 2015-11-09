@@ -1,0 +1,90 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+	  xmlns:p="http://primefaces.org/ui"
+      >
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="Collector List"></h:outputText>
+        </ui:define>
+		<ui:define name="menu">
+            <h:form>
+					<p:commandButton value="#{bundle.ListSpecimenIndexLink}"
+									 action="/index?faces-redirect=true"
+									 immediate="true"  />
+			</h:form>
+		</ui:define>
+        <ui:define name="body">
+
+            <h:form>
+				<h:outputText escape="false" value="#{bundle.NoRecordsFound}"
+							  rendered="#{collectorQCBean.collectorFrequencyItems.rowCount == 0}"/>
+				<h:commandLink action="#{collectorQCBean.prepareListAll}" value="Show All"
+							   rendered="#{collectorQCBean.collectorFrequencyItems.rowCount == 0}"/>
+			</h:form>
+			<h:panelGroup>
+				<h:form>
+					<h:outputText id="paginationcounts" value="#{collectorQCBean.pagination.pageFirstItem + 1}..#{collectorQCBean.pagination.pageLastItem + 1}/#{collectorQCBean.pagination.itemsCount}"/>&nbsp;
+					<h:commandButton action="#{collectorQCBean.previous}" value="#{bundle.Previous} #{collectorQCBean.pagination.pageSize}"
+									 disabled="#{!collectorQCBean.pagination.hasPreviousPage}"/>&nbsp;
+					<h:commandButton action="#{collectorQCBean.next}" value="#{bundle.Next} #{collectorQCBean.pagination.pageSize}"
+									 disabled="#{!collectorQCBean.pagination.hasNextPage}"/>&nbsp;
+
+					<h:commandButton action="#{collectorQCBean.sameReSort}" value="#{bundle.SortBy}" />
+					<h:outputLabel value="#{bundle.Frequency}" for="ch_freq" />
+					<h:selectBooleanCheckbox id="ch_freq" value="#{collectorQCBean.sortByFrequency}" />
+
+					<h:panelGrid columns="4" >
+						<h:outputText value=""/>
+						<h:outputLabel value="#{bundle.ListCollectorTitle_collectorName}" for="it_bar" />
+						<h:outputText value=""/>
+						<h:outputLabel value="#{bundle.ListCollectorTitle_collectorName}" for="it_coufc" />
+
+						<h:commandButton action="#{collectorQCBean.sameReSort}" value="#{bundle.FilterBy}" />
+						<h:inputText id="it_bar" value="#{collectorQCBean.collectorFilterCriterion}" size="10" />
+						<h:commandButton action="#{specimenController.prepareCollectorListFromIndex}" value="Find Specimens" />
+						<h:inputText id="it_coufc" value="#{specimenController.collectorFilterCriterion}"  />
+					</h:panelGrid>
+				</h:form>
+				<h:form id="colfreqtableform">
+					<p:dataTable  value="#{collectorQCBean.collectorFrequencyItems}" 
+					              var="item"  
+					              id="collectortable"
+		            >
+						<f:facet name="header">
+							<h:outputText value="Collector List"/>
+						</f:facet>
+						<p:column width="15em">
+							<f:facet name="header">
+								<h:outputText value="Collector Name"/>
+							</f:facet>
+							<h:outputText value="#{item.value}">
+								<f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+							</h:outputText>
+						</p:column>
+						<p:column>
+							<f:facet name="header">
+								<h:outputText value="Frequency"/>
+							</f:facet>
+							<h:outputText value="#{item.count}"/>
+						</p:column>
+						<p:column width="20em" >
+							<f:facet name="header">
+								<h:outputText value="Change to (click on text to edit)"/>
+							</f:facet>
+							<p:inplace editor="true" style="height: 60px;" emptyLabel="[null]" >
+								<p:ajax event="save" update=":colfreqtableform:collectortable"  />
+								<p:inputText value="#{item.newValue}" />
+							</p:inplace>
+						</p:column>
+					</p:dataTable>
+				</h:form>
+			</h:panelGroup>
+        </ui:define>
+    </ui:composition>
+
+</html>

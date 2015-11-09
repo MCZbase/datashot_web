@@ -1,0 +1,41 @@
+/* 
+    Document   : styles
+    Created on : Apr 19, 2010, 11:25:03 AM
+    Author     : mole
+    Description: This is the stylesheet for the login.xhtml and loginfailure.xhml pages
+*/
+
+
+body {
+   background-color: #eeeeff;
+   background-image: url('background.png');
+}
+
+#pagecontent {
+   background-color: #eeeeff;
+   background-image: none;
+}
+
+#login {
+    background-color: #ffffff;
+    border-width: 2px;
+    border-style: solid;
+    padding: 2px;
+}
+
+.componentHeading {
+    font-size: larger;
+    font-weight: bold;
+}
+
+
+tr.jsfcrud_odd_row {
+    background-color: #fefeff;
+    color: #4e6a71;
+}
+
+
+tr.jsfcrud_even_row {
+    background-color: #eff5fa;
+    color: #4e6a71;
+}

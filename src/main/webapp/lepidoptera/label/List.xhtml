@@ -1,0 +1,97 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+	  xmlns:p="http://primefaces.org/ui"
+      >
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.ListLabelTitle}"></h:outputText>
+        </ui:define>
+		<ui:define name="menu">
+            <h:form>
+					<p:commandButton value="#{bundle.ListLabelIndexLink}"
+									 action="/index?faces-redirect=true"
+									 immediate="true"  />
+			</h:form>
+		</ui:define>
+        <ui:define name="body">
+			<h:form styleClass="jsfcrud_list_form">
+				<h:panelGroup id="messagePanel" layout="block">
+					<h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+				</h:panelGroup>
+
+				<h:commandButton action="#{labelController.sameReSort}" value="Search For" />
+			    <h:outputLabel value="Text/Interpretation" for="it_crit" />
+			    <h:inputText id="it_crit" value="#{labelController.searchCriterion}" size="10" />
+
+				<h:outputText escape="false" value="#{bundle.ListLabelEmpty}" rendered="#{labelController.items.rowCount == 0}"/>
+				<h:panelGroup rendered="#{labelController.items.rowCount > 0}">
+					<h:outputText value="#{labelController.pagination.pageFirstItem + 1}..#{labelController.pagination.pageLastItem + 1}/#{labelController.pagination.itemsCount}"/>&nbsp;
+					<h:commandLink action="#{labelController.previous}" value="#{bundle.Previous} #{labelController.pagination.pageSize}" rendered="#{labelController.pagination.hasPreviousPage}"/>&nbsp;
+					<h:commandLink action="#{labelController.next}" value="#{bundle.Next} #{labelController.pagination.pageSize}" rendered="#{labelController.pagination.hasNextPage}"/>&nbsp;
+					<h:dataTable value="#{labelController.items}" var="item" border="0" cellpadding="2" cellspacing="0" rowClasses="jsfcrud_odd_row,jsfcrud_even_row" rules="all" style="border:solid 1px">
+						<h:column>
+							<f:facet name="header">
+								<h:outputText value="&nbsp;"/>
+							</f:facet>
+							<h:commandLink rendered="#{!loginBean.userChiefEditor}" action="#{labelController.prepareView}" value="#{bundle.ListLabelViewLink}"/>
+							<h:outputText value=" "/>
+							<h:commandLink rendered="#{loginBean.userChiefEditor}" action="#{labelController.prepareEdit}" value="#{bundle.ListLabelEditLink}"/>
+							<h:outputText value=" "/>
+							<h:commandLink rendered="#{loginBean.userAdministrator}" action="#{labelController.destroy}" value="#{bundle.ListLabelDestroyLink}"/>
+						</h:column>
+						<h:column>
+							<f:facet name="header">
+								<h:outputText value="#{bundle.ListLabelTitle_offsettop}"/>
+							</f:facet>
+							<h:outputText value="#{item.offsettop}"/>
+						</h:column>
+						<h:column>
+							<f:facet name="header">
+								<h:outputText value="#{bundle.ListLabelTitle_offsetleft}"/>
+							</f:facet>
+							<h:outputText value="#{item.offsetleft}"/>
+						</h:column>
+						<h:column>
+							<f:facet name="header">
+								<h:outputText value="#{bundle.ListLabelTitle_width}"/>
+							</f:facet>
+							<h:outputText value="#{item.width}"/>
+						</h:column>
+						<h:column>
+							<f:facet name="header">
+								<h:outputText value="#{bundle.ListLabelTitle_height}"/>
+							</f:facet>
+							<h:outputText value="#{item.height}"/>
+						</h:column>
+						<h:column>
+							<f:facet name="header">
+								<h:outputText value="#{bundle.ListLabelTitle_verbatimtext}"/>
+							</f:facet>
+							<h:outputText value="#{item.verbatimtext}"/>
+						</h:column>
+						<h:column>
+							<f:facet name="header">
+								<h:outputText value="#{bundle.ListLabelTitle_interpretation}"/>
+							</f:facet>
+							<h:outputText value="#{item.interpretation}"/>
+						</h:column>
+						<h:column>
+							<f:facet name="header">
+								<h:outputText value="Label"/>
+							</f:facet>
+							<h:graphicImage id="localCroppedImage"
+											value="#{imageController.imageURI}/imageserver/image.php?imageid=#{item.imageid.imageId}&amp;region=Full&amp;top=#{item.offsettop}&amp;left=#{item.offsetleft}&amp;height=#{item.height}&amp;cwidth=#{item.width}"
+											/>
+						</h:column>
+					</h:dataTable>
+				</h:panelGroup>
+			</h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>

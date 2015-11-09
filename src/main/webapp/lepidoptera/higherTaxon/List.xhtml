@@ -1,0 +1,78 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+	  xmlns:p="http://primefaces.org/ui"
+      >
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.ListHigherTaxonTitle}"></h:outputText>
+        </ui:define>
+		<ui:define name="menu">
+			<h:form>
+                   <p:commandButton
+					   value="#{bundle.ListHigherTaxonIndexLink}"
+					   action="/index?faces-redirect=true"
+					   immediate="true" />
+                   <p:commandButton
+					   rendered="#{loginBean.userChiefEditor}"
+					   action="#{higherTaxonController.prepareCreate}"
+					   value="#{bundle.ListHigherTaxonCreateLink}"
+					   immediate="true" />
+			</h:form>
+		</ui:define>
+        <ui:define name="body">
+        <h:form styleClass="jsfcrud_list_form">
+            <h:panelGroup id="messagePanel" layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            </h:panelGroup>
+            <h:outputText escape="false" value="#{bundle.ListHigherTaxonEmpty}" rendered="#{higherTaxonController.items.rowCount == 0}"/>
+            <h:panelGroup rendered="#{higherTaxonController.items.rowCount > 0}">
+                <h:outputText value="#{higherTaxonController.pagination.pageFirstItem + 1}..#{higherTaxonController.pagination.pageLastItem + 1}/#{higherTaxonController.pagination.itemsCount}"/>&nbsp;
+                <h:commandLink action="#{higherTaxonController.previous}" value="#{bundle.Previous} #{higherTaxonController.pagination.pageSize}" rendered="#{higherTaxonController.pagination.hasPreviousPage}"/>&nbsp;
+                <h:commandLink action="#{higherTaxonController.next}" value="#{bundle.Next} #{higherTaxonController.pagination.pageSize}" rendered="#{higherTaxonController.pagination.hasNextPage}"/>&nbsp;
+                <h:dataTable value="#{higherTaxonController.items}" var="item" border="0" cellpadding="2" cellspacing="0" rowClasses="jsfcrud_odd_row,jsfcrud_even_row" rules="all" style="border:solid 1px">
+                    <h:column>
+                        <f:facet name="header">
+                            <h:outputText value="&nbsp;"/>
+                        </f:facet>
+                        <h:commandLink rendered="#{!loginBean.userChiefEditor}" action="#{higherTaxonController.prepareView}" value="#{bundle.ListHigherTaxonViewLink}"/>
+                        <h:outputText value=" "/>
+                        <h:commandLink rendered="#{loginBean.userChiefEditor}" action="#{higherTaxonController.prepareEdit}" value="#{bundle.ListHigherTaxonEditLink}"/>
+                        <h:outputText value=" "/>
+                        <h:commandLink rendered="#{loginBean.userChiefEditor}" action="#{higherTaxonController.destroy}" value="#{bundle.ListHigherTaxonDestroyLink}"/>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">
+                            <h:outputLabel value="#{bundle.ListHigherTaxonTitle_family}"/>
+                        </f:facet>
+                        <p:inplace emptyLabel="Click to Edit" >
+                             <h:inputText value="#{item.family}"/>
+                        </p:inplace>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">
+                            <h:outputLabel value="#{bundle.ListHigherTaxonTitle_subfamily}"/>
+                        </f:facet>
+                        <p:inplace emptyLabel="[Click]"  >
+                             <h:inputText value="#{item.subfamily}"/>
+                        </p:inplace>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">
+                            <h:outputLabel value="#{bundle.ListHigherTaxonTitle_tribe}"/>
+                        </f:facet>
+                         <p:inplace emptyLabel="[Click]" >
+                             <h:inputText value="#{item.tribe}"/>
+                         </p:inplace>
+                    </h:column>
+                </h:dataTable>
+            </h:panelGroup>
+        </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>

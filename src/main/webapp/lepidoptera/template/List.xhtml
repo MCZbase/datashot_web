@@ -1,0 +1,224 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.ListTemplateTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+        <h:form styleClass="jsfcrud_list_form">
+            <h:panelGroup id="messagePanel" layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            </h:panelGroup>
+            <h:outputText escape="false" value="#{bundle.ListTemplateEmpty}" rendered="#{templateController.items.rowCount == 0}"/>
+            <h:panelGroup rendered="#{templateController.items.rowCount > 0}">
+                <h:outputText value="#{templateController.pagination.pageFirstItem + 1}..#{templateController.pagination.pageLastItem + 1}/#{templateController.pagination.itemsCount}"/>&nbsp;
+                <h:commandLink action="#{templateController.previous}" value="#{bundle.Previous} #{templateController.pagination.pageSize}" rendered="#{templateController.pagination.hasPreviousPage}"/>&nbsp;
+                <h:commandLink action="#{templateController.next}" value="#{bundle.Next} #{templateController.pagination.pageSize}" rendered="#{templateController.pagination.hasNextPage}"/>&nbsp;
+                <h:dataTable value="#{templateController.items}" var="item" border="0" cellpadding="2" cellspacing="0" rowClasses="jsfcrud_odd_row,jsfcrud_even_row" rules="all" style="border:solid 1px">
+                    <h:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{bundle.ListTemplateTitle_templateId}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.templateId}"/>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{bundle.ListTemplateTitle_templateName}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.templateName}"/>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{bundle.ListTemplateTitle_imageSizeX}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.imageSizeX}"/>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{bundle.ListTemplateTitle_imageSizeY}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.imageSizeY}"/>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{bundle.ListTemplateTitle_barcodePositionX}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.barcodePositionX}"/>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{bundle.ListTemplateTitle_barcodePositionY}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.barcodePositionY}"/>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{bundle.ListTemplateTitle_barcodeSizeX}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.barcodeSizeX}"/>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{bundle.ListTemplateTitle_barcodeSizeY}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.barcodeSizeY}"/>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{bundle.ListTemplateTitle_specimenPositionX}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.specimenPositionX}"/>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{bundle.ListTemplateTitle_specimenPositionY}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.specimenPositionY}"/>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{bundle.ListTemplateTitle_specimenSizeX}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.specimenSizeX}"/>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{bundle.ListTemplateTitle_specimenSizeY}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.specimenSizeY}"/>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{bundle.ListTemplateTitle_textPositionX}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.textPositionX}"/>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{bundle.ListTemplateTitle_textPositionY}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.textPositionY}"/>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{bundle.ListTemplateTitle_textSizeX}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.textSizeX}"/>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{bundle.ListTemplateTitle_textSizeY}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.textSizeY}"/>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{bundle.ListTemplateTitle_labelPositionX}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.labelPositionX}"/>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{bundle.ListTemplateTitle_labelPositionY}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.labelPositionY}"/>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{bundle.ListTemplateTitle_labelSizeX}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.labelSizeX}"/>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{bundle.ListTemplateTitle_labelSizeY}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.labelSizeY}"/>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{bundle.ListTemplateTitle_utLabelPositionX}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.utLabelPositionX}"/>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{bundle.ListTemplateTitle_utLabelPositionY}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.utLabelPositionY}"/>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{bundle.ListTemplateTitle_utLabelSizeX}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.utLabelSizeX}"/>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{bundle.ListTemplateTitle_utLabelSizey}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.utLabelSizey}"/>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{bundle.ListTemplateTitle_editable}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.editable}"/>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{bundle.ListTemplateTitle_referenceImage}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.referenceImage}"/>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{bundle.ListTemplateTitle_utBarcodePositionX}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.utBarcodePositionX}"/>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{bundle.ListTemplateTitle_utBarcodePositionY}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.utBarcodePositionY}"/>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{bundle.ListTemplateTitle_utBarcodeSizeX}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.utBarcodeSizeX}"/>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{bundle.ListTemplateTitle_utBarcodeSizeY}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.utBarcodeSizeY}"/>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">
+                            <h:outputText value="&nbsp;"/>
+                        </f:facet>
+                        <h:commandLink action="#{templateController.prepareView}" value="#{bundle.ListTemplateViewLink}"/>
+                        <h:outputText value=" "/>
+                        <h:commandLink action="#{templateController.prepareEdit}" value="#{bundle.ListTemplateEditLink}"/>
+                        <h:outputText value=" "/>
+                        <h:commandLink action="#{templateController.destroy}" value="#{bundle.ListTemplateDestroyLink}"/>
+                    </h:column>
+                </h:dataTable>
+            </h:panelGroup>
+            <br />
+            <h:commandLink action="#{templateController.prepareCreate}" value="#{bundle.ListTemplateCreateLink}"/>
+            <br />
+            <br />
+            <h:commandLink value="#{bundle.ListTemplateIndexLink}" action="/index" immediate="true" />
+        </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>

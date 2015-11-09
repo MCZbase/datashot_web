@@ -1,0 +1,102 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+	  xmlns:p="http://primefaces.org/ui"
+      >
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="Country List"></h:outputText>
+        </ui:define>
+		<ui:define name="menu">
+            <h:form>
+					<p:commandButton value="#{bundle.ListSpecimenIndexLink}"
+									 action="/index?faces-redirect=true"
+									 immediate="true"  />
+			</h:form>
+		</ui:define>
+        <ui:define name="body">
+
+            <h:form>
+				<h:outputText escape="false" value="#{bundle.NoRecordsFound}"
+							  rendered="#{countryStateQCBean.countryStateFrequencyItems.rowCount == 0}"/>
+				<h:commandLink action="#{countryStateQCBean.prepareListAll}" value="Show All"
+							   rendered="#{countryStateQCBean.countryStateFrequencyItems.rowCount == 0}"/>
+			</h:form>
+			<h:panelGroup>
+				<h:form>
+
+					<h:outputText id="paginationcounts" value="#{countryStateQCBean.pagination.pageFirstItem + 1}..#{countryStateQCBean.pagination.pageLastItem + 1}/#{countryStateQCBean.pagination.itemsCount}"/>&nbsp;
+					<h:commandButton action="#{countryStateQCBean.previous}" value="#{bundle.Previous} #{countryStateQCBean.pagination.pageSize}"
+									 disabled="#{!countryStateQCBean.pagination.hasPreviousPage}"/>&nbsp;
+					<h:commandButton action="#{countryStateQCBean.next}" value="#{bundle.Next} #{countryStateQCBean.pagination.pageSize}"
+									 disabled="#{!countryStateQCBean.pagination.hasNextPage}"/>&nbsp;
+
+					<h:commandButton action="#{countryStateQCBean.sameReSort}" value="#{bundle.SortBy}" />
+					<h:outputLabel value="#{bundle.Frequency}" for="ch_freq" />
+					<h:selectBooleanCheckbox id="ch_freq" value="#{countryStateQCBean.sortByFrequency}" />
+
+					<h:panelGrid columns="6" >
+						<h:outputText value=""/>
+						<h:outputLabel value="#{bundle.ListSpecimenTitle_country}" for="it_bar" />
+						<h:outputLabel value="#{bundle.ListSpecimenTitle_primaryDivison}" for="it_pridv" />
+						<h:outputText value=""/>
+						<h:outputLabel value="#{bundle.ListSpecimenTitle_country}" for="it_coufc" />
+						<h:outputLabel value="#{bundle.ListSpecimenTitle_primaryDivison}" for="it_coufpd" />
+
+						<h:commandButton action="#{countryStateQCBean.sameReSort}" value="#{bundle.FilterBy}" />
+						<h:inputText id="it_bar" value="#{countryStateQCBean.countryFilterCriterion}" size="10" />
+						<h:inputText id="it_pridv" value="#{countryStateQCBean.primaryFilterCriterion}" size="10" />
+						<h:commandButton action="#{specimenController.prepareCountryPrimaryListFromIndex}" value="Find Specimens" />
+						<h:inputText id="it_coufc" value="#{specimenController.countryFilterCriterion}"  />
+						<h:inputText id="it_coufpd" value="#{specimenController.primarydivisionFilterCriterion}"  />
+					</h:panelGrid>
+
+				</h:form>
+				<h:form>
+					<p:dataTable  value="#{countryStateQCBean.countryStateFrequencyItems}" 
+					              var="item"  
+					              id="countryTable"
+						>
+						<f:facet name="header">
+							<h:outputText value="Country/State List"/>
+						</f:facet>
+						<p:column width="15em">
+							<f:facet name="header">
+								<h:outputText value="Country Name"/>
+							</f:facet>
+							<h:outputText value="#{item.value}">
+							</h:outputText>
+						</p:column>
+						<p:column width="15em">
+							<f:facet name="header">
+								<h:outputText id="sname" value="State/Province Name"/>
+							</f:facet>
+							<h:outputText value="#{item.value1}">
+							</h:outputText>
+						</p:column>
+						<p:column>
+							<f:facet name="header">
+								<h:outputText value="Frequency"/>
+							</f:facet>
+							<h:outputText value="#{item.count}"/>
+						</p:column>
+						<p:column width="20em" >
+							<f:facet name="header">
+								<h:outputText value="Change to (click on text to edit)"/>
+							</f:facet>
+							<p:inplace editor="true" style="height: 60px;" emptyLabel="[null]" >
+								<p:ajax event="save" update="countryTable"  />
+								<p:inputText value="#{item.newValue1}" />
+							</p:inplace>
+						</p:column>
+					</p:dataTable>
+				</h:form>
+			</h:panelGroup>
+        </ui:define>
+    </ui:composition>
+
+</html>

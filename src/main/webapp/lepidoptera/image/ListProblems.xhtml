@@ -1,0 +1,131 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+	  xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.ListImageTitle}"></h:outputText>
+        </ui:define>
+		<ui:define name="menu">
+            <h:form>
+					<p:commandButton value="#{bundle.ListImageIndexLink}"
+									 action="/index?faces-redirect=true"
+									 immediate="true"  />
+					<p:commandButton rendered="#{loginBean.userFullAccess}"
+									 action="#{imageController.prepareListAll}"
+									 value="List All Images"/>
+					<p:commandButton
+						rendered="#{loginBean.userAdministrator}"
+						action="#{imageController.prepareCreate}"
+						value="#{bundle.ViewImageCreateLink}"
+						immediate="true"/>
+			</h:form>
+		</ui:define>
+        <ui:define name="body">
+			<h:form styleClass="jsfcrud_list_form">
+				<h:panelGroup id="messagePanel" layout="block">
+					<h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+				</h:panelGroup>
+				<h:outputText escape="false" value="#{bundle.ListImageEmpty}" rendered="#{imageProblemController.items.rowCount == 0}"/>
+				<h:panelGroup >
+					<h:outputText value="First 10 Images with no detected barcodes and first 10 Images with no applied template."/>
+					<p:dataTable value="#{imageProblemController.items}" id="imagetable"
+								 rendered="#{imageProblemController.pagination.itemsCount > 0}"
+								 var="item"
+								 style="border:solid 1px">
+						<p:column width="10em">
+							<f:facet name="header">
+								<h:outputText value="&nbsp;"/>
+							</f:facet>
+							<h:commandLink rendered="#{!loginBean.userAbleToEditImages}" action="#{imageProblemController.prepareView}" value="#{bundle.ListImageViewLink}"/>
+							<h:outputText value=" "/>
+							<h:commandLink rendered="#{loginBean.userAbleToEditImages}" action="#{imageProblemController.prepareEdit}" value="#{bundle.ListImageEditLink}"/>
+							<h:outputText value=" "/>
+							<p:commandButton rendered="#{loginBean.userAdministrator}" 
+							                 value="#{bundle.ViewImageDestroyLink}"
+							                 type="button"
+							                 onclick="popup_confirm_delete.show();" 
+							                 />
+							<p:confirmDialog id="popup_confirm_delete"
+							                 widgetvar="popup_confirm_delete"
+											 header="Delete Image Record?"  >
+								<h:outputLabel value="Are you sure you want to delete this image record from the database?" />
+								<h:panelGrid columns="1">
+									<p:commandButton value="Delete"
+													 onclick="popup_confirm_delete.hide()"
+													 actionListener="#{imageProblemController.destroyAndView}" />
+									<p:commandButton value="Cancel"
+													 onclick="popup_confirm_delete.hide()"
+													 />
+								</h:panelGrid>
+							</p:confirmDialog>
+						</p:column>
+						<p:column width="10em">
+							<f:facet name="header">
+								<h:outputText value="#{bundle.ListImageTitle_path}"/>
+							</f:facet>
+							<h:outputText value="#{item.path}"/>
+						</p:column>
+						<p:column width="10em">
+							<f:facet name="header">
+								<h:outputText value="#{bundle.ListImageTitle_filename}"/>
+							</f:facet>
+							<h:outputText value="#{item.filename}"/>
+						</p:column>
+						<p:column width="15em">
+							<f:facet name="header">
+								<h:outputText value="#{bundle.ListImageTitle_templateId}"/>
+							</f:facet>
+							<h:outputText value="#{item.templateId}"/>
+						</p:column>
+						<p:column>
+							<f:facet name="header">
+								<h:outputText value="#{bundle.ListImageTitle_drawernumber}"/>
+							</f:facet>
+							<h:outputText value="#{item.drawernumber}"/>
+						</p:column>
+						<p:column width="10em">
+							<f:facet name="header">
+								<h:outputText value="#{bundle.ListSpecimenTitle_barcode}"/>
+							</f:facet>
+							<h:commandLink action="#{imageProblemController.prepareEditSpecimen}" value="#{item.specimenId.barcode}"
+								   disabled="${!loginBean.userDataEntry or item.specimenId.stateDoneMigrated}" />
+						</p:column>
+						<p:column width="50em">
+							<f:facet name="header">
+								<h:outputText value="Image"/>
+							</f:facet>
+							<h:outputText value="Can't read file" rendered="#{!item.fileReadable}" />
+							<h:graphicImage rendered="#{item.fileReadable}"
+							                value="#{imageController.imageURI}/imageserver/image.php?imageid=#{item.imageId}&amp;width=133&amp;height=200"
+									        height="200" width="133" />
+						</p:column>
+						<p:column width="10em">
+							<f:facet name="header">
+								<h:outputText value="#{bundle.ListImageTitle_rawBarcode}"/>
+							</f:facet>
+							<h:outputText value="#{item.rawBarcode}"/>
+						</p:column>
+						<p:column width="10em">
+							<f:facet name="header">
+								<h:outputText value="#{bundle.ListImageTitle_rawExifBarcode}"/>
+							</f:facet>
+							<h:outputText value="#{item.rawExifBarcode}"/>
+						</p:column>
+						<p:column width="30em">
+							<f:facet name="header">
+								<h:outputText value="#{bundle.ListImageTitle_rawOCR}"/>
+							</f:facet>
+							<h:outputText value="#{item.rawOCR}"/>
+						</p:column>
+					</p:dataTable>
+				</h:panelGroup>
+			</h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>

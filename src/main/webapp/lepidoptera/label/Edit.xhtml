@@ -1,0 +1,59 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+	  xmlns:components="http://java.sun.com/jsf/composite/components"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+	  xmlns:p="http://primefaces.org/ui"
+      >
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.EditLabelTitle}"></h:outputText>
+        </ui:define>
+		<ui:define name="menu">
+            <h:form>
+					<p:commandButton value="#{bundle.ListLabelIndexLink}"
+									 action="/index?faces-redirect=true"
+									 immediate="true"  />
+                    <p:commandButton action="#{labelController.prepareList}" value="#{bundle.ViewLabelShowAllLink}"/>
+                    <p:commandButton action="View?faces-redirect=true" value="#{bundle.EditLabelViewLink}" immediate="true"/>
+			</h:form>
+		</ui:define>
+        <ui:define name="body">
+            <h:panelGroup id="messagePanel" layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            </h:panelGroup>
+            <p:panel header="Extended Characters for copy and paste" 
+                     toggleable="true" 
+                     collapsed="true" 
+                     style="padding: 0px;"
+                     >
+                 <components:extendedCharacters />
+           </p:panel>
+            <h:form>
+                <h:panelGrid columns="2">
+                    <h:outputLabel value="#{bundle.EditLabelLabel_labelid}" for="labelid" />
+                    <h:inputText id="labelid" value="#{labelController.selected.labelid}" title="#{bundle.EditLabelTitle_labelid}" required="true" requiredMessage="#{bundle.EditLabelRequiredMessage_labelid}"/>
+                    <h:outputLabel value="#{bundle.EditLabelLabel_imageid}" for="imageid" />
+                    <h:inputText id="imageid" value="#{labelController.selected.imageid}" title="#{bundle.EditLabelTitle_imageid}" required="true" requiredMessage="#{bundle.EditLabelRequiredMessage_imageid}"/>
+                    <h:outputLabel value="#{bundle.EditLabelLabel_offsettop}" for="offsettop" />
+                    <h:inputText id="offsettop" value="#{labelController.selected.offsettop}" title="#{bundle.EditLabelTitle_offsettop}" />
+                    <h:outputLabel value="#{bundle.EditLabelLabel_offsetleft}" for="offsetleft" />
+                    <h:inputText id="offsetleft" value="#{labelController.selected.offsetleft}" title="#{bundle.EditLabelTitle_offsetleft}" />
+                    <h:outputLabel value="#{bundle.EditLabelLabel_width}" for="width" />
+                    <h:inputText id="width" value="#{labelController.selected.width}" title="#{bundle.EditLabelTitle_width}" />
+                    <h:outputLabel value="#{bundle.EditLabelLabel_height}" for="height" />
+                    <h:inputText id="height" value="#{labelController.selected.height}" title="#{bundle.EditLabelTitle_height}" />
+                    <h:outputLabel value="#{bundle.EditLabelLabel_verbatimtext}" for="verbatimtext" />
+                    <h:inputText id="verbatimtext" value="#{labelController.selected.verbatimtext}" title="#{bundle.EditLabelTitle_verbatimtext}" />
+                    <h:outputLabel value="#{bundle.EditLabelLabel_interpretation}" for="interpretation" />
+                    <h:inputTextarea rows="4" cols="30" id="interpretation" value="#{labelController.selected.interpretation}" title="#{bundle.EditLabelTitle_interpretation}" />
+                </h:panelGrid>
+                <h:commandButton action="#{labelController.update}" value="#{bundle.EditLabelSaveLink}"/>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>

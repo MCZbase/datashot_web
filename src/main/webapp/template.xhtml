@@ -1,0 +1,37 @@
+<?xml version='1.0' encoding='UTF-8' ?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui"
+	xmlns:components="http://java.sun.com/jsf/composite/components"><f:view contentType="text/html" encoding="UTF-8"><h:head>
+<f:facet name="first">
+       <meta content='text/html; charset=UTF-8' http-equiv="Content-Type"/>
+       <title><ui:insert name="title">Default Title</ui:insert></title>
+       <h:outputStylesheet library="css" name="styles.css" />
+</f:facet>    
+</h:head>
+<h:body>
+    <p:growl id="messages" showDetail="true" life="5000" />
+    <p:growl name="growl" id="growl" showDetail="true" life="5000" autoUpdate="false" />
+    <p:toolbar  >
+        <p:toolbarGroup align="left">
+            <p:graphicImage name="images/IMG_042798_small.JPG" height="30" alt="Butterfly" />
+        </p:toolbarGroup>
+        <p:toolbarGroup align="left">
+            <div id="menubar">
+                <ui:insert name="menu">Menu bar</ui:insert>
+            </div>
+        </p:toolbarGroup>
+        <p:toolbarGroup align="right">
+            <components:user />
+        </p:toolbarGroup>
+    </p:toolbar>
+    <div id="pagecontent">
+        <ui:insert name="body">Default Body</ui:insert>
+    </div>
+    <components:chat collapsed="true" />
+    <components:footer />
+</h:body>
+</f:view>
+</html>

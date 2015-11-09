@@ -1,0 +1,55 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+	  xmlns:p="http://primefaces.org/ui"
+      >
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.CreateImageTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:panelGroup id="messagePanel" layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            </h:panelGroup>
+            <h:form>
+                <h:panelGrid columns="2">
+                    <h:outputLabel value="#{bundle.CreateImageLabel_imageId}" for="imageId" />
+                    <h:inputText id="imageId" value="#{imageController.selected.imageId}" title="#{bundle.CreateImageTitle_imageId}" required="true" requiredMessage="#{bundle.CreateImageRequiredMessage_imageId}"/>
+                    <h:outputLabel value="#{bundle.CreateImageLabel_rawBarcode}" for="rawBarcode" />
+                    <h:inputText id="rawBarcode" value="#{imageController.selected.rawBarcode}" title="#{bundle.CreateImageTitle_rawBarcode}" />
+                    <h:outputLabel value="#{bundle.CreateImageLabel_filename}" for="filename" />
+                    <h:inputText id="filename" value="#{imageController.selected.filename}" title="#{bundle.CreateImageTitle_filename}" />
+                    <h:outputLabel value="#{bundle.CreateImageLabel_rawOCR}" for="rawOCR" />
+                    <h:inputTextarea rows="4" cols="30" id="rawOCR" value="#{imageController.selected.rawOCR}" title="#{bundle.CreateImageTitle_rawOCR}" />
+                    <h:outputLabel value="#{bundle.CreateImageLabel_path}" for="path" />
+                    <h:inputText id="path" value="#{imageController.selected.path}" title="#{bundle.CreateImageTitle_path}" />
+                    <h:outputLabel value="#{bundle.CreateImageLabel_uri}" for="uri" />
+                    <h:inputText id="uri" value="#{imageController.selected.uri}" title="#{bundle.CreateImageTitle_uri}" />
+                    <h:outputLabel value="#{bundle.CreateImageLabel_rawExifBarcode}" for="rawExifBarcode" />
+                    <h:inputText id="rawExifBarcode" value="#{imageController.selected.rawExifBarcode}" title="#{bundle.CreateImageTitle_rawExifBarcode}" />
+                    <h:outputLabel value="#{bundle.CreateImageLabel_templateId}" for="templateId" />
+                    <h:inputText id="templateId" value="#{imageController.selected.templateId}" title="#{bundle.CreateImageTitle_templateId}" />
+                    <h:outputLabel value="#{bundle.CreateImageLabel_drawernumber}" for="drawernumber" />
+                    <h:inputText id="drawernumber" value="#{imageController.selected.drawernumber}" title="#{bundle.CreateImageTitle_drawernumber}" />
+                    <h:outputLabel value="#{bundle.CreateImageLabel_specimenId}" for="specimenId" />
+                    <h:selectOneMenu id="specimenId" value="#{imageController.selected.specimenId}" title="#{bundle.CreateImageTitle_specimenId}" >
+                        <f:selectItems value="#{specimenController.itemsAvailableSelectOne}"/>
+                    </h:selectOneMenu>
+                </h:panelGrid>
+                <br />
+                <h:commandLink action="#{imageController.create}" value="#{bundle.CreateImageSaveLink}" />
+                <br />
+                <br />
+                <h:commandLink action="#{imageController.prepareList}" value="#{bundle.CreateImageShowAllLink}" immediate="true"/>
+                <br />
+                <br />
+                <h:commandLink value="#{bundle.CreateImageIndexLink}" action="/index" immediate="true" />
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>

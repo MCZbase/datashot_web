@@ -1,0 +1,91 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.CreateTemplateTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:panelGroup id="messagePanel" layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            </h:panelGroup>
+            <h:form>
+                <h:panelGrid columns="2">
+                    <h:outputLabel value="#{bundle.CreateTemplateLabel_templateId}" for="templateId" />
+                    <h:inputText id="templateId" value="#{templateController.selected.templateId}" title="#{bundle.CreateTemplateTitle_templateId}" required="true" requiredMessage="#{bundle.CreateTemplateRequiredMessage_templateId}"/>
+                    <h:outputLabel value="#{bundle.CreateTemplateLabel_templateName}" for="templateName" />
+                    <h:inputText id="templateName" value="#{templateController.selected.templateName}" title="#{bundle.CreateTemplateTitle_templateName}" />
+                    <h:outputLabel value="#{bundle.CreateTemplateLabel_imageSizeX}" for="imageSizeX" />
+                    <h:inputText id="imageSizeX" value="#{templateController.selected.imageSizeX}" title="#{bundle.CreateTemplateTitle_imageSizeX}" />
+                    <h:outputLabel value="#{bundle.CreateTemplateLabel_imageSizeY}" for="imageSizeY" />
+                    <h:inputText id="imageSizeY" value="#{templateController.selected.imageSizeY}" title="#{bundle.CreateTemplateTitle_imageSizeY}" />
+                    <h:outputLabel value="#{bundle.CreateTemplateLabel_barcodePositionX}" for="barcodePositionX" />
+                    <h:inputText id="barcodePositionX" value="#{templateController.selected.barcodePositionX}" title="#{bundle.CreateTemplateTitle_barcodePositionX}" />
+                    <h:outputLabel value="#{bundle.CreateTemplateLabel_barcodePositionY}" for="barcodePositionY" />
+                    <h:inputText id="barcodePositionY" value="#{templateController.selected.barcodePositionY}" title="#{bundle.CreateTemplateTitle_barcodePositionY}" />
+                    <h:outputLabel value="#{bundle.CreateTemplateLabel_barcodeSizeX}" for="barcodeSizeX" />
+                    <h:inputText id="barcodeSizeX" value="#{templateController.selected.barcodeSizeX}" title="#{bundle.CreateTemplateTitle_barcodeSizeX}" />
+                    <h:outputLabel value="#{bundle.CreateTemplateLabel_barcodeSizeY}" for="barcodeSizeY" />
+                    <h:inputText id="barcodeSizeY" value="#{templateController.selected.barcodeSizeY}" title="#{bundle.CreateTemplateTitle_barcodeSizeY}" />
+                    <h:outputLabel value="#{bundle.CreateTemplateLabel_specimenPositionX}" for="specimenPositionX" />
+                    <h:inputText id="specimenPositionX" value="#{templateController.selected.specimenPositionX}" title="#{bundle.CreateTemplateTitle_specimenPositionX}" />
+                    <h:outputLabel value="#{bundle.CreateTemplateLabel_specimenPositionY}" for="specimenPositionY" />
+                    <h:inputText id="specimenPositionY" value="#{templateController.selected.specimenPositionY}" title="#{bundle.CreateTemplateTitle_specimenPositionY}" />
+                    <h:outputLabel value="#{bundle.CreateTemplateLabel_specimenSizeX}" for="specimenSizeX" />
+                    <h:inputText id="specimenSizeX" value="#{templateController.selected.specimenSizeX}" title="#{bundle.CreateTemplateTitle_specimenSizeX}" />
+                    <h:outputLabel value="#{bundle.CreateTemplateLabel_specimenSizeY}" for="specimenSizeY" />
+                    <h:inputText id="specimenSizeY" value="#{templateController.selected.specimenSizeY}" title="#{bundle.CreateTemplateTitle_specimenSizeY}" />
+                    <h:outputLabel value="#{bundle.CreateTemplateLabel_textPositionX}" for="textPositionX" />
+                    <h:inputText id="textPositionX" value="#{templateController.selected.textPositionX}" title="#{bundle.CreateTemplateTitle_textPositionX}" />
+                    <h:outputLabel value="#{bundle.CreateTemplateLabel_textPositionY}" for="textPositionY" />
+                    <h:inputText id="textPositionY" value="#{templateController.selected.textPositionY}" title="#{bundle.CreateTemplateTitle_textPositionY}" />
+                    <h:outputLabel value="#{bundle.CreateTemplateLabel_textSizeX}" for="textSizeX" />
+                    <h:inputText id="textSizeX" value="#{templateController.selected.textSizeX}" title="#{bundle.CreateTemplateTitle_textSizeX}" />
+                    <h:outputLabel value="#{bundle.CreateTemplateLabel_textSizeY}" for="textSizeY" />
+                    <h:inputText id="textSizeY" value="#{templateController.selected.textSizeY}" title="#{bundle.CreateTemplateTitle_textSizeY}" />
+                    <h:outputLabel value="#{bundle.CreateTemplateLabel_labelPositionX}" for="labelPositionX" />
+                    <h:inputText id="labelPositionX" value="#{templateController.selected.labelPositionX}" title="#{bundle.CreateTemplateTitle_labelPositionX}" />
+                    <h:outputLabel value="#{bundle.CreateTemplateLabel_labelPositionY}" for="labelPositionY" />
+                    <h:inputText id="labelPositionY" value="#{templateController.selected.labelPositionY}" title="#{bundle.CreateTemplateTitle_labelPositionY}" />
+                    <h:outputLabel value="#{bundle.CreateTemplateLabel_labelSizeX}" for="labelSizeX" />
+                    <h:inputText id="labelSizeX" value="#{templateController.selected.labelSizeX}" title="#{bundle.CreateTemplateTitle_labelSizeX}" />
+                    <h:outputLabel value="#{bundle.CreateTemplateLabel_labelSizeY}" for="labelSizeY" />
+                    <h:inputText id="labelSizeY" value="#{templateController.selected.labelSizeY}" title="#{bundle.CreateTemplateTitle_labelSizeY}" />
+                    <h:outputLabel value="#{bundle.CreateTemplateLabel_utLabelPositionX}" for="utLabelPositionX" />
+                    <h:inputText id="utLabelPositionX" value="#{templateController.selected.utLabelPositionX}" title="#{bundle.CreateTemplateTitle_utLabelPositionX}" />
+                    <h:outputLabel value="#{bundle.CreateTemplateLabel_utLabelPositionY}" for="utLabelPositionY" />
+                    <h:inputText id="utLabelPositionY" value="#{templateController.selected.utLabelPositionY}" title="#{bundle.CreateTemplateTitle_utLabelPositionY}" />
+                    <h:outputLabel value="#{bundle.CreateTemplateLabel_utLabelSizeX}" for="utLabelSizeX" />
+                    <h:inputText id="utLabelSizeX" value="#{templateController.selected.utLabelSizeX}" title="#{bundle.CreateTemplateTitle_utLabelSizeX}" />
+                    <h:outputLabel value="#{bundle.CreateTemplateLabel_utLabelSizey}" for="utLabelSizey" />
+                    <h:inputText id="utLabelSizey" value="#{templateController.selected.utLabelSizey}" title="#{bundle.CreateTemplateTitle_utLabelSizey}" />
+                    <h:outputLabel value="#{bundle.CreateTemplateLabel_editable}" for="editable" />
+                    <h:inputText id="editable" value="#{templateController.selected.editable}" title="#{bundle.CreateTemplateTitle_editable}" required="true" requiredMessage="#{bundle.CreateTemplateRequiredMessage_editable}"/>
+                    <h:outputLabel value="#{bundle.CreateTemplateLabel_referenceImage}" for="referenceImage" />
+                    <h:inputText id="referenceImage" value="#{templateController.selected.referenceImage}" title="#{bundle.CreateTemplateTitle_referenceImage}" />
+                    <h:outputLabel value="#{bundle.CreateTemplateLabel_utBarcodePositionX}" for="utBarcodePositionX" />
+                    <h:inputText id="utBarcodePositionX" value="#{templateController.selected.utBarcodePositionX}" title="#{bundle.CreateTemplateTitle_utBarcodePositionX}" />
+                    <h:outputLabel value="#{bundle.CreateTemplateLabel_utBarcodePositionY}" for="utBarcodePositionY" />
+                    <h:inputText id="utBarcodePositionY" value="#{templateController.selected.utBarcodePositionY}" title="#{bundle.CreateTemplateTitle_utBarcodePositionY}" />
+                    <h:outputLabel value="#{bundle.CreateTemplateLabel_utBarcodeSizeX}" for="utBarcodeSizeX" />
+                    <h:inputText id="utBarcodeSizeX" value="#{templateController.selected.utBarcodeSizeX}" title="#{bundle.CreateTemplateTitle_utBarcodeSizeX}" />
+                    <h:outputLabel value="#{bundle.CreateTemplateLabel_utBarcodeSizeY}" for="utBarcodeSizeY" />
+                    <h:inputText id="utBarcodeSizeY" value="#{templateController.selected.utBarcodeSizeY}" title="#{bundle.CreateTemplateTitle_utBarcodeSizeY}" />
+                </h:panelGrid>
+                <br />
+                <h:commandLink action="#{templateController.create}" value="#{bundle.CreateTemplateSaveLink}" />
+                <br />
+                <br />
+                <h:commandLink action="#{templateController.prepareList}" value="#{bundle.CreateTemplateShowAllLink}" immediate="true"/>
+                <br />
+                <br />
+                <h:commandLink value="#{bundle.CreateTemplateIndexLink}" action="/index" immediate="true" />
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>

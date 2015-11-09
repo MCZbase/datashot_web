@@ -1,0 +1,143 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      >
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.CreateSpecimenTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="menu">
+            <h:form>
+                <p:commandButton
+                        value="#{bundle.EditSpecimenIndexLink}"
+                        action="/index?faces-redirect=true"
+                        ajax="false"
+                        immediate="true" />
+                <p:commandButton
+                        action="#{specimenController.prepareList}"
+                        value="#{bundle.EditSpecimenShowAllLink}"
+                        ajax="false"
+                        immediate="true"/>
+            </h:form>
+        </ui:define>        
+        <ui:define name="body">
+            <h:panelGroup id="messagePanel" layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            </h:panelGroup>
+            <h:form>
+                <h:panelGrid columns="2">
+                    <h:outputLabel value="#{bundle.CreateSpecimenLabel_specimenId}" for="specimenId" />
+                    <h:inputText id="specimenId" value="#{specimenController.selected.specimenId}" title="#{bundle.CreateSpecimenTitle_specimenId}" required="true" requiredMessage="#{bundle.CreateSpecimenRequiredMessage_specimenId}"/>
+                    <h:outputLabel value="#{bundle.CreateSpecimenLabel_barcode}" for="barcode" />
+                    <h:inputText id="barcode" value="#{specimenController.selected.barcode}" title="#{bundle.CreateSpecimenTitle_barcode}" required="true" requiredMessage="#{bundle.CreateSpecimenRequiredMessage_barcode}"/>
+                    <h:outputLabel value="#{bundle.CreateSpecimenLabel_drawerNumber}" for="drawerNumber" />
+                    <h:inputText id="drawerNumber" value="#{specimenController.selected.drawerNumber}" title="#{bundle.CreateSpecimenTitle_drawerNumber}" />
+                    <h:outputLabel value="#{bundle.CreateSpecimenLabel_typeStatus}" for="typeStatus" />
+                    <h:inputText id="typeStatus" value="#{specimenController.selected.typeStatus}" title="#{bundle.CreateSpecimenTitle_typeStatus}" required="true" requiredMessage="#{bundle.CreateSpecimenRequiredMessage_typeStatus}"/>
+                    <h:outputLabel value="#{bundle.CreateSpecimenLabel_typeNumber}" for="typeNumber" />
+                    <h:inputText id="typeNumber" value="#{specimenController.selected.typeNumber}" title="#{bundle.CreateSpecimenTitle_typeNumber}" />
+                    <h:outputLabel value="#{bundle.CreateSpecimenLabel_citedInPublication}" for="citedInPublication" />
+                    <h:inputText id="citedInPublication" value="#{specimenController.selected.citedInPublication}" title="#{bundle.CreateSpecimenTitle_citedInPublication}" />
+                    <h:outputLabel value="#{bundle.CreateSpecimenLabel_features}" for="features" />
+                    <h:inputText id="features" value="#{specimenController.selected.features}" title="#{bundle.CreateSpecimenTitle_features}" />
+                    <h:outputLabel value="#{bundle.CreateSpecimenLabel_family}" for="family" />
+                    <h:inputText id="family" value="#{specimenController.selected.family}" title="#{bundle.CreateSpecimenTitle_family}" />
+                    <h:outputLabel value="#{bundle.CreateSpecimenLabel_subfamily}" for="subfamily" />
+                    <h:inputText id="subfamily" value="#{specimenController.selected.subfamily}" title="#{bundle.CreateSpecimenTitle_subfamily}" />
+                    <h:outputLabel value="#{bundle.CreateSpecimenLabel_tribe}" for="tribe" />
+                    <h:inputText id="tribe" value="#{specimenController.selected.tribe}" title="#{bundle.CreateSpecimenTitle_tribe}" />
+                    <h:outputLabel value="#{bundle.CreateSpecimenLabel_genus}" for="genus" />
+                    <h:inputText id="genus" value="#{specimenController.selected.genus}" title="#{bundle.CreateSpecimenTitle_genus}" />
+                    <h:outputLabel value="#{bundle.CreateSpecimenLabel_specificEpithet}" for="specificEpithet" />
+                    <h:inputText id="specificEpithet" value="#{specimenController.selected.specificEpithet}" title="#{bundle.CreateSpecimenTitle_specificEpithet}" />
+                    <h:outputLabel value="#{bundle.CreateSpecimenLabel_subspecificEpithet}" for="subspecificEpithet" />
+                    <h:inputText id="subspecificEpithet" value="#{specimenController.selected.subspecificEpithet}" title="#{bundle.CreateSpecimenTitle_subspecificEpithet}" />
+                    <h:outputLabel value="#{bundle.CreateSpecimenLabel_infraspecificEpithet}" for="infraspecificEpithet" />
+                    <h:inputText id="infraspecificEpithet" value="#{specimenController.selected.infraspecificEpithet}" title="#{bundle.CreateSpecimenTitle_infraspecificEpithet}" />
+                    <h:outputLabel value="#{bundle.CreateSpecimenLabel_infraspecificRank}" for="infraspecificRank" />
+                    <h:inputText id="infraspecificRank" value="#{specimenController.selected.infraspecificRank}" title="#{bundle.CreateSpecimenTitle_infraspecificRank}" />
+                    <h:outputLabel value="#{bundle.CreateSpecimenLabel_authorship}" for="authorship" />
+                    <h:inputText id="authorship" value="#{specimenController.selected.authorship}" title="#{bundle.CreateSpecimenTitle_authorship}" />
+                    <h:outputLabel value="#{bundle.CreateSpecimenLabel_unNamedForm}" for="unNamedForm" />
+                    <h:inputText id="unNamedForm" value="#{specimenController.selected.unNamedForm}" title="#{bundle.CreateSpecimenTitle_unNamedForm}" />
+                    <h:outputLabel value="#{bundle.CreateSpecimenLabel_identifiedBy}" for="identifiedBy" />
+                    <h:inputText id="identifiedBy" value="#{specimenController.selected.identifiedBy}" title="#{bundle.CreateSpecimenTitle_identifiedBy}" />
+                    <h:outputLabel value="#{bundle.CreateSpecimenLabel_country}" for="country" />
+                    <h:inputText id="country" value="#{specimenController.selected.country}" title="#{bundle.CreateSpecimenTitle_country}" />
+                    <h:outputLabel value="#{bundle.CreateSpecimenLabel_primaryDivison}" for="primaryDivison" />
+                    <h:inputText id="primaryDivison" value="#{specimenController.selected.primaryDivison}" title="#{bundle.CreateSpecimenTitle_primaryDivison}" />
+                    <h:outputLabel value="#{bundle.CreateSpecimenLabel_specificLocality}" for="specificLocality" />
+                    <h:inputTextarea rows="4" cols="30" id="specificLocality" value="#{specimenController.selected.specificLocality}" title="#{bundle.CreateSpecimenTitle_specificLocality}" />
+                    <h:outputLabel value="#{bundle.CreateSpecimenLabel_verbatimLocality}" for="verbatimLocality" />
+                    <h:inputTextarea rows="4" cols="30" id="verbatimLocality" value="#{specimenController.selected.verbatimLocality}" title="#{bundle.CreateSpecimenTitle_verbatimLocality}" />
+                    <h:outputLabel value="#{bundle.CreateSpecimenLabel_verbatimElevation}" for="verbatimElevation" />
+                    <h:inputText id="verbatimElevation" value="#{specimenController.selected.verbatimElevation}" title="#{bundle.CreateSpecimenTitle_verbatimElevation}" />
+                    <h:outputLabel value="#{bundle.CreateSpecimenLabel_collectingMethod}" for="collectingMethod" />
+                    <h:inputText id="collectingMethod" value="#{specimenController.selected.collectingMethod}" title="#{bundle.CreateSpecimenTitle_collectingMethod}" />
+                    <h:outputLabel value="#{bundle.CreateSpecimenLabel_dateNOS}" for="dateNOS" />
+                    <h:inputText id="dateNOS" value="#{specimenController.selected.dateNOS}" title="#{bundle.CreateSpecimenTitle_dateNOS}" />
+                    <h:outputLabel value="#{bundle.CreateSpecimenLabel_dateEmerged}" for="dateEmerged" />
+                    <h:inputText id="dateEmerged" value="#{specimenController.selected.dateEmerged}" title="#{bundle.CreateSpecimenTitle_dateEmerged}" />
+                    <h:outputLabel value="#{bundle.CreateSpecimenLabel_dateEmergedIndicator}" for="dateEmergedIndicator" />
+                    <h:inputText id="dateEmergedIndicator" value="#{specimenController.selected.dateEmergedIndicator}" title="#{bundle.CreateSpecimenTitle_dateEmergedIndicator}" />
+                    <h:outputLabel value="#{bundle.CreateSpecimenLabel_dateCollected}" for="dateCollected" />
+                    <h:inputText id="dateCollected" value="#{specimenController.selected.dateCollected}" title="#{bundle.CreateSpecimenTitle_dateCollected}" />
+                    <h:outputLabel value="#{bundle.CreateSpecimenLabel_dateCollectedIndicator}" for="dateCollectedIndicator" />
+                    <h:inputText id="dateCollectedIndicator" value="#{specimenController.selected.dateCollectedIndicator}" title="#{bundle.CreateSpecimenTitle_dateCollectedIndicator}" />
+                    <h:outputLabel value="#{bundle.CreateSpecimenLabel_collection}" for="collection" />
+                    <h:inputText id="collection" value="#{specimenController.selected.collection}" title="#{bundle.CreateSpecimenTitle_collection}" />
+                    <h:outputLabel value="#{bundle.CreateSpecimenLabel_specimenNotes}" for="specimenNotes" />
+                    <h:inputTextarea rows="4" cols="30" id="specimenNotes" value="#{specimenController.selected.specimenNotes}" title="#{bundle.CreateSpecimenTitle_specimenNotes}" />
+                    <h:outputLabel value="#{bundle.CreateSpecimenLabel_lifeStage}" for="lifeStage" />
+                    <h:inputText id="lifeStage" value="#{specimenController.selected.lifeStage}" title="#{bundle.CreateSpecimenTitle_lifeStage}" />
+                    <h:outputLabel value="#{bundle.CreateSpecimenLabel_habitat}" for="habitat" />
+                    <h:inputText id="habitat" value="#{specimenController.selected.habitat}" title="#{bundle.CreateSpecimenTitle_habitat}" />
+                    <h:outputLabel value="#{bundle.CreateSpecimenLabel_associatedTaxon}" for="associatedTaxon" />
+                    <h:inputText id="associatedTaxon" value="#{specimenController.selected.associatedTaxon}" title="#{bundle.CreateSpecimenTitle_associatedTaxon}" />
+                    <h:outputLabel value="#{bundle.CreateSpecimenLabel_questions}" for="questions" />
+                    <h:inputText id="questions" value="#{specimenController.selected.questions}" title="#{bundle.CreateSpecimenTitle_questions}" />
+                    <h:outputLabel value="#{bundle.CreateSpecimenLabel_inferences}" for="inferences" />
+                    <h:inputText id="inferences" value="#{specimenController.selected.inferences}" title="#{bundle.CreateSpecimenTitle_inferences}" />
+                    <h:outputLabel value="#{bundle.CreateSpecimenLabel_locationInCollection}" for="locationInCollection" />
+                    <h:inputText id="locationInCollection" value="#{specimenController.selected.locationInCollection}" title="#{bundle.CreateSpecimenTitle_locationInCollection}" />
+                    <h:outputLabel value="#{bundle.CreateSpecimenLabel_workFlowStatus}" for="workFlowStatus" />
+                    <h:inputText id="workFlowStatus" value="#{specimenController.selected.workFlowStatus}" title="#{bundle.CreateSpecimenTitle_workFlowStatus}" />
+                    <h:outputLabel value="#{bundle.CreateSpecimenLabel_createdBy}" for="createdBy" />
+                    <h:inputText id="createdBy" value="#{specimenController.selected.createdBy}" title="#{bundle.CreateSpecimenTitle_createdBy}" />
+                    <h:outputLabel value="#{bundle.CreateSpecimenLabel_dateCreated}" for="dateCreated" />
+                    <h:inputText id="dateCreated" value="#{specimenController.selected.dateCreated}" title="#{bundle.CreateSpecimenTitle_dateCreated}" required="true" requiredMessage="#{bundle.CreateSpecimenRequiredMessage_dateCreated}">
+                        <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                    </h:inputText>
+                    <h:outputLabel value="#{bundle.CreateSpecimenLabel_dateLastUpdated}" for="dateLastUpdated" />
+                    <h:inputText id="dateLastUpdated" value="#{specimenController.selected.dateLastUpdated}" title="#{bundle.CreateSpecimenTitle_dateLastUpdated}" >
+                        <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                    </h:inputText>
+                    <h:outputLabel value="#{bundle.CreateSpecimenLabel_lastUpdatedBy}" for="lastUpdatedBy" />
+                    <h:inputText id="lastUpdatedBy" value="#{specimenController.selected.lastUpdatedBy}" title="#{bundle.CreateSpecimenTitle_lastUpdatedBy}" />
+                    <h:outputLabel value="#{bundle.CreateSpecimenLabel_validDistributionFlag}" for="validDistributionFlag" />
+                    <h:inputText id="validDistributionFlag" value="#{specimenController.selected.validDistributionFlag}" title="#{bundle.CreateSpecimenTitle_validDistributionFlag}" />
+                    <h:outputLabel value="#{bundle.CreateSpecimenLabel_sex}" for="sex" />
+                    <h:inputText id="sex" value="#{specimenController.selected.sex}" title="#{bundle.CreateSpecimenTitle_sex}" />
+                    <h:outputLabel value="#{bundle.CreateSpecimenLabel_ISODate}" for="ISODate" />
+                    <h:inputText id="ISODate" value="#{specimenController.selected.ISODate}" title="#{bundle.CreateSpecimenTitle_ISODate}" />
+                    <h:outputLabel value="#{bundle.CreateSpecimenLabel_tracking1Collection}" for="tracking1Collection" />
+                    <h:inputText id="tracking1Collection" value="#{specimenController.selected.tracking1Collection}" title="#{bundle.CreateSpecimenTitle_tracking1Collection}" />
+                </h:panelGrid>
+                <br />
+                <h:commandLink action="#{specimenController.create}" value="#{bundle.CreateSpecimenSaveLink}" />
+                <br />
+                <br />
+                <h:commandLink action="#{specimenController.prepareList}" value="#{bundle.CreateSpecimenShowAllLink}" immediate="true"/>
+                <br />
+                <br />
+                <h:commandLink value="#{bundle.CreateSpecimenIndexLink}" action="/index" immediate="true" />
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>

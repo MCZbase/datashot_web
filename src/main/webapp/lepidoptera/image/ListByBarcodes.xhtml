@@ -1,0 +1,111 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+	  xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.ListImageTitle}"></h:outputText>
+        </ui:define>
+		<ui:define name="menu">
+            <h:form>
+					<p:commandButton value="#{bundle.ListImageIndexLink}"
+									 action="/index?faces-redirect=true"
+									 immediate="true"  />
+					<p:commandButton disabled="#{!loginBean.userFullAccess}"
+									 action="#{imageController.prepareProblemView}"
+									 value="List Problem Images"/>
+					<p:commandButton
+						rendered="#{loginBean.userAdministrator}"
+						action="#{imageController.prepareCreate}"
+						value="#{bundle.ViewImageCreateLink}"
+						immediate="true"/>
+			</h:form>
+		</ui:define>
+        <ui:define name="body">
+			<h:form styleClass="jsfcrud_list_form">
+				<h:panelGroup id="messagePanel" layout="block">
+					<h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+				</h:panelGroup>
+				<h:outputText escape="false" value="#{bundle.ListImageEmpty}" rendered="#{imageController.items.rowCount == 0}"/>
+				<h:commandLink action="#{imageController.prepareListAllBarcodes}" value="Show All"
+							   rendered="#{imageController.items.rowCount == 0}"/>
+				<h:panelGroup>
+					<h:panelGroup layout="block" >
+						<h:outputText value="#{imageController.pagination.pageFirstItem + 1}..#{imageController.pagination.pageLastItem + 1}/#{imageController.pagination.itemsCount}"/>&nbsp;
+						<h:commandLink action="#{imageController.sameReSortBarcodes}" value="Find Images for Barcodes" />
+						<h:outputLabel value="Barcodes" for="it_bar" />
+						<h:inputText id="it_bar" value="#{imageController.barcodeListFilterCriterion}" size="100" label="Comma Separated List of Barcodes (up to #{imageController.pagesize})" />
+					</h:panelGroup>
+					<br/>
+					<h:panelGroup layout="block" >
+				        You can efficiently download all the images linked here with wget or with the Firefox plugin <h:outputLink value="https://addons.mozilla.org/en-US/firefox/addon/downthemall/" >DownThemAll</h:outputLink>.
+					</h:panelGroup>
+					<h:dataTable value="#{imageController.items}" 
+					             var="item" 
+					             border="0" 
+					             cellpadding="2" 
+					             cellspacing="0" 
+					             rowClasses="jsfcrud_odd_row,jsfcrud_even_row" 
+					             rules="all" 
+					             style="border:solid 1px">
+						<h:column>
+							<f:facet name="header">
+								<h:outputText value="#{bundle.ListImageTitle_filename}"/>
+							</f:facet>
+							<h:outputText value="#{item.filename}"/>
+						</h:column>
+						<h:column>
+							<f:facet name="header">
+								<h:outputText value="#{bundle.ListImageTitle_path}"/>
+							</f:facet>
+							<h:outputText value="#{item.path}"/>
+						</h:column>
+						<h:column>
+							<f:facet name="header">
+								<h:outputText value="#{bundle.ListSpecimenTitle_barcode}"/>
+							</f:facet>
+							<h:outputText value="#{item.specimenId.barcode}"/>
+						</h:column>
+						<h:column>
+							<f:facet name="header">
+								<h:outputText value="#{bundle.EditSpecimenLabel_genus}"/>
+							</f:facet>
+							<h:outputText value="#{item.specimenId.genus}"/>
+						</h:column>
+						<h:column>
+							<f:facet name="header">
+								<h:outputText value="#{bundle.EditSpecimenLabel_specificEpithet}"/>
+							</f:facet>
+							<h:outputText value="#{item.specimenId.specificEpithet}"/>
+						</h:column>
+						<h:column>
+							<f:facet name="header">
+								<h:outputText value="#{bundle.EditSpecimenLabel_country}"/>
+							</f:facet>
+							<h:outputText value="#{item.specimenId.country}"/>
+						</h:column>
+						<h:column>
+							<f:facet name="header">
+								<h:outputText value="#{bundle.EditSpecimenLabel_verbatimLocality}"/>
+							</f:facet>
+							<h:outputText value="#{item.specimenId.verbatimLocality}"/>
+						</h:column>
+						<h:column>
+							<f:facet name="header">
+								<h:outputText value="Image"/>
+							</f:facet>
+							<a href="#{imageController.imageURI}/imageserver/image.php?imageid=#{item.imageId}&amp;download=true" >
+								#{item.specimenId.barcode}
+							</a>
+						</h:column>
+					</h:dataTable>
+				</h:panelGroup>
+			</h:form>
+        </ui:define>
+    </ui:composition>
+</html>

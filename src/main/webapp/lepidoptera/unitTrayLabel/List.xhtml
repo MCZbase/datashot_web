@@ -1,0 +1,165 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+	  xmlns:p="http://primefaces.org/ui"
+      >
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.ListUnitTrayLabelTitle}"></h:outputText>
+        </ui:define>
+		<ui:define name="menu">
+            <h:form>
+					<p:commandButton value="#{bundle.ListTagIndexLink}"
+									 action="/index?faces-redirect=true"
+									 immediate="true"  />
+					<p:commandButton disabled="#{!loginBean.userChiefEditor}"
+                                     action="#{unitTrayLabelController.prepareCreate}"
+									 value="#{bundle.ListUnitTrayLabelCreateLink}"/>
+			</h:form>
+		</ui:define>
+        <ui:define name="body">
+        <h:form styleClass="jsfcrud_list_form">
+            <h:panelGroup id="messagePanel" layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            </h:panelGroup>
+
+			<h:outputText escape="false" value="#{bundle.ListUnitTrayLabelEmpty}" rendered="#{unitTrayLabelController.items.rowCount == 0}"/>
+
+            <h:panelGroup rendered="#{unitTrayLabelController.items.rowCount > 0}">
+                <h:outputText value="#{unitTrayLabelController.pagination.pageFirstItem + 1}..#{unitTrayLabelController.pagination.pageLastItem + 1}/#{unitTrayLabelController.pagination.itemsCount}"/>&nbsp;
+                <h:commandLink action="#{unitTrayLabelController.previous}" value="#{bundle.Previous} #{unitTrayLabelController.pagination.pageSize}" rendered="#{unitTrayLabelController.pagination.hasPreviousPage}"/>&nbsp;
+                <h:commandLink action="#{unitTrayLabelController.next}" value="#{bundle.Next} #{unitTrayLabelController.pagination.pageSize}" rendered="#{unitTrayLabelController.pagination.hasNextPage}"/>&nbsp;
+                <h:dataTable value="#{unitTrayLabelController.items}" var="item" border="0" cellpadding="2" cellspacing="0" rowClasses="jsfcrud_odd_row,jsfcrud_even_row" rules="all" style="border:solid 1px">
+                    <h:column rendered="#{loginBean.userChiefEditor}" >
+                        <f:facet name="header">
+                            <h:outputText value="&nbsp;"/>
+                        </f:facet>
+                        <h:commandLink action="#{unitTrayLabelController.prepareView}" value="#{bundle.ListUnitTrayLabelViewLink}"/>
+                        <h:outputText value=" "/>
+                        <h:commandLink action="#{unitTrayLabelController.prepareEdit}" value="#{bundle.ListUnitTrayLabelEditLink}"/>
+                        <h:outputText value=" "/>
+                        <h:commandLink action="#{unitTrayLabelController.destroy}" value="#{bundle.ListUnitTrayLabelDestroyLink}"/>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{bundle.ListUnitTrayLabelTitle_id}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.id}"/>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{bundle.ListUnitTrayLabelTitle_family}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.family}"/>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{bundle.ListUnitTrayLabelTitle_subfamily}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.subfamily}"/>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{bundle.ListUnitTrayLabelTitle_tribe}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.tribe}"/>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{bundle.ListUnitTrayLabelTitle_genus}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.genus}"/>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{bundle.ListUnitTrayLabelTitle_specificEpithet}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.specificEpithet}"/>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{bundle.ListUnitTrayLabelTitle_subspecificEpithet}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.subspecificEpithet}"/>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{bundle.ListUnitTrayLabelTitle_infraspecificEpithet}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.infraspecificEpithet}"/>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{bundle.ListUnitTrayLabelTitle_infraspecificRank}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.infraspecificRank}"/>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{bundle.ListUnitTrayLabelTitle_authorship}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.authorship}"/>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{bundle.ListUnitTrayLabelTitle_drawerNumber}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.drawerNumber}"/>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{bundle.ListUnitTrayLabelTitle_unNamedForm}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.unNamedForm}"/>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{bundle.ListUnitTrayLabelTitle_printed}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.printed}"/>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{bundle.ListUnitTrayLabelTitle_numberToPrint}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.numberToPrint}"/>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{bundle.ListUnitTrayLabelTitle_dateCreated}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.dateCreated}">
+                            <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                        </h:outputText>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{bundle.ListUnitTrayLabelTitle_dateLastUpdated}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.dateLastUpdated}">
+                            <f:convertDateTime pattern="MM/dd/yyyy" />
+                        </h:outputText>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">
+                            <h:outputText value="Collection"/>
+                        </f:facet>
+                        <h:outputText value="#{item.collection}"/>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">
+                            <h:outputText value="Order"/>
+                        </f:facet>
+                        <h:outputText value="#{item.ordinal}"/>
+                    </h:column>
+                </h:dataTable>
+            </h:panelGroup>
+        </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>

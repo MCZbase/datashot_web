@@ -1,0 +1,39 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.CreateLabelTagTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:panelGroup id="messagePanel" layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            </h:panelGroup>
+            <h:form>
+                <h:panelGrid columns="2">
+                    <h:outputLabel value="#{bundle.CreateLabelTagLabel_labeltagid}" for="labeltagid" />
+                    <h:inputText id="labeltagid" value="#{labelTagController.selected.labeltagid}" title="#{bundle.CreateLabelTagTitle_labeltagid}" required="true" requiredMessage="#{bundle.CreateLabelTagRequiredMessage_labeltagid}"/>
+                    <h:outputLabel value="#{bundle.CreateLabelTagLabel_labelid}" for="labelid" />
+                    <h:inputText id="labelid" value="#{labelTagController.selected.labelid}" title="#{bundle.CreateLabelTagTitle_labelid}" required="true" requiredMessage="#{bundle.CreateLabelTagRequiredMessage_labelid}"/>
+                    <h:outputLabel value="#{bundle.CreateLabelTagLabel_value}" for="value" />
+                    <h:inputText id="value" value="#{labelTagController.selected.value}" title="#{bundle.CreateLabelTagTitle_value}" required="true" requiredMessage="#{bundle.CreateLabelTagRequiredMessage_value}"/>
+                    <h:outputLabel value="#{bundle.CreateLabelTagLabel_tagname}" for="tagname" />
+                    <h:inputText id="tagname" value="#{labelTagController.selected.tagname}" title="#{bundle.CreateLabelTagTitle_tagname}" required="true" requiredMessage="#{bundle.CreateLabelTagRequiredMessage_tagname}"/>
+                </h:panelGrid>
+                <br />
+                <h:commandLink action="#{labelTagController.create}" value="#{bundle.CreateLabelTagSaveLink}" />
+                <br />
+                <br />
+                <h:commandLink action="#{labelTagController.prepareList}" value="#{bundle.CreateLabelTagShowAllLink}" immediate="true"/>
+                <br />
+                <br />
+                <h:commandLink value="#{bundle.CreateLabelTagIndexLink}" action="/index" immediate="true" />
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>

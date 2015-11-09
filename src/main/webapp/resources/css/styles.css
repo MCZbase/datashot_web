@@ -1,0 +1,74 @@
+/* 
+    Document   : styles
+    Created on : Apr 19, 2010, 11:25:03 AM
+    Author     : mole
+    Description: Global styling tweaks for lepidoptera application
+    
+*/
+
+/*  Modifications to style to allow more form elements on one page */
+
+.ui-widget, .ui-widget .ui-widget { 
+    font-size: 85% !important;    /* Font size for controls */
+    padding: 2px;                 /* To reduce space taken up by styled inputs. */
+    margin: 0px;
+}
+
+.ui-widget .ui-button { 
+   padding: 0px;                  /* To reduce space taken up by buttons */ 
+   margin: 0px;
+}
+
+#mainForm input { 
+        margin-top: -1px;         /* hack to reduce the spacing of text inputs on form */
+        margin-bottom: -1px;
+}
+
+.ui-panel .ui-panel-content td
+{
+  margin: 0px;                    /* Also helps reduce the spacing of controls on form layout */
+  padding: 0px;
+  border-image-width: 0 0 0 0;
+}
+
+rf_cp_b:td {
+    padding: 0px;                 /* Also helps reduce the spacing of controls on form layout */
+    margin: 0px;
+}
+
+/* General skinning of web application */
+
+body {
+   background-color: #eeeeff;
+   background-image: url("/ic/faces/javax.faces.resource/background.png?ln=images")
+}
+
+#pagecontent {
+   background-color: #eeeeff;
+   background-image: none;
+}
+
+#login {
+    background-color: #ffffff;
+    border-width: 2px;
+    border-style: solid;
+    padding: 2px;
+}
+
+.componentHeading {
+    font-size: larger;
+    font-weight: bold;
+}
+
+/* Used on (older) non-primefaces tables to highlight alternate rows */
+
+tr.jsfcrud_odd_row {
+    background-color: #fefeff;
+    color: #4e6a71;
+}
+
+
+tr.jsfcrud_even_row {
+    background-color: #eff5fa;
+    color: #4e6a71;
+}

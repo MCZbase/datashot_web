@@ -1,0 +1,52 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      >
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.CreateCollectorTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="menu">
+            <h:form>
+                    <p:commandButton value="#{bundle.ListSpecimenIndexLink}"
+                                     action="/index?faces-redirect=true"
+                                     immediate="true"  />
+                    <p:commandButton
+                              action="#{collectorController.prepareList}"
+                              value="#{bundle.EditCollectorShowAllLink}"
+                              immediate="true"/>
+            </h:form>
+        </ui:define>        
+        <ui:define name="body">
+            <h:panelGroup id="messagePanel" layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            </h:panelGroup>
+            <h:form>
+                <h:panelGrid columns="2">
+                    <h:outputLabel value="#{bundle.CreateCollectorLabel_collectorId}" for="collectorId" />
+                    <h:inputText id="collectorId" value="#{collectorController.selected.collectorId}" title="#{bundle.CreateCollectorTitle_collectorId}" required="true" requiredMessage="#{bundle.CreateCollectorRequiredMessage_collectorId}"/>
+                    <h:outputLabel value="#{bundle.CreateCollectorLabel_collectorName}" for="collectorName" />
+                    <h:inputText id="collectorName" value="#{collectorController.selected.collectorName}" title="#{bundle.CreateCollectorTitle_collectorName}" />
+                    <h:outputLabel value="#{bundle.CreateCollectorLabel_specimenId}" for="specimenId" />
+                    <h:selectOneMenu id="specimenId" value="#{collectorController.selected.specimenId}" title="#{bundle.CreateCollectorTitle_specimenId}" required="true" requiredMessage="#{bundle.CreateCollectorRequiredMessage_specimenId}">
+                        <f:selectItems value="#{specimenController.itemsAvailableSelectOne}"/>
+                    </h:selectOneMenu>
+                </h:panelGrid>
+                <br />
+                <h:commandLink action="#{collectorController.create}" value="#{bundle.CreateCollectorSaveLink}" />
+                <br />
+                <br />
+                <h:commandLink action="#{collectorController.prepareList}" value="#{bundle.CreateCollectorShowAllLink}" immediate="true"/>
+                <br />
+                <br />
+                <h:commandLink value="#{bundle.CreateCollectorIndexLink}" action="/index?faces-redirect=true" immediate="true" />
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>

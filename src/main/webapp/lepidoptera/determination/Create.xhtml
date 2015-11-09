@@ -1,0 +1,66 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+	  xmlns:p="http://primefaces.org/ui"
+	  >
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.CreateDeterminationTitle}"></h:outputText>
+        </ui:define>
+		<ui:define name="menu">
+            <h:form>
+					<p:commandButton value="#{bundle.ListDeterminationIndexLink}"
+									 action="/index?faces-redirect=true"
+									 immediate="true"  />
+    	            <p:commandButton action="#{determinationController.prepareList}"
+									 value="#{bundle.EditDeterminationShowAllLink}" immediate="true"/>
+	                <p:commandButton disabled="#{!loginBean.userDataEntry}"
+								     action="#{determinationController.update}"
+								     value="#{bundle.EditDeterminationSaveLink}"/>
+			</h:form>
+		</ui:define>
+        <ui:define name="body">
+            <h:panelGroup id="messagePanel" layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            </h:panelGroup>
+            <h:form>
+                <h:panelGrid columns="2">
+                    <h:outputLabel value="#{bundle.CreateDeterminationLabel_genus}" for="genus" />
+                    <h:inputText id="genus" value="#{determinationController.selected.genus}" title="#{bundle.CreateDeterminationTitle_genus}" />
+                    <h:outputLabel value="#{bundle.CreateDeterminationLabel_specificEpithet}" for="specificEpithet" />
+                    <h:inputText id="specificEpithet" value="#{determinationController.selected.specificEpithet}" title="#{bundle.CreateDeterminationTitle_specificEpithet}" />
+                    <h:outputLabel value="#{bundle.CreateDeterminationLabel_subspecificEpithet}" for="subspecificEpithet" />
+                    <h:inputText id="subspecificEpithet" value="#{determinationController.selected.subspecificEpithet}" title="#{bundle.CreateDeterminationTitle_subspecificEpithet}" />
+                    <h:outputLabel value="#{bundle.CreateDeterminationLabel_infraspecificEpithet}" for="infraspecificEpithet" />
+                    <h:inputText id="infraspecificEpithet" value="#{determinationController.selected.infraspecificEpithet}" title="#{bundle.CreateDeterminationTitle_infraspecificEpithet}" />
+                    <h:outputLabel value="#{bundle.CreateDeterminationLabel_infraspecificRank}" for="infraspecificRank" />
+                    <h:inputText id="infraspecificRank" value="#{determinationController.selected.infraspecificRank}" title="#{bundle.CreateDeterminationTitle_infraspecificRank}" />
+                    <h:outputLabel value="#{bundle.CreateDeterminationLabel_authorship}" for="authorship" />
+                    <h:inputText id="authorship" value="#{determinationController.selected.authorship}" title="#{bundle.CreateDeterminationTitle_authorship}" />
+                    <h:outputLabel value="#{bundle.CreateDeterminationLabel_unNamedForm}" for="unNamedForm" />
+                    <h:inputText id="unNamedForm" value="#{determinationController.selected.unNamedForm}" title="#{bundle.CreateDeterminationTitle_unNamedForm}" />
+                    <h:outputLabel value="#{bundle.CreateDeterminationLabel_identifiedBy}" for="identifiedBy" />
+                    <h:inputText id="identifiedBy" value="#{determinationController.selected.identifiedBy}" title="#{bundle.CreateDeterminationTitle_identifiedBy}" />
+                    <h:outputLabel value="#{bundle.CreateDeterminationLabel_typeStatus}" for="typeStatus" />
+                    <h:inputText id="typeStatus" value="#{determinationController.selected.typeStatus}" title="#{bundle.CreateDeterminationTitle_typeStatus}" />
+                    <h:outputLabel value="#{bundle.CreateDeterminationLabel_speciesNumber}" for="speciesNumber" />
+                    <h:inputText id="speciesNumber" value="#{determinationController.selected.speciesNumber}" title="#{bundle.CreateDeterminationTitle_speciesNumber}" />
+                    <h:outputLabel value="#{bundle.CreateDeterminationLabel_specimenId}" for="specimenId" />
+                    <h:selectOneMenu id="specimenId" value="#{determinationController.selected.specimenId}" title="#{bundle.CreateDeterminationTitle_specimenId}" required="true" requiredMessage="#{bundle.CreateDeterminationRequiredMessage_specimenId}">
+                        <f:selectItems value="#{specimenController.itemsAvailableSelectOne}"/>
+                    </h:selectOneMenu>
+                </h:panelGrid>
+                <p:toolbarGroup>
+                   <p:commandButton action="#{determinationController.create}" value="#{bundle.CreateDeterminationSaveLink}" />
+                   <p:commandButton action="#{determinationController.prepareList}" value="#{bundle.CreateDeterminationShowAllLink}" immediate="true"/>
+                   <p:commandButton value="#{bundle.CreateDeterminationIndexLink}" action="/index?faces-redirect=true immediate="true" />
+				</p:toolbarGroup>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>

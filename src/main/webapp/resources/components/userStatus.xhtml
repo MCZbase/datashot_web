@@ -1,0 +1,60 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:cc="http://java.sun.com/jsf/composite"
+	  xmlns:p="http://primefaces.org/ui"
+      >
+
+  <!-- INTERFACE -->
+  <cc:interface>
+	  <cc:attribute name="showRoles" default="false"  />
+	  <cc:attribute name="showLogout" default="true" />
+  </cc:interface>
+
+  <!-- IMPLEMENTATION -->
+  <cc:implementation>
+	           <h:outputText>User:</h:outputText>
+	           <h:outputText style="white-space:nowrap;" 
+	               value="#{userBean.findByUsername(loginBean.username).fullname} #{loginBean.getState()}" id="currentUserState"/>
+	           <h:form id="userstatus_logout_form"  >
+		          <p:commandButton rendered="#{cc.attrs.showLogout}"
+						   value="#{bundle.Logout}"
+						   action="#{loginBean.logout}"
+						   immediate="true"
+						   />
+	           </h:form>
+	  <p:panel visible="#{cc.attrs.showRoles}" >
+	  <table>
+		  <tr>
+		    <th>Role</th>
+		     <th>Enabled</th>
+		  </tr>
+		  <tr>
+			  <td>Data Entry</td>
+			  <td>#{loginBean.userDataEntry}</td>
+		  </tr>
+		  
+		  <tr>
+			  <td><h:outputText rendered="#{loginBean.userFullAccess}" value="Full Access" /></td>
+			  <td><h:outputText rendered="#{loginBean.userFullAccess}" value="#{loginBean.userFullAccess}" /></td>
+		  </tr>
+		  <tr>
+			  <td><h:outputText rendered="#{loginBean.userEditor}" value="Editor" /></td>
+			  <td><h:outputText rendered="#{loginBean.userEditor}" value="#{loginBean.userEditor}" /></td>
+		  </tr>
+		  
+		  <tr>
+			  <td><h:outputText rendered="#{loginBean.userChiefEditor}" value="Chief Editor" /></td>
+			  <td><h:outputText rendered="#{loginBean.userChiefEditor}" value="#{loginBean.userChiefEditor}" /></td>
+		  </tr>
+		  
+		  <tr>
+			  <td><h:outputText rendered="#{loginBean.userAdministrator}" value="Administrator" /></td>
+			  <td><h:outputText rendered="#{loginBean.userAdministrator}" value="#{loginBean.userAdministrator}" /></td>
+		  </tr>
+	  </table>
+	  </p:panel>
+  </cc:implementation>
+</html>
