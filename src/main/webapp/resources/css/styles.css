@@ -6,6 +6,12 @@
     
 */
 
+/*  Colors to signal fields that need parsing before transfer to database of record   */
+
+.ui-widget.dataNotTransfered { 
+   background-color: #dbd6cd;
+}
+
 /*  Modifications to style to allow more form elements on one page */
 
 .ui-widget, .ui-widget .ui-widget { 

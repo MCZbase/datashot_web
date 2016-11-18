@@ -83,10 +83,11 @@ public class SpecimenController {
 	private boolean sortBySubfamily = true;
 	private boolean sortByGenus = true;
 	private boolean sortBySpecificEpithet = true;
-	private boolean sortByCountry = true;
+	private boolean sortByCountry = true;  
 	private boolean sortByPrimaryDivision = true;
 	private boolean sortByWorkflowStatus = true;
 	private boolean sortByFilename = true;  // image filenames.
+	private boolean sortByHigherGeography = true; 
 	// Filter criteria
 	private String barcodeFilterCriterion = null;
 	private String barcodesFilterCriterion = null;        
@@ -728,6 +729,10 @@ try {
 			current.setHigherGeography(lastEditedSpecimen.getHigherGeography());
 			current.setCountry(lastEditedSpecimen.getCountry());
 			current.setPrimaryDivison(lastEditedSpecimen.getPrimaryDivison());
+			current.setVerbatimCollector(lastEditedSpecimen.getVerbatimCollector());
+			current.setVerbatimCollection(lastEditedSpecimen.getVerbatimCollection());
+			current.setVerbatimNumbers(lastEditedSpecimen.getVerbatimNumbers());
+			current.setVerbatimUnclassifiedText(lastEditedSpecimen.getVerbatimUnclassifiedText());
 			current.setSpecificLocality(lastEditedSpecimen.getSpecificLocality());
 			current.setDateCollected(lastEditedSpecimen.getDateCollected());
 			current.setDateEmerged(lastEditedSpecimen.getDateEmerged());
@@ -766,6 +771,10 @@ try {
 			current.setHigherGeography(undoState.getHigherGeography());
 			current.setCountry(undoState.getCountry());
 			current.setPrimaryDivison(undoState.getPrimaryDivison());
+			current.setVerbatimCollector(undoState.getVerbatimCollector());
+			current.setVerbatimCollection(undoState.getVerbatimCollection());
+			current.setVerbatimNumbers(undoState.getVerbatimNumbers());
+			current.setVerbatimUnclassifiedText(undoState.getVerbatimUnclassifiedText());			
 			current.setSpecificLocality(undoState.getSpecificLocality());
 			current.setDateCollected(undoState.getDateCollected());
 			current.setDateEmerged(undoState.getDateEmerged());
@@ -840,6 +849,10 @@ try {
 			current.setCountry(lastEditedSpecimen.getCountry());
 			current.setPrimaryDivison(lastEditedSpecimen.getPrimaryDivison());
 			current.setSpecificLocality(lastEditedSpecimen.getSpecificLocality());
+			current.setVerbatimCollector(lastEditedSpecimen.getVerbatimCollector());
+			current.setVerbatimCollection(lastEditedSpecimen.getVerbatimCollection());
+			current.setVerbatimNumbers(lastEditedSpecimen.getVerbatimNumbers());
+			current.setVerbatimUnclassifiedText(lastEditedSpecimen.getVerbatimUnclassifiedText());				
 			current.setDateCollected(lastEditedSpecimen.getDateCollected());
 			current.setDateEmerged(lastEditedSpecimen.getDateEmerged());
 			current.setDateNOS(lastEditedSpecimen.getDateNOS());
@@ -892,6 +905,10 @@ try {
 			current.setCountry(undoState.getCountry());
 			current.setPrimaryDivison(undoState.getPrimaryDivison());
 			current.setSpecificLocality(undoState.getSpecificLocality());
+			current.setVerbatimCollector(undoState.getVerbatimCollector());
+			current.setVerbatimCollection(undoState.getVerbatimCollection());
+			current.setVerbatimNumbers(undoState.getVerbatimNumbers());
+			current.setVerbatimUnclassifiedText(undoState.getVerbatimUnclassifiedText());				
 			current.setDateCollected(undoState.getDateCollected());
 			current.setDateEmerged(undoState.getDateEmerged());
 			current.setDateNOS(undoState.getDateNOS());
@@ -1198,6 +1215,14 @@ try {
 
 	public void setSortByPrimaryDivision(boolean sortByPrimaryDivision) {
 		this.sortByPrimaryDivision = sortByPrimaryDivision;
+	}	
+	
+	public boolean isSortByHigherGeography() {
+		return sortByHigherGeography;
+	}
+
+	public void setSortByHigherGeography(boolean sortByHigherGeography) {
+		this.sortByHigherGeography = sortByHigherGeography;
 	}	
 
 	public boolean isSortByBarcode() {
@@ -1693,6 +1718,7 @@ try {
 		sortByGenus = true;
 		sortBySpecificEpithet = true;
 		sortByCountry = true;
+		sortByHigherGeography = true;
 		sortByWorkflowStatus = true;
 		sortByFilename = true;
 	}
@@ -1707,6 +1733,7 @@ try {
 		sortByGenus = false;
 		sortBySpecificEpithet = false;
 		sortByCountry = false;
+		sortByHigherGeography = false;
 		sortByWorkflowStatus = false;
 		sortByFilename = false;
 	}

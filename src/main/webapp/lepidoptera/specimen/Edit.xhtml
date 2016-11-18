@@ -178,9 +178,6 @@
                                     </h:panelGrid>                                
                                 
                                 
-                                
-                                
-                                
                                     <h:outputLabel value="#{bundle.EditSpecimenLabel_barcode}" for="barcode" />
                                     <h:outputText id="barcode" value="#{specimenController.selected.barcode}"
                                                   title="#{MetadataRetrieverBean.tipForField('Specimen','Barcode')}"/>
@@ -455,6 +452,100 @@
                                     
                                 </p:dataTable>
                             </p:panel>
+                            
+                            <p:panel header="Verbatim Data"
+                                     toggleable="true"
+                                     collapsed="true"
+                                     style="padding: 0px;"
+                                    >
+
+                                    <h:outputLabel value="Verbatim Locality (retained)" for="verbVerbatimLocality" />
+                                    <h:panelGrid columns="2">
+                                        <p:inputText id="verbVerbatimLocality" size="50"
+                                                     autocomplete="on"
+                                                     value="#{specimenController.selected.verbatimLocality}"
+                                                     maxlength="#{MetadataRetrieverBean.lengthForField('Specimen','VerbatimLocality')}"
+                                                     title="#{MetadataRetrieverBean.tipForField('Specimen','VerbatimLocality')}"
+                                                     widgetVar="vVerbatimLocality"
+                                                     >
+                                           <p:ajax event="change" update="mainForm:verbatimLocality" />
+                                        </p:inputText>
+                                        <components:fieldInfoPopup field="VerbatimLocality" table="Specimen" tipName="VerbatimLocalityTip"  />
+                                    </h:panelGrid>
+                                    
+                                    <h:outputLabel value="#{bundle.EditSpecimenLabel_dateNOS}" for="verbVerbatimDate" />
+                                    <h:panelGrid columns="2">
+                                        <p:inputText id="verbVerbatimDate" value="#{specimenController.selected.dateNOS}"
+                                                 size="50"
+                                                 maxlength="#{MetadataRetrieverBean.lengthForField('Specimen','DateNOS')}"
+                                                 title="#{MetadataRetrieverBean.tipForField('Specimen','DateNOS')}"
+                                                 >
+                                           <p:ajax event="change" update="mainForm:dateNOS" />
+                                        </p:inputText>
+                                        <components:fieldInfoPopup field="dateNOS" table="Specimen" tipName="VerbatimDateTip"  />
+                                    </h:panelGrid>
+                                    
+                                    <h:outputLabel value="Verbatim Collector (must parse)" for="verbatimCollector" />
+                                    <h:panelGrid columns="2">
+                                        <p:inputText id="verbatimCollector" size="50"
+                                                     styleClass="dataNotTransfered"
+                                                     autocomplete="on" 
+                                                     value="#{specimenController.selected.verbatimCollector}"
+                                                     maxlength="#{MetadataRetrieverBean.lengthForField('Specimen','VerbatimCollector')}"
+                                                     title="#{MetadataRetrieverBean.tipForField('Specimen','VerbatimCollector')}"
+                                                     />
+                                        <components:fieldInfoPopup field="verbatimCollector" table="Specimen" tipName="VerbatimCollectorTip"  />
+                                    </h:panelGrid>
+                             
+                                    <h:outputLabel value="Verbatim Collection (must parse)" for="verbatimCollection" />
+                                    <h:panelGrid columns="2">
+                                        <p:inputText id="verbatimCollection" size="50"
+                                                     styleClass="dataNotTransfered"
+                                                     autocomplete="on"
+                                                     value="#{specimenController.selected.verbatimCollection}"
+                                                     maxlength="#{MetadataRetrieverBean.lengthForField('Specimen','VerbatimCollection')}"
+                                                     title="#{MetadataRetrieverBean.tipForField('Specimen','VerbatimCollection')}"
+                                                     />
+                                        <components:fieldInfoPopup field="VerbatimCollection" table="Specimen" tipName="VerbatimCollectionTip"  />
+                                    </h:panelGrid>
+                                    
+                                    <h:outputLabel value="Verbatim Numbers (must parse)" for="verbatimNumbers" />
+                                    <h:panelGrid columns="2">
+                                        <p:inputText id="verbatimNumbers" size="50"
+                                                     styleClass="dataNotTransfered"
+                                                     autocomplete="on"
+                                                     value="#{specimenController.selected.verbatimNumbers}"
+                                                     maxlength="#{MetadataRetrieverBean.lengthForField('Specimen','VerbatimNumbers')}"
+                                                     title="#{MetadataRetrieverBean.tipForField('Specimen','VerbatimNumbers')}"
+                                                     />
+                                        <components:fieldInfoPopup field="VerbatimNumbers" table="Specimen" tipName="VerbatimNumbersTip"  />
+                                    </h:panelGrid>                                    
+                                    
+                                    <h:outputLabel value="Verbatim Other Text (must parse)" for="verbatimUnclassifiedText" />
+                                    <h:panelGrid columns="2">
+                                        <p:inputText id="verbatimUnclassifiedText" size="50"
+                                                     styleClass="dataNotTransfered"
+                                                     autocomplete="on"
+                                                     value="#{specimenController.selected.verbatimUnclassifiedText}"
+                                                     maxlength="#{MetadataRetrieverBean.lengthForField('Specimen','VerbatimUnclassifiedDext')}"
+                                                     title="#{MetadataRetrieverBean.tipForField('Specimen','VerbatimUnclassifiedText')}"
+                                                     />
+                                        <components:fieldInfoPopup field="VerbatimUnclassifiedText" table="Specimen" tipName="VerbatimUnclassifiedTextTip"  />
+                                    </h:panelGrid>                                    
+                                
+                                    <h:outputLabel value="#{bundle.EditSpecimenLabel_questions}" for="verbQuestions" />
+                                    <h:panelGrid columns="2" >
+                                        <p:inputText id="verbQuestions" value="#{specimenController.selected.questions}" size="50"
+                                                 maxlength="#{MetadataRetrieverBean.lengthForField('Specimen','Questions')}"
+                                                 title="#{MetadataRetrieverBean.tipForField('Specimen','Questions')}"
+                                                 >
+                                           <p:ajax event="change" update="mainForm:questions" />
+                                        </p:inputText>
+                                        <components:fieldInfoPopup field="Questions" table="Specimen" tipName="QuestionsTip"  />
+                                    </h:panelGrid>    
+                            
+                            </p:panel> <!-- End Verbatim Panel -->
+                            
                             <p:panel header="Label data: #{specimenController.selected.verbatimLocality}"
                                      toggleable="true" 
                                      collapsed="false" 
@@ -474,6 +565,9 @@
                                                        mainForm:dateEmerged mainForm:dateCollected mainForm:dateNOS mainForm:dateEmergedIndicator mainForm:dateCollectedIndicator mainForm:ISODate 
                                                        mainForm:collectorList mainForm:collectingMethod mainForm:collection mainForm:historyTable mainForm:pl_highergeog
                                                        mainForm:georefPopupButton :georeferenceDialog:georeferencePanel 
+                                                       mainForm:verbVerbatimLocality mainForm:verbatimCollector
+                                                       mainForm:verbatimCollection mainForm:verbatimNumbers
+                                                       mainForm:verbatimUnclassifiedText
                                                        "
                                                        title="Click to copy locality/collectors/date/collecting method from last edited record."
                                                        /> 
@@ -497,6 +591,9 @@
                                                        mainForm:dateEmerged mainForm:dateCollected mainForm:dateNOS mainForm:dateEmergedIndicator mainForm:dateCollectedIndicator mainForm:ISODate 
                                                        mainForm:collectorList mainForm:collectingMethod mainForm:collection mainForm:historyTable mainForm:pl_highergeog
                                                        mainForm:georefPopupButton :georeferenceDialog:georeferencePanel
+                                                       mainForm:verbVerbatimLocality mainForm:verbatimCollector
+                                                       mainForm:verbatimCollection mainForm:verbatimNumbers
+                                                       mainForm:verbatimUnclassifiedText                                                       
                                                        "
                                                        title="Click to undo change to locality/collectors/date/collecting method."
                                                        /> 
@@ -509,7 +606,10 @@
                                                      value="#{specimenController.selected.verbatimLocality}"
                                                      maxlength="#{MetadataRetrieverBean.lengthForField('Specimen','VerbatimLocality')}"
                                                      title="#{MetadataRetrieverBean.tipForField('Specimen','VerbatimLocality')}"
-                                                     />
+                                                     update="mainForm:verbVerbatimLocality"
+                                                     >
+                                           <p:ajax event="change" update="mainForm:verbVerbatimLocality" />
+                                        </p:inputText>   
                                         <components:fieldInfoPopup field="VerbatimLocality" table="Specimen" tipName="VerbatimLocalityTip"  />
                                     </h:panelGrid>
                                     
@@ -535,6 +635,7 @@
                                     <h:outputLabel value="#{bundle.EditSpecimenLabel_country}" for="country" />
                                     <h:panelGrid columns="3">
                                         <h:inputText id="country" value="#{specimenController.selected.country}"
+                                                     styleClass="dataNotTransfered"
                                                      maxlength="#{MetadataRetrieverBean.lengthForField('Specimen','Country')}"
                                                      title="#{MetadataRetrieverBean.tipForField('Specimen','Country')}"
                                                      />
@@ -550,6 +651,7 @@
                                     <h:outputLabel value="#{bundle.EditSpecimenLabel_primaryDivison}" for="primaryDivison" />
                                     <h:panelGrid columns="2">
                                         <h:inputText id="primaryDivison" value="#{specimenController.selected.primaryDivison}"
+                                                     styleClass="dataNotTransfered"
                                                      maxlength="#{MetadataRetrieverBean.lengthForField('Specimen','PrimaryDivision')}"
                                                      title="#{MetadataRetrieverBean.tipForField('Specimen','PrimaryDivision')}"
                                                      />
@@ -628,10 +730,13 @@
                                 
                                 <h:panelGrid columns="2">
                                     <h:outputLabel value="#{bundle.EditSpecimenLabel_dateNOS}" for="dateNOS" />
-                                    <h:inputText id="dateNOS" value="#{specimenController.selected.dateNOS}"
+                                    <p:inputText id="dateNOS" value="#{specimenController.selected.dateNOS}"
                                                  maxlength="#{MetadataRetrieverBean.lengthForField('Specimen','DateNOS')}"
                                                  title="#{MetadataRetrieverBean.tipForField('Specimen','DateNOS')}"
-                                                 />
+                                                 update="mainForm:verbVerbatimDate"
+                                                 >
+                                           <p:ajax event="change" update="mainForm:verbVerbatimDate" />
+                                    </p:inputText>
                                     <h:outputLabel value="#{bundle.EditSpecimenLabel_ISODate}" for="ISODate" />
                                     <p:inputMask id="ISODate" value="#{specimenController.selected.ISODate}"
                                                  mask="9999?/99/99-9999/99/99"
@@ -646,7 +751,7 @@
                                     <p:commandButton value="#{bundle.EditSpecimenLabel_dateEmerged}"
                                                      rendered="#{specimenController.isShowDateEmerged()}"
                                                      action="#{specimenController.selected.copyDateEmergedDate}"
-                                                     update="dateEmerged,dateNOS"
+                                                     update="dateEmerged,dateNOS,verbVerbatimDate"
                                                      title="Copies Verbatim Date to Date Emerged."
                                                      />
                                     <h:inputText id="dateEmerged" value="#{specimenController.selected.dateEmerged}"
@@ -666,7 +771,7 @@
                                     <p:commandButton value="#{bundle.EditSpecimenLabel_dateCollected}"
                                                        rendered="#{!loginBean.userExactlyAnyEditor}"
                                                        action="#{specimenController.selected.copyDateCollectedDate}"
-                                                       update="dateCollected,dateNOS"
+                                                       update="dateCollected,dateNOS,verbVerbatimDate"
                                                        title="Copies Verbatim Date to Date Collected."
                                                        />
                                     <h:inputText id="dateCollected" rendered="#{!loginBean.userExactlyAnyEditor}"
@@ -966,10 +1071,13 @@
                             <h:panelGrid columns="2">
                                 <h:outputLabel value="#{bundle.EditSpecimenLabel_questions}" for="questions" />
                                 <h:panelGrid columns="2" >
-                                    <h:inputText id="questions" value="#{specimenController.selected.questions}" size="50"
+                                    <p:inputText id="questions" value="#{specimenController.selected.questions}" size="50"
                                                  maxlength="#{MetadataRetrieverBean.lengthForField('Specimen','Questions')}"
                                                  title="#{MetadataRetrieverBean.tipForField('Specimen','Questions')}"
-                                                 />
+                                                 update="mainFrame:verbQuestions"
+                                                 >
+                                           <p:ajax event="change" update="mainForm:questions" />
+                                    </p:inputText>
                                     <components:fieldInfoPopup field="Questions" table="Specimen" tipName="QuestionsTip"  />
                                 </h:panelGrid>
                                 <h:outputLabel value="#{bundle.EditSpecimenLabel_inferences}" for="inferences" />
