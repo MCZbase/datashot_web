@@ -78,8 +78,8 @@
                             <f:selectItems value="#{pickListsManagedBean.imagePaths}"  />
                         </p:selectOneMenu>
 						
-						<h:outputLabel value=" "/>
-						<h:outputLabel value=" "/>
+                        <h:outputLabel value="HigherGeog" for="it_hgeo" />
+                        <h:inputText id="it_hgeo" value="#{specimenController.higherGeographyFilterCriterion}" />
 						<h:outputLabel value=" "/>
 						<h:commandButton action="#{specimenController.prepareListFromIndexSearch}" value="Search" />
 					</h:panelGrid>

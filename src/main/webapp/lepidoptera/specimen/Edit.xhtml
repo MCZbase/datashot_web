@@ -77,6 +77,22 @@
                                                  rendered="${specimenController.selected.stateOCR}"
                                                  value="OCR" >
                                 </p:commandButton>
+                                <p:commandButton id="submitVerbatimButtonTop"
+                                                 action="#{specimenController.updateAsVerbatim}" 
+                                                 process=":mainForm @this"
+                                                 ajax="false"
+                                                 icon="#{specimenController.iconForState('Verbatim Entered')}"
+                                                 rendered="${specimenController.selected.stateVerbatim}"
+                                                 value="Verb" >
+                                </p:commandButton>
+                                <p:commandButton id="submitVerbatimClassifiedButtonTop"
+                                                 action="#{specimenController.updateAsVerbatimClassified}" 
+                                                 process=":mainForm @this"
+                                                 ajax="false"
+                                                 icon="#{specimenController.iconForState('Verbatim Classified')}"
+                                                 rendered="${specimenController.selected.stateVerbatim  or specimenController.selected.stateVerbatimClassified}"
+                                                 value="VerbClass" >
+                                </p:commandButton>                                
                                 <p:commandButton id="submitQCFailButtonTop"
                                                  disabled="${!loginBean.userDataEntry or specimenController.selected.stateDoneMigrated}"
                                                  action="#{specimenController.updateAsQCProblems}"
@@ -84,7 +100,7 @@
                                                  process=":mainForm @this"
                                                  ajax="FALSE"
                                                  icon="#{specimenController.iconForState('QC Problems')}"
-                                                 value="QC Problems" >
+                                                 value="QC Probs" >
                                 </p:commandButton>
                                 <p:commandButton id="submitQCPassButtonTop"
                                                  disabled="${!loginBean.userAbleToEditImages or specimenController.selected.stateDoneMigrated}"
@@ -1189,6 +1205,22 @@
                                                  rendered="${specimenController.selected.stateOCR}"
                                                  value="OCR" >
                                 </p:commandButton>
+                                <p:commandButton id="submitVerbatimButtonBottom"
+                                                 action="#{specimenController.updateAsVerbatim}" 
+                                                 process=":mainForm @this"
+                                                 ajax="false"
+                                                 icon="#{specimenController.iconForState('Verbatim Entered')}"
+                                                 rendered="${specimenController.selected.stateVerbatim}"
+                                                 value="Verb" >
+                                </p:commandButton>
+                                <p:commandButton id="submitVerbatimClassifiedButtonBottom"
+                                                 action="#{specimenController.updateAsVerbatimClassified}" 
+                                                 process=":mainForm @this"
+                                                 ajax="false"
+                                                 icon="#{specimenController.iconForState('Verbatim Classified')}"
+                                                 rendered="${specimenController.selected.stateVerbatim  or specimenController.selected.stateVerbatimClassified}"
+                                                 value="VerbClass" >
+                                </p:commandButton>                                 
                                 <p:commandButton id="submitQCFailButtonBottom"
                                                  disabled="${!loginBean.userDataEntry or specimenController.selected.stateDoneMigrated}"
                                                  action="#{specimenController.updateAsQCProblems}" 
@@ -1211,7 +1243,11 @@
                             </p:toolbar>
                     </h:form>
                         
+                        
+                        
                         <!-- ************** Dialogs ***************** -->
+                        
+                        
                                <h:form id="newDetForm">
                                    <p:dialog id="newDetDialog"
                                         widgetVar="newDetDialog"

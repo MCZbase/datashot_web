@@ -98,6 +98,7 @@ public class SpecimenController {
 	private String collectionFilterCriterion = null;
 	private String lastupdatedbyFilterCriterion = null;
 	private String countryFilterCriterion = null;
+	private String higherGeographyFilterCriterion = null;
 	private String primarydivisionFilterCriterion = null;
 	private String workflowstatusFilterCriterion = null;
 	private String collectorFilterCriterion = null;
@@ -298,6 +299,9 @@ logger.log(Level.INFO, "SpecimenController.createNewDetermination() was invoked.
 					if (countryFilterCriterion != null) {
 						filters.put("country", countryFilterCriterion);
 					}
+					if (higherGeographyFilterCriterion != null) {
+						filters.put("higherGeography", higherGeographyFilterCriterion);
+					}					
 					if (primarydivisionFilterCriterion != null) {
 						filters.put("primaryDivison", primarydivisionFilterCriterion);
 					}
@@ -394,6 +398,7 @@ logger.log(Level.INFO, "Range:" + range[0] + "-" + range[1]);
 		collectionFilterCriterion = null;
 		lastupdatedbyFilterCriterion = null;
 		countryFilterCriterion = null;
+		higherGeographyFilterCriterion = null;
 		primarydivisionFilterCriterion = null;
 		workflowstatusFilterCriterion = null;
 		pathFilterCriterion = null;
@@ -460,6 +465,7 @@ logger.log(Level.INFO, "Range:" + range[0] + "-" + range[1]);
 		collectionFilterCriterion = null;
 		lastupdatedbyFilterCriterion = null;
 		countryFilterCriterion = null;
+		higherGeographyFilterCriterion = null;
 		primarydivisionFilterCriterion = null;
 		workflowstatusFilterCriterion = null;
 		collectorFilterCriterion = null;
@@ -496,6 +502,7 @@ logger.log(Level.INFO, "Range:" + range[0] + "-" + range[1]);
 		collectionFilterCriterion = null;
 		lastupdatedbyFilterCriterion = null;
 		countryFilterCriterion = null;
+		higherGeographyFilterCriterion = null;
 		primarydivisionFilterCriterion = null;
 		workflowstatusFilterCriterion = null;
 		collectorFilterCriterion = null;
@@ -1032,6 +1039,16 @@ try {
 		return update();
 	}
 
+	public String updateAsVerbatim() {
+		current.setWorkFlowStatus(WorkFlowStatus.STAGE_VERBATIM);
+		return update();
+	}	
+	
+	public String updateAsVerbatimClassified() {
+		current.setWorkFlowStatus(WorkFlowStatus.STAGE_CLASSIFIED);
+		return update();
+	}	
+	
 	public String updateAsTextEntered() {
 		current.setWorkFlowStatus(WorkFlowStatus.STAGE_2);
 		return update();
@@ -1337,6 +1354,22 @@ try {
 	public void setCountryFilterCriterion(String countryFilterCriterion) {
 		this.countryFilterCriterion = countryFilterCriterion;
 	}
+	
+	public String getHigherGeographyFilterCriterion() {
+		return higherGeographyFilterCriterion;
+	}
+
+	public void setHigherGeographyFilterCriterion(String higherGeographyFilterCriterion) {
+		if (higherGeographyFilterCriterion!=null && higherGeographyFilterCriterion.trim().length()>0) { 
+			if (!higherGeographyFilterCriterion.startsWith("%")) { 
+				higherGeographyFilterCriterion = "%" + higherGeographyFilterCriterion;
+			}
+			if (!higherGeographyFilterCriterion.endsWith("%")) { 
+				higherGeographyFilterCriterion = higherGeographyFilterCriterion + "%";
+			}			
+		}
+		this.higherGeographyFilterCriterion = higherGeographyFilterCriterion;
+	}	
 
 	public String getFamilyFilterCriterion() {
 		return familyFilterCriterion;
