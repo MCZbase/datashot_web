@@ -64,28 +64,7 @@
 								<h:outputText value="#{imageController.selected.specimenId}" title="#{bundle.ViewImageTitle_specimenId}"/>
 							</h:panelGrid>
 							<br />
-							<p:commandButton rendered="#{loginBean.userAdministrator}" 
-							                 value="#{bundle.ViewImageDestroyLink}"
-							                 type="button"
-							                 onclick="popup_confirm_delete.show(); " 
-							                 />
-							<p:confirmDialog id="popup_confirm_delete"
-							                 widgetvar="popup_confirm_delete"
-											 modal="true" 
-											 severity="alert"
-											 header="Delete Image Record?" >
-								<h:outputLabel value="Are you sure you want to delete this image record from the database?" />
-								<h:panelGrid columns="1" >
-									<p:commandButton value="Delete"
-													 onclick="popup_confirm_delete.hide()"
-													 actionListener="#{imageController.destroyAndView}" />
-									<p:commandButton value="Cancel"
-													 onclick="popup_confirm_delete.hide()"
-													 />
-								</h:panelGrid>
-							</p:confirmDialog>
-							<br />
-							<h:commandButton rendered="#{loginBean.userFullAccess}"
+							<p:commandButton rendered="#{loginBean.userFullAccess}"
 										   action="Edit?faces-redirect=true" value="#{bundle.ViewImageEditLink}"/>
 						</h:form>
 					</td>
