@@ -26,15 +26,15 @@
                     <h:outputLabel value="#{bundle.EditUsersLabel_userid}" for="userid" />
                     <h:outputText id="userid" value="#{usersController.selected.userid}" title="#{bundle.EditUsersTitle_userid}" />
                     <h:outputLabel value="#{bundle.EditUsersLabel_fullname}" for="fullname" />
-                    <h:inputText id="fullname" value="#{usersController.selected.fullname}" title="#{bundle.EditUsersTitle_fullname}" required="true" requiredMessage="#{bundle.EditUsersRequiredMessage_fullname}"/>
+                    <p:inputText id="fullname" value="#{usersController.selected.fullname}" title="#{bundle.EditUsersTitle_fullname}" required="true" requiredMessage="#{bundle.EditUsersRequiredMessage_fullname}"/>
                     <h:outputLabel value="#{bundle.EditUsersLabel_username}" for="username" />
-                    <h:inputText id="username" value="#{usersController.selected.username}" title="#{bundle.EditUsersTitle_username}" required="true" requiredMessage="#{bundle.EditUsersRequiredMessage_username}"/>
+                    <p:inputText id="username" value="#{usersController.selected.username}" title="#{bundle.EditUsersTitle_username}" required="true" requiredMessage="#{bundle.EditUsersRequiredMessage_username}"/>
                     <h:outputLabel value="#{bundle.EditUsersLabel_description}" for="description" />
-                    <h:inputText id="description" value="#{usersController.selected.description}" title="#{bundle.EditUsersTitle_description}" />
+                    <p:inputText id="description" value="#{usersController.selected.description}" title="#{bundle.EditUsersTitle_description}" />
                     <h:outputLabel value="#{bundle.EditUsersLabel_role}" for="role" />
-					<h:selectOneMenu id="role" value="#{usersController.selected.role}" title="#{bundle.EditUsersTitle_role}" required="true" requiredMessage="#{bundle.EditUsersRequiredMessage_role}" >
+					<p:selectOneMenu id="role" value="#{usersController.selected.role}" title="#{bundle.EditUsersTitle_role}" required="true" requiredMessage="#{bundle.EditUsersRequiredMessage_role}" >
 						<f:selectItems value="#{pickListsManagedBean.userRoleValues}"  />
-					</h:selectOneMenu>
+					</p:selectOneMenu>
                     <h:outputLabel value="#{bundle.EditUsersLabel_hash}" for="hash" />
                     <p:password  id="hash" 
                                  match="hash2"
