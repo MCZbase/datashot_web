@@ -127,6 +127,13 @@
 		  <artifactId>all-themes</artifactId>
 		  <version>1.0.8</version>
 	   </dependency>
+	   
+    <dependency>
+        <groupId>javax.websocket</groupId>
+        <artifactId>javax.websocket-api</artifactId>
+        <scope>provided</scope>
+        <version>1.0</version>
+    </dependency>	   
                 
                 
         <!-- Logging -->
@@ -173,15 +180,7 @@
         
 
     <repositories>
-        <!--  
-         <repository>
-             <id>prime-repo</id>
-             <name>PrimeFaces Maven Repository</name>
-             <url>http://repository.primefaces.org</url>
-             <layout>default</layout>
-        </repository>        
-         -->
-         <repository>
+        <repository>
              <id>imagej.releases</id>
              <url>http://maven.imagej.net/content/repositories/releases</url>
         </repository>
