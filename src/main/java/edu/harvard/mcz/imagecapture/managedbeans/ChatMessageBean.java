@@ -49,7 +49,7 @@ public class ChatMessageBean implements MessageListener {
 			logger.log(Level.INFO, originator);
 			messageBean.addMessage(originator, text.getText());
 			EventBus eventBus = EventBusFactory.getDefault().eventBus();
-			eventBus.publish("/chat", new FacesMessage(originator, text.getText()));
+			eventBus.publish("/chat", new FacesMessage(originator + "(cmb)", text.getText()));
 			if (originator.equals("Server")) { 
 				eventBus.publish("/serverNotifications",new FacesMessage(FacesMessage.SEVERITY_ERROR, originator, text.getText()));
 			}

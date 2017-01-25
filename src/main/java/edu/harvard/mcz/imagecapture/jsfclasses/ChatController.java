@@ -88,7 +88,7 @@ public class ChatController implements Serializable {
 						messageBean.incrementUserCount();
 						loginRecorded = true;
 						try {
-							sendJMSMessageToInsectChatTopic(username + " is online.", "System");
+							sendJMSMessageToInsectChatTopic(username + " is online.", "System (cc)");
 						} catch (JMSException ex) {
 							logger.log(Level.SEVERE, null, ex);
 						}
@@ -128,7 +128,7 @@ public class ChatController implements Serializable {
 		//messageBean.addMessage(username, " has gone offline.");
 		messageBean.decrementUserCount();
 		try {
-			sendJMSMessageToInsectChatTopic(username + " has gone offline.", "System");
+			sendJMSMessageToInsectChatTopic(username + " has gone offline.", "System (cc)");
 		} catch (JMSException ex) {
 			logger.log(Level.SEVERE, null, ex);
 		}
