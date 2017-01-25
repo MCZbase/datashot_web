@@ -28,6 +28,10 @@
         <param-name>org.atmosphere.cpr.broadcasterCacheClass</param-name>
         <param-value>org.atmosphere.cache.UUIDBroadcasterCache</param-value>
     </init-param>
+    <!--  init-param>
+        <param-name>org.atmosphere.cpr.Broadcaster.supportOutOfOrderBroadcast</param-name>
+        <param-value>true</param-value>        
+    </init-param  -->
     <async-supported>true</async-supported>
   </servlet>
   <servlet-mapping>
@@ -52,8 +56,6 @@
       <description>Resources accessible from the public login page.</description>
       <url-pattern>/openaccess/*</url-pattern>
       <url-pattern>/faces/openaccess/*</url-pattern>
-      <url-pattern>/ImageServlet</url-pattern>
-      <url-pattern>/ImageServlet*</url-pattern>
       <url-pattern>*.css</url-pattern>
       <http-method>GET</http-method>
       <http-method>HEAD</http-method>

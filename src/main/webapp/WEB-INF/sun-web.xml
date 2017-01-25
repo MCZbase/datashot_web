@@ -2,32 +2,7 @@
 <!DOCTYPE sun-web-app PUBLIC "-//Sun Microsystems, Inc.//DTD Application Server 9.0 Servlet 2.5//EN" "http://www.sun.com/software/appserver/dtds/sun-web-app_2_5-0.dtd">
 <sun-web-app error-url="">
   <!--
-    See web/WEB-INF/glassfish-web.xml
-	<context-root>/lepidoptera</context-root>
-	<security-role-mapping>
-		<role-name>Administrator</role-name>
-		<group-name>Administrator</group-name>
-	</security-role-mapping>
-	<security-role-mapping>
-		<role-name>Data entry</role-name>
-		<group-name>Data entry</group-name>
-	</security-role-mapping>
-	<security-role-mapping>
-		<role-name>Full Access</role-name>
-		<group-name>Full Access</group-name>
-	</security-role-mapping>
-	<security-role-mapping>
-		<role-name>Full Access</role-name>
-		<group-name>Full access</group-name>
-	</security-role-mapping>
-	<security-role-mapping>
-		<role-name>Editor</role-name>
-		<group-name>Editor</group-name>
-	</security-role-mapping>
-	<security-role-mapping>
-		<role-name>Chief Editor</role-name>
-		<group-name>Chief Editor</group-name>
-	</security-role-mapping>
+    See web/WEB-INF/glassfish-web.xml for security roles
 	-->
   <context-root>/</context-root>
   <resource-ref>
