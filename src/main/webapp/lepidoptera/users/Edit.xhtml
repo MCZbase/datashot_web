@@ -19,40 +19,36 @@
 		</ui:define>
         <ui:define name="body">
             <h:form>
-				<h:panelGroup id="messagePanel" layout="block">
-					<p:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
-				</h:panelGroup>
-                <h:panelGrid rendered="#{loginBean.userChiefEditor}" columns="2">
+                <h:panelGrid id="editForm" rendered="#{loginBean.userChiefEditor}" columns="2">
                     <h:outputLabel value="#{bundle.EditUsersLabel_userid}" for="userid" />
                     <h:outputText id="userid" value="#{usersController.selected.userid}" title="#{bundle.EditUsersTitle_userid}" />
+                    
                     <h:outputLabel value="#{bundle.EditUsersLabel_fullname}" for="fullname" />
                     <p:inputText id="fullname" value="#{usersController.selected.fullname}" title="#{bundle.EditUsersTitle_fullname}" required="true" requiredMessage="#{bundle.EditUsersRequiredMessage_fullname}"/>
+                    
                     <h:outputLabel value="#{bundle.EditUsersLabel_username}" for="username" />
                     <p:inputText id="username" value="#{usersController.selected.username}" title="#{bundle.EditUsersTitle_username}" required="true" requiredMessage="#{bundle.EditUsersRequiredMessage_username}"/>
+                    
                     <h:outputLabel value="#{bundle.EditUsersLabel_description}" for="description" />
                     <p:inputText id="description" value="#{usersController.selected.description}" title="#{bundle.EditUsersTitle_description}" />
+                    
                     <h:outputLabel value="#{bundle.EditUsersLabel_role}" for="role" />
 					<p:selectOneMenu id="role" value="#{usersController.selected.role}" title="#{bundle.EditUsersTitle_role}" required="true" requiredMessage="#{bundle.EditUsersRequiredMessage_role}" >
 						<f:selectItems value="#{pickListsManagedBean.userRoleValues}"  />
 					</p:selectOneMenu>
-                    <h:outputLabel value="#{bundle.EditUsersLabel_hash}" for="hash" />
-                    <p:password  id="hash" 
-                                 match="hash2"
-                                 feedback="true" 
-                                 level="3" 
-                                 value="#{usersController.selected.newPassword}" 
-                                 title="#{bundle.EditUsersTitle_hash}" minLength="10" 
-                                 />
-                    <h:outputLabel value="#{bundle.EditUsersLabel_hash2}" for="hash2" />
-                    <p:password  id="hash2"
-                                 feedback="false" 
-                                 value="#{usersController.selected.newPassword}" 
-                                 title="#{bundle.EditUsersTitle_hash2}" minLength="10" 
-                                 />                                 
+					
+                    <h:outputLabel value="" />
+					<h:commandLink rendered="#{loginBean.userChiefEditor}"
+								action="#{usersController.prepareEditPasswordCurrent}"
+								value="Change Password"/>
+					
+                    <h:outputLabel value="" />
+                    <p:commandButton
+                       update="editForm"
+					   disabled="#{!loginBean.userChiefEditor}"
+					   action="#{usersController.update}" value="#{bundle.EditUsersSaveLink}"/>
                 </h:panelGrid>
-                <p:commandButton
-					disabled="#{!loginBean.userChiefEditor}"
-					action="#{usersController.update}" value="#{bundle.EditUsersSaveLink}"/>
+                <p:messages id="messages" errorStyle="color: red" infoStyle="color: green" autoUpdate="true" closable="true" layout="table"/>
             </h:form>
         </ui:define>
     </ui:composition>

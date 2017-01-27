@@ -10,7 +10,9 @@ import edu.harvard.mcz.imagecapture.utility.AuthenticationUtility;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 import javax.ejb.EJB;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.component.UIComponent;
@@ -131,14 +133,23 @@ public class UsersController {
 		logger.log(Level.INFO,"end prepareEditPassword");
         return "/lepidoptera/users/SetNewPassword?faces-redirect=true";
     }
+    
+    public String prepareEditPasswordCurrent() {
+		logger.log(Level.INFO,"in prepareEditPasswordCurrent");
+        return "/lepidoptera/users/SetNewPassword?faces-redirect=true";
+    }    
 
     public String update() {
         try {
             getFacade().edit(current);
             JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("UsersUpdated"));
-            return "View?faces-redirect=true";
+		    logger.log(Level.INFO,"Sent success message");
+            return null;
+            // return "View?faces-redirect=true";
         } catch (Exception e) {
-            JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
+            JsfUtil.addSuccessMessage("Error: " + e.getMessage());
+            //JsfUtil.addErrorMessage(e, "Error: " + e.getMessage());
+		    logger.log(Level.INFO,"Sent failure message");
             return null;
         }
     }
