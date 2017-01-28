@@ -238,7 +238,7 @@ public class UsersController {
         }
     }
 
-    public DataModel getItems() {
+    public DataModel<Users> getItems() {
         if (items == null) {
             items = getPagination().createPageDataModel();
         }
