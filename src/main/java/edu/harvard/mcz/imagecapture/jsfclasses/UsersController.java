@@ -139,20 +139,42 @@ public class UsersController {
         return "/lepidoptera/users/SetNewPassword?faces-redirect=true";
     }    
 
+    /** Update the user, but not the password. 
+     * 
+     * @return null 
+     */
     public String update() {
         try {
             getFacade().edit(current);
             JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("UsersUpdated"));
-		    logger.log(Level.INFO,"Sent success message");
             return null;
-            // return "View?faces-redirect=true";
         } catch (Exception e) {
-            JsfUtil.addSuccessMessage("Error: " + e.getMessage());
-            //JsfUtil.addErrorMessage(e, "Error: " + e.getMessage());
-		    logger.log(Level.INFO,"Sent failure message");
+            JsfUtil.addErrorMessage(e, "Error: " + e.getMessage());
+		    FacesContext.getCurrentInstance().validationFailed();
             return null;
         }
     }
+    
+    /**
+     * Update the user, including the password. 
+     * 
+     * @return null
+     */
+    public String updatePassword() {
+        try {
+        	if (current.updateHashFromNewPassword()) { 
+               getFacade().edit(current);
+               JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("UsersUpdated"));
+        	} else { 
+               JsfUtil.addErrorMessage("Warning", "Password was empty, not saved");
+        	}
+            return null;
+        } catch (Exception e) {
+            JsfUtil.addErrorMessage(e, "Error: " + e.getMessage());
+		    FacesContext.getCurrentInstance().validationFailed();
+            return null;
+        }
+    }    
 
     public String destroy() {
         current = (Users)getItems().getRowData();
