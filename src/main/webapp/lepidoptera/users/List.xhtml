@@ -20,6 +20,15 @@
 						rendered="#{loginBean.userChiefEditor}"
 						action="#{usersController.prepareCreate}"
 						value="#{bundle.ListUsersCreateLink}"/>
+                    <h:outputText id="paginationcounts" value="#{usersController.pagination.pageFirstItem + 1}..#{usersController.pagination.pageLastItem + 1}/#{usersController.pagination.itemsCount}"/>
+                    <p:commandButton action="#{usersController.first}" value="First Page"
+                                   disabled="#{!usersController.pagination.hasPreviousPage}"/>
+                    <p:commandButton action="#{usersController.previous}" value="#{bundle.Previous} #{specimenController.pagination.pageSize}"
+                                   disabled="#{!usersController.pagination.hasPreviousPage}"/>
+                    <p:commandButton action="#{usersController.next}" value="#{bundle.Next} #{specimenController.pagination.pageSize}"
+                                   disabled="#{!usersController.pagination.hasNextPage}"/>
+                    <p:commandButton action="#{usersController.last}" value="Last Page"
+                                   disabled="#{!usersController.pagination.hasNextPage}"/>						
 			</h:form>
 		</ui:define>
         <ui:define name="body">

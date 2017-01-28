@@ -1,5 +1,6 @@
 package edu.harvard.mcz.imagecapture.jsfclasses;
 
+import edu.harvard.mcz.imagecapture.data.Specimen;
 import edu.harvard.mcz.imagecapture.data.Users;
 import edu.harvard.mcz.imagecapture.jsfclasses.util.JsfUtil;
 import edu.harvard.mcz.imagecapture.jsfclasses.util.PaginationHelper;
@@ -32,13 +33,14 @@ public class UsersController {
 	private final static Logger logger = Logger.getLogger(UsersController.class.getName());
 
     private Users current;
-    private DataModel items = null;
+    private DataModel<Users> items = null;
 
     @EJB 
 	private edu.harvard.mcz.imagecapture.ejb.UsersFacadeLocal usersFacade;
 
     private PaginationHelper pagination;
-    private int selectedItemIndex;
+	private int selectedItemIndex;  // index including pages
+	private int currentRowIndex;    // within page index
 
     public UsersController() {
 		super();
@@ -48,9 +50,19 @@ public class UsersController {
         if (current == null) {
             current = new Users();
             selectedItemIndex = -1;
+			currentRowIndex=-1;            
         }
         return current;
     }
+    
+	public void setSelected(Users selected) {
+		if (selected!=null) {
+			current=selected;
+			currentRowIndex=-1;
+			selectedItemIndex = -1;
+			pagination = null;
+		}
+	}    
 
     private UsersFacadeLocal getFacade() {
         return usersFacade;
@@ -58,7 +70,7 @@ public class UsersController {
 
     public PaginationHelper getPagination() {
         if (pagination == null) {
-            pagination = new PaginationHelper(10) {
+            pagination = new PaginationHelper(50) {
 
                 @Override
                 public int getItemsCount() {
@@ -66,8 +78,8 @@ public class UsersController {
                 }
 
                 @Override
-                public DataModel createPageDataModel() {
-                    return new ListDataModel(getFacade().findRange(new int[]{getPageFirstItem(), getPageFirstItem()+getPageSize()}));
+                public DataModel<Users> createPageDataModel() {
+                    return new ListDataModel<Users>(getFacade().findRange(new int[]{getPageFirstItem(), getPageFirstItem()+getPageSize()}));
                 }
             };
         }
@@ -82,12 +94,14 @@ public class UsersController {
     public String prepareView() {
         current = (Users)getItems().getRowData();
         selectedItemIndex = pagination.getPageFirstItem() + getItems().getRowIndex();
+		currentRowIndex = getItems().getRowIndex();
         return "View?faces-redirect=true";
     }
 
     public String prepareCreate() {
         current = new Users();
         selectedItemIndex = -1;
+		currentRowIndex = -1;        
         return "Create?faces-redirect=true";
     }
 
@@ -110,6 +124,7 @@ public class UsersController {
     public String prepareEdit() {
         current = (Users)getItems().getRowData();
         selectedItemIndex = pagination.getPageFirstItem() + getItems().getRowIndex();
+        currentRowIndex = getItems().getRowIndex();
         return "Edit?faces-redirect=true";
     }
 
@@ -130,6 +145,7 @@ public class UsersController {
 		logger.log(Level.INFO,"in prepareEditPassword");
         current = (Users)getItems().getRowData();
         selectedItemIndex = pagination.getPageFirstItem() + getItems().getRowIndex();
+        currentRowIndex = getItems().getRowIndex();
 		logger.log(Level.INFO,"end prepareEditPassword");
         return "/lepidoptera/users/SetNewPassword?faces-redirect=true";
     }
@@ -179,6 +195,7 @@ public class UsersController {
     public String destroy() {
         current = (Users)getItems().getRowData();
         selectedItemIndex = pagination.getPageFirstItem() + getItems().getRowIndex();
+        currentRowIndex = getItems().getRowIndex();
         performDestroy();
         recreateModel();
         return "List?faces-redirect=true";
@@ -244,7 +261,66 @@ public class UsersController {
         recreateModel();
         return "List?faces-redirect=true";
     }
+    
+	public String last() {
+		getPagination().lastPage();
+		recreateModel();
+		return "List?faces-redirect=true";
+	}	
+	
+	public String first() {
+		getPagination().firstPage();
+		recreateModel();
+		return "List?faces-redirect=true";
+	}	    
 
+    public boolean isHasNextRow() {
+		boolean result = false;
+		int rowIndex = currentRowIndex;
+		logger.log(Level.INFO,"rowindex:" + rowIndex);
+		try {
+			getItems().setRowIndex(rowIndex + 1);
+			int riplus1 = rowIndex+1;
+		    logger.log(Level.INFO,"rowindex+1:" + riplus1 +  " isRowAvailable:" + getItems().isRowAvailable() + " isHasNextPage:" + getPagination().isHasNextPage());
+			if (getItems().isRowAvailable()) {
+				result = true;
+			} else if (getPagination().isHasNextPage()) {
+				result = true;
+			}
+		} catch (Exception e) {
+			logger.log(Level.INFO, e.getMessage(), e);
+			result = false;
+		}
+		// Stay at the current row.
+		getItems().setRowIndex(currentRowIndex);
+		return result;
+	}	
+    
+	/**Is there a previous row to edit? 
+	 * 
+	 * @return true if there is a previous row (on the same or previous page).
+	 */
+    public boolean isHasPreviousRow() {
+		boolean result = false;
+		int rowIndex = currentRowIndex;
+		logger.log(Level.INFO,"rowindex:" + rowIndex);
+		try {
+			getItems().setRowIndex(rowIndex - 1);
+			if (getItems().isRowAvailable()) {
+		        logger.log(Level.INFO,"Has a previous row");
+				result = true;
+			} else if (getPagination().isHasPreviousPage()) {
+				result = true;
+			}
+		} catch (Exception e) {
+			logger.log(Level.INFO, e.getMessage());
+			result = false;
+		}
+		// Stay at the current row.
+		getItems().setRowIndex(currentRowIndex);
+		return result;
+	}    
+	
     public SelectItem[] getItemsAvailableSelectMany() {
         return JsfUtil.getSelectItems(usersFacade.findAll(), false);
     }
