@@ -23,6 +23,16 @@
 						action="#{imageController.prepareCreate}"
 						value="#{bundle.ViewImageCreateLink}"
 						immediate="true"/>
+                    <h:outputText id="paginationcounts" value="#{imageController.pagination.pageFirstItem + 1}..#{imageController.pagination.pageLastItem + 1}/#{imageController.pagination.itemsCount}"/>
+                    <p:commandButton action="#{imageController.first}" value="First Page"
+                                   disabled="#{!imageController.pagination.hasPreviousPage}"/>
+                    <p:commandButton action="#{imageController.previous}" value="#{bundle.Previous} #{imageController.pagination.pageSize}"
+                                   disabled="#{!imageController.pagination.hasPreviousPage}"/>
+                    <p:commandButton action="#{imageController.next}" value="#{bundle.Next} #{imageController.pagination.pageSize}"
+                                   disabled="#{!imageController.pagination.hasNextPage}"/>
+                    <p:commandButton action="#{imageController.last}" value="Last Page"
+                                   disabled="#{!imageController.pagination.hasNextPage}"/>                      
+                    <p:commandButton action="#{imageController.prepareListAll}" value="Show All" ajax="false" />						
 			</h:form>
 		</ui:define>
         <ui:define name="body">
@@ -31,24 +41,21 @@
 					<h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
 				</h:panelGroup>
 				<h:outputText escape="false" value="#{bundle.ListImageEmpty}" rendered="#{imageController.items.rowCount == 0}"/>
-				<h:commandLink action="#{imageController.prepareListAll}" value="Show All"
-							   rendered="#{imageController.items.rowCount == 0}"/>
 				<h:panelGroup >
-					<h:outputText value="#{imageController.pagination.pageFirstItem + 1}..#{imageController.pagination.pageLastItem + 1}/#{imageController.pagination.itemsCount}"/>&nbsp;
-					<h:commandLink action="#{imageController.previous}" value="#{bundle.Previous} #{imageController.pagination.pageSize}" rendered="#{imageController.pagination.hasPreviousPage}"/>&nbsp;
-					<h:commandLink action="#{imageController.next}" value="#{bundle.Next} #{imageController.pagination.pageSize}" rendered="#{imageController.pagination.hasNextPage}"/>&nbsp;
 					<h:selectManyCheckbox >
-						<h:commandLink action="#{imageController.sameReSort}" value="Sort by" />
+						<p:commandButton action="#{imageController.sameReSort}" value="Sort by" />
 						<h:outputLabel value="Barcode" for="ch_bar" />
 						<h:selectBooleanCheckbox id="ch_bar" value="#{imageController.sortByBarcode}" />
 						<h:outputLabel value="Filename" for="ch_fil" />
 						<h:selectBooleanCheckbox id="ch_fil" value="#{imageController.sortByFilename}" />
 					</h:selectManyCheckbox>
-					<h:commandLink action="#{imageController.sameReSort}" value="Filter by" />
+					<p:commandButton action="#{imageController.sameReSort}" value="Filter by (or)" />
 					<h:outputLabel value="Barcode" for="it_bar" />
-					<h:inputText id="it_bar" value="#{imageController.barcodeFilterCriterion}" size="10" />
+					<p:inputText id="it_bar" value="#{imageController.barcodeFilterCriterion}" size="10" />
+                    <h:outputLabel value="Path" for="it_path" />
+                    <p:inputText id="it_path" value="#{imageController.pathFilterCriterion}" size="10" />					
 					<h:outputLabel value="Filename" for="it_fil" />
-					<h:inputText id="it_fil" value="#{imageController.filenameFilterCriterion}" size="10" />
+					<p:inputText id="it_fil" value="#{imageController.filenameFilterCriterion}" size="10" />
 
 
 					<p:dataTable value="#{imageController.items}" id="imagetable"

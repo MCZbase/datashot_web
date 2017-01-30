@@ -1,10 +1,8 @@
 package edu.harvard.mcz.imagecapture.jsfclasses;
 
-import edu.harvard.mcz.imagecapture.data.Specimen;
 import edu.harvard.mcz.imagecapture.data.Users;
 import edu.harvard.mcz.imagecapture.jsfclasses.util.JsfUtil;
 import edu.harvard.mcz.imagecapture.jsfclasses.util.PaginationHelper;
-import edu.harvard.mcz.imagecapture.managedbeans.LoginBean;
 import edu.harvard.mcz.imagecapture.ejb.UsersFacadeLocal;
 import edu.harvard.mcz.imagecapture.utility.AuthenticationUtility;
 
@@ -15,7 +13,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.ejb.EJB;
-import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.component.UIComponent;
@@ -26,7 +23,6 @@ import javax.faces.convert.FacesConverter;
 import javax.faces.model.DataModel;
 import javax.faces.model.ListDataModel;
 import javax.faces.model.SelectItem;
-import javax.inject.Inject;
 
 @ManagedBean (name="usersController")
 @SessionScoped

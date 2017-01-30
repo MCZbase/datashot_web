@@ -5,6 +5,7 @@ import edu.harvard.mcz.imagecapture.data.Image;
 import edu.harvard.mcz.imagecapture.jsfclasses.util.JsfUtil;
 import edu.harvard.mcz.imagecapture.jsfclasses.util.PaginationHelper;
 import edu.harvard.mcz.imagecapture.ejb.ImageFacadeLocal;
+
 import java.io.File;
 import java.io.InputStream;
 import java.net.InetAddress;
@@ -13,10 +14,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 import javax.annotation.security.DenyAll;
 import javax.annotation.security.RolesAllowed;
 import javax.ejb.EJB;
@@ -40,6 +41,8 @@ import javax.faces.model.SelectItem;
 //import net.imglib2.type.numeric.RealType;
 //import net.imglib2.type.numeric.integer.UnsignedByteType;
 //import net.imglib2.util.RealSum;
+
+
 
 import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
@@ -65,6 +68,7 @@ public class ImageController {
 	private boolean sortByFilename;
 
 	private String filenameFilterCriterion;
+	private String pathFilterCriterion;
 	private String barcodeFilterCriterion;
 	private String barcodeListFilterCriterion;
 	private boolean barcodeListAsLinks;
@@ -139,6 +143,9 @@ public class ImageController {
 					if (filenameFilterCriterion != null) {
 						filters.put("filename", filenameFilterCriterion);
 					}
+					if (pathFilterCriterion != null) {
+						filters.put("path", pathFilterCriterion);
+					}					
 					if (barcodeListFilterCriterion != null) {
 						
 //TODO: There's an ORA-01460 getting thrown for a list of 100
@@ -152,12 +159,17 @@ public class ImageController {
 				}
                 @Override
                 public int getItemsCount() {
-                    return getFacade().count();
+					Map<String, String> filters = getFilterMap();
+					if (filters.isEmpty()) {
+						return getFacade().count();
+					} else {
+						return getFacade().countFiltered(filters);
+					} 
                 }
 
                 @Override
-                public DataModel createPageDataModel() {
-					DataModel result = null;
+                public DataModel<Image>createPageDataModel() {
+					DataModel<Image> result = null;
 					int[] range = new int[]{getPageFirstItem(), getPageFirstItem() + getPageSize()};
                         ArrayList<String> sortFields = new ArrayList();
 						if (isSortByBarcode()) {
@@ -168,7 +180,7 @@ public class ImageController {
 						}
 					Map<String, String> filters = getFilterMap();
 					boolean useAnd = false; // because of rawBardcode and exifBarcode use or not and.
-					result = new ListDataModel(
+					result = new ListDataModel<Image>(
 								getFacade().findRangeQueryAndOr(
 								range, sortFields.toArray(new String[0]), true, filters,useAnd));
 					logger.log(Level.INFO, "Found " + result.getRowCount() + " images.");					
@@ -196,7 +208,19 @@ public class ImageController {
 		this.sortByFilename = sortByFilename;
 	}
 
-		/** Re-render the same list, but resorted using the current sortBy and filterBy criteria.
+	public String last() {
+		getPagination().lastPage();
+		recreateModel();
+		return "List?faces-redirect=true";
+	}	
+		
+	public String first() {
+		getPagination().firstPage();
+		recreateModel();
+		return "List?faces-redirect=true";
+	}	
+	
+	/** Re-render the same list, but resorted using the current sortBy and filterBy criteria.
 	 *
 	 * @return faces navigation string, List?faces-redirect=true.
 	 */
@@ -252,6 +276,8 @@ public class ImageController {
 
 	public void resetFilters() {
 		filenameFilterCriterion = null;
+		pathFilterCriterion = null;
+		barcodeFilterCriterion = null;
 	}
 
     public String prepareView() {
@@ -444,6 +470,20 @@ public class ImageController {
 
 	public void setBarcodeFilterCriterion(String barcodeFilterCriterion) {
 		this.barcodeFilterCriterion = barcodeFilterCriterion;
+	}
+
+	/**
+	 * @return the pathFilterCriterion
+	 */
+	public String getPathFilterCriterion() {
+		return pathFilterCriterion;
+	}
+
+	/**
+	 * @param pathFilterCriterion the pathFilterCriterion to set
+	 */
+	public void setPathFilterCriterion(String pathFilterCriterion) {
+		this.pathFilterCriterion = pathFilterCriterion;
 	}
 
 	public String getBarcodeListFilterCriterion() {
