@@ -299,6 +299,14 @@ public class UsersController {
 	 * @param fullnameFilterCriterion the fullnameFilterCriterion to set
 	 */
 	public void setFullnameFilterCriterion(String fullnameFilterCriterion) {
+		if (fullnameFilterCriterion!=null && fullnameFilterCriterion.length()>0) { 
+			if (!fullnameFilterCriterion.startsWith("%")) { 
+				fullnameFilterCriterion = "%" + fullnameFilterCriterion;
+			}
+			if (!fullnameFilterCriterion.endsWith("%")) { 
+				fullnameFilterCriterion = fullnameFilterCriterion + "%"; 
+			}			
+		}
 		this.fullnameFilterCriterion = fullnameFilterCriterion;
 	}
 

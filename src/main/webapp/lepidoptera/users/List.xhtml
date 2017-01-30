@@ -29,6 +29,7 @@
                                    disabled="#{!usersController.pagination.hasNextPage}"/>
                     <p:commandButton action="#{usersController.last}" value="Last Page"
                                    disabled="#{!usersController.pagination.hasNextPage}"/>						
+				    <p:commandButton action="#{usersController.prepareListAll}" value="Show All" ajax="false" />
 			</h:form>
 		</ui:define>
         <ui:define name="body">
@@ -37,7 +38,6 @@
 					<h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
 				</h:panelGroup>
 				<h:outputText escape="false" value="#{bundle.ListUsersEmpty}" rendered="#{usersController.items.rowCount == 0}"/>
-				<p:commandButton action="#{usersController.prepareListAll}" value="Show All" />
                 <p:commandButton action="#{usersController.sameReSort}" value="Filter by" />       
                 <h:outputLabel value="Full Name" for="it_bar" />     
                 <p:inputText id="it_bar" value="#{usersController.fullnameFilterCriterion}" size="10" />   
