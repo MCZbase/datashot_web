@@ -8,6 +8,8 @@ import edu.harvard.mcz.imagecapture.managedbeans.LoginBean;
 import edu.harvard.mcz.imagecapture.ejb.UsersFacadeLocal;
 import edu.harvard.mcz.imagecapture.utility.AuthenticationUtility;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -41,7 +43,11 @@ public class UsersController {
     private PaginationHelper pagination;
 	private int selectedItemIndex;  // index including pages
 	private int currentRowIndex;    // within page index
-
+	
+	// Filter criteria
+	private String fullnameFilterCriterion = null;
+	private String roleFilterCriterion = null;
+	
     public UsersController() {
 		super();
     }
@@ -71,15 +77,38 @@ public class UsersController {
     public PaginationHelper getPagination() {
         if (pagination == null) {
             pagination = new PaginationHelper(50) {
+            	
+				public Map<String, String> getFilterMap() {
+					Map<String, String> filters = new HashMap<String, String>();
+					if (fullnameFilterCriterion != null) {
+						filters.put("fullname", fullnameFilterCriterion);
+					}
+					if (roleFilterCriterion != null) {
+						filters.put("role", roleFilterCriterion);
+					}					
+					return filters;
+				}
 
                 @Override
                 public int getItemsCount() {
-                    return getFacade().count();
+					Map<String, String> filters = getFilterMap();
+					if (filters.isEmpty()) {
+						return getFacade().count();
+					} else {
+						return getFacade().countFiltered(filters);
+					}                    
                 }
 
                 @Override
                 public DataModel<Users> createPageDataModel() {
-                    return new ListDataModel<Users>(getFacade().findRange(new int[]{getPageFirstItem(), getPageFirstItem()+getPageSize()}));
+                	String[] sortFields = { "fullname" };
+                	Map<String, String> filters = getFilterMap();
+                    return new ListDataModel<Users>(getFacade().findRangeQuery(
+                    		new int[]{getPageFirstItem(), getPageFirstItem()+getPageSize()},
+                    		sortFields,
+                    		true,
+                    		filters
+                    		));
                 }
             };
         }
@@ -90,6 +119,20 @@ public class UsersController {
         recreateModel();
         return "List?faces-redirect=true";
     }
+    
+	public String prepareListAll() {
+		pagination = null;
+		items = null;
+		resetFilters();
+		getPagination().createPageDataModel();
+		recreateModel();
+		return "List?faces-redirect=true";
+	}    
+	
+	public void resetFilters() {
+		setFullnameFilterCriterion(null);	
+		setRoleFilterCriterion(null);
+	}
 
     public String prepareView() {
         current = (Users)getItems().getRowData();
@@ -245,7 +288,35 @@ public class UsersController {
         return items;
     }
 
-    private void recreateModel() {
+    /**
+	 * @return the fullnameFilterCriterion
+	 */
+	public String getFullnameFilterCriterion() {
+		return fullnameFilterCriterion;
+	}
+
+	/**
+	 * @param fullnameFilterCriterion the fullnameFilterCriterion to set
+	 */
+	public void setFullnameFilterCriterion(String fullnameFilterCriterion) {
+		this.fullnameFilterCriterion = fullnameFilterCriterion;
+	}
+
+	/**
+	 * @return the roleFilterCriterion
+	 */
+	public String getRoleFilterCriterion() {
+		return roleFilterCriterion;
+	}
+
+	/**
+	 * @param roleFilterCriterion the roleFilterCriterion to set
+	 */
+	public void setRoleFilterCriterion(String roleFilterCriterion) {
+		this.roleFilterCriterion = roleFilterCriterion;
+	}
+
+	private void recreateModel() {
         items = null;
 		current = null;
     }
@@ -255,6 +326,17 @@ public class UsersController {
         recreateModel();
         return "List?faces-redirect=true";
     }
+    
+	/** Re-render the same list, but resorted using the current sortBy and filterBy criteria.
+	 *
+	 * @return faces navigation string, List?faces-redirect=true.
+	 */
+	public String sameReSort() {
+		pagination = null;
+		items = null;
+		getPagination().createPageDataModel();
+		return "List?faces-redirect=true";
+	}    
 
     public String previous() {
         getPagination().previousPage();

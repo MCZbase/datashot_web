@@ -104,6 +104,13 @@ public class PickListsManagedBean {
 		return usersBean.getUserRoleValues();
 	}
 	
+	public List<String> getUserRoleValuesWBlank() {
+		List<String> result = new ArrayList<String>();
+		result.add("");
+		result.addAll(usersBean.getUserRoleValues());
+		return result;
+	}	
+	
 	public List<String> getImagePaths() { 
 		return imageBean.findUniquePaths();
 	}

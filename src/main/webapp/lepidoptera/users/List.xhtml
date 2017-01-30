@@ -37,12 +37,25 @@
 					<h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
 				</h:panelGroup>
 				<h:outputText escape="false" value="#{bundle.ListUsersEmpty}" rendered="#{usersController.items.rowCount == 0}"/>
+				<p:commandButton action="#{usersController.prepareListAll}" value="Show All" />
+                <p:commandButton action="#{usersController.sameReSort}" value="Filter by" />       
+                <h:outputLabel value="Full Name" for="it_bar" />     
+                <p:inputText id="it_bar" value="#{usersController.fullnameFilterCriterion}" size="10" />   
+                <h:outputLabel value="Role" for="it_role" />     
+                <p:selectOneMenu id="it_role" value="#{usersController.roleFilterCriterion}"
+                                         filter="true" filterMatchMode="contains" 
+                                         required="false" >
+                            <f:selectItems value="#{pickListsManagedBean.userRoleValuesWBlank}"  />
+                </p:selectOneMenu>
 				<h:panelGroup rendered="#{usersController.items.rowCount > 0}">
-					<h:outputText value="#{usersController.pagination.pageFirstItem + 1}..#{usersController.pagination.pageLastItem + 1}/#{usersController.pagination.itemsCount}"/>&nbsp;
-					<h:commandLink action="#{usersController.previous}" value="#{bundle.Previous} #{usersController.pagination.pageSize}" rendered="#{usersController.pagination.hasPreviousPage}"/>&nbsp;
-					<h:commandLink action="#{usersController.next}" value="#{bundle.Next} #{usersController.pagination.pageSize}" rendered="#{usersController.pagination.hasNextPage}"/>&nbsp;
-					<h:dataTable value="#{usersController.items}" var="item" border="0" cellpadding="2" cellspacing="0" rowClasses="jsfcrud_odd_row,jsfcrud_even_row" rules="all" style="border:solid 1px">
-						<h:column>
+					<p:dataTable value="#{usersController.items}" var="item" >
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Email/username"/>
+                            </f:facet>
+                            <h:outputText value="#{item.username}"/>
+                        </p:column>					
+						<p:column>
 							<f:facet name="header">
 								<h:outputText value="&nbsp;"/>
 							</f:facet>
@@ -53,32 +66,26 @@
 							<h:commandLink rendered="#{loginBean.userChiefEditor}"
 								action="#{usersController.prepareEditPassword}"
 								value="Change Password"/>
-						</h:column>
-						<h:column>
+						</p:column>
+						<p:column>
 							<f:facet name="header">
 								<h:outputText value="#{bundle.ListUsersTitle_fullname}"/>
 							</f:facet>
 							<h:outputText value="#{item.fullname}"/>
-						</h:column>
-						<h:column>
+						</p:column>
+						<p:column>
 							<f:facet name="header">
 								<h:outputText value="#{bundle.ListUsersTitle_role}"/>
 							</f:facet>
 							<h:outputText value="#{item.role}"/>
-						</h:column>
-						<h:column>
-							<f:facet name="header">
-								<h:outputText value="Email/username"/>
-							</f:facet>
-							<h:outputText value="#{item.username}"/>
-						</h:column>
-						<h:column>
+						</p:column>
+						<p:column>
 							<f:facet name="header">
 								<h:outputText value="#{bundle.ListUsersTitle_description}"/>
 							</f:facet>
 							<h:outputText value="#{item.description}"/>
-						</h:column>
-					</h:dataTable>
+						</p:column>
+					</p:dataTable>
 				</h:panelGroup>
 			</h:form>
         </ui:define>
