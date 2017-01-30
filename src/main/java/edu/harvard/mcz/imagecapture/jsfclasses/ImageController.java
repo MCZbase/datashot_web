@@ -73,7 +73,8 @@ public class ImageController {
 	private String barcodeListFilterCriterion;
 	private boolean barcodeListAsLinks;
 
-	private int pagesize = 25;
+	private static final int DEFAULT_PAGESIZE = 50;
+	private int pagesize = DEFAULT_PAGESIZE;
 
     public ImageController() {
 		super();
@@ -225,7 +226,7 @@ public class ImageController {
 	 * @return faces navigation string, List?faces-redirect=true.
 	 */
 	public String sameReSort() {
-		pagesize = 25;
+		pagesize = DEFAULT_PAGESIZE;
 		pagination = null;
 		items = null;
 		getPagination().createPageDataModel();
@@ -249,13 +250,13 @@ public class ImageController {
 	}
 
     public String prepareList() {
-		pagesize = 25;
+		pagesize = DEFAULT_PAGESIZE;
         recreateModel();
         return "List?faces-redirect=true";
     }
 
 	public String prepareListAll() {
-		pagesize = 25;
+		pagesize = DEFAULT_PAGESIZE;
 		pagination = null;
 		items = null;
 		resetFilters();
