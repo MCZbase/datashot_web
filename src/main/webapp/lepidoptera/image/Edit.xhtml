@@ -50,40 +50,61 @@
 							<h:panelGrid columns="2">
 								<h:outputLabel value="#{bundle.EditImageLabel_imageId}" for="imageId" />
 								<h:outputText id="imageId" value="#{imageController.selected.imageId}" title="#{bundle.EditImageTitle_imageId}"/>
+								
 								<h:outputLabel value="#{bundle.EditImageLabel_rawBarcode}" for="rawBarcode" />
-								<h:inputText id="rawBarcode" value="#{imageController.selected.rawBarcode}" title="#{bundle.EditImageTitle_rawBarcode}" />
+								<p:inputText id="rawBarcode" value="#{imageController.selected.rawBarcode}" title="#{bundle.EditImageTitle_rawBarcode}" />
+								
 								<h:outputLabel value="#{bundle.EditImageLabel_filename}" for="filename" />
 								<h:outputText id="filename" value="#{imageController.selected.filename}" title="#{bundle.EditImageTitle_filename}" />
+								
 								<h:outputLabel value="#{bundle.EditImageLabel_rawOCR}" for="rawOCR" />
-								<h:inputTextarea rows="4" cols="30" id="rawOCR" value="#{imageController.selected.rawOCR}" title="#{bundle.EditImageTitle_rawOCR}" />
+								<p:inputTextarea rows="4" cols="30" id="rawOCR" widgetid="rawOCR"
+								                 value="#{imageController.selected.rawOCR}" 
+								                 title="#{bundle.EditImageTitle_rawOCR}" />
+								
 								<h:outputLabel value="#{bundle.EditImageLabel_path}" for="path" />
 								<h:outputText id="path" value="#{imageController.selected.path}" title="#{bundle.EditImageTitle_path}" />
+								
 								<h:outputLabel value="#{bundle.EditImageLabel_rawExifBarcode}" for="rawExifBarcode" />
 								<h:outputText id="rawExifBarcode" value="#{imageController.selected.rawExifBarcode}" title="#{bundle.EditImageTitle_rawExifBarcode}" />
-								<h:outputLabel value="#{bundle.EditImageLabel_templateId}" for="templateId" />
-								<h:selectOneMenu id="template" value="#{imageController.selected.templateId}" title="#{bundle.EditImageTitle_templateId}" >
+								
+								<h:outputLabel value="#{bundle.EditImageLabel_templateId}" for="template" />
+								<h:selectOneMenu id="template" 
+								                 value="#{imageController.selected.templateId}" 
+								                 title="#{bundle.EditImageTitle_templateId}" >
 									<f:selectItems value="#{pickListsManagedBean.templateValues}" />
 								</h:selectOneMenu>
+								
 								<h:outputLabel value="#{bundle.EditImageLabel_drawernumber}" for="drawernumber" />
-								<h:inputText id="drawernumber" value="#{imageController.selected.drawernumber}" title="#{bundle.EditImageTitle_drawernumber}" />
+								<p:inputText id="drawernumber" value="#{imageController.selected.drawernumber}" title="#{bundle.EditImageTitle_drawernumber}" />
+								
 								<h:outputLabel value="#{bundle.EditSpecimenLabel_barcode}" for="specimenId" />
                                 <h:commandLink action="#{imageController.prepareEditSpecimen}" value="#{imageController.selected.specimenId.barcode}" id="specimenId"
 	           							   	   disabled="${!loginBean.userDataEntry or imageController.selected.specimenId.stateDoneMigrated}" />
-								<ui:remove>
-									<h:selectOneMenu id="specimenId" value="{imageController.selected.specimenId}" title="{bundle.EditImageTitle_specimenId}" >
-										<f:selectItems value="{specimenController.itemsAvailableSelectOne}"/>
-									</h:selectOneMenu>
-								</ui:remove>
+								
+								<h:outputLabel value="File Exists" for="imageExists" />
+								<h:outputText id="imageExists" value="#{imageController.selected.fileExists}" title="File Exists"/>
+								
+								<h:outputLabel value="File is Readable" for="imageReadable" />
+								<h:outputText id="imageReadable" value="#{imageController.selected.fileReadable}" title="File Readable"/>
+								
 							</h:panelGrid>
 
 							<p:commandButton action="#{imageController.update}" value="#{bundle.EditImageSaveLink}"/>
 
 							<p:commandButton rendered="#{loginBean.userChiefEditor}" 
+							                 id="deleteButton" widgetid="deleteButton"
 							                 value="Delete Image Record"
 							                 type="button"
 							                 disabled="#{imageControler.selected.fileExists}"
 							                 onclick="PrimeFaces.widgets['widget_imageDeleteForm_popupconfirmdelete'].show();" 
 							                 />
+							<!-- imageController.selected.fileExists is evaluating to false in all cases (evaluation at unexpected lifecycle phase?), so disable on page load -->
+                            <script>
+                            $( document ).ready( function() {
+                                if ("#{imageController.selected.fileExists}"=="true") { PrimeFaces.widgets['widget_imageEditorForm_deleteButton'].disable(); }   
+                            });
+                            </script>							                 
 						</h:form>
 						<h:form id="imageDeleteForm">
 							<p:confirmDialog id="popupconfirmdelete"
