@@ -845,7 +845,7 @@
                                             <h:outputText value="#{bundle.ListOtherNumbersTitle_numberType}" />
                                         </f:facet>
                                         <p:selectOneMenu id="otherNumberListnumbertype" editable="true" value="#{on_item.numberType}"
-                                                         title="#{MetadataRetrieverBean.tipForField('Number','NumberType')}"
+                                                         title="#{MetadataRetrieverBean.tipForField('OtherNumbers','NumberType')}"
                                                      >
                                             <f:selectItems value="#{pickListsManagedBean.numberTypeValues}" />
                                         </p:selectOneMenu>
@@ -855,8 +855,8 @@
                                             <h:outputText value="#{bundle.ListOtherNumbersTitle_otherNumber}"/>
                                         </f:facet>
                                         <h:inputText value="#{on_item.otherNumber}"
-                                                     maxlength="#{MetadataRetrieverBean.lengthForField('Number','Number')}"
-                                                     title="#{MetadataRetrieverBean.tipForField('Number','Number')}"
+                                                     maxlength="#{MetadataRetrieverBean.lengthForField('OtherNumbers','OtherNumber')}"
+                                                     title="#{MetadataRetrieverBean.tipForField('OtherNumbers','OtherNumber')}"
                                                      />
                                     </h:column>
                                 </h:dataTable>
@@ -1487,12 +1487,12 @@
                                         <h:panelGrid columns="2" id="numberAddGrid">
                                             <h:outputLabel value="#{bundle.ListOtherNumbersTitle_otherNumber}" for="txt_on"></h:outputLabel>
                                             <h:inputText id="txt_on" value="#{specimenController.temp_Number}" required="false"
-                                                         maxlength="#{MetadataRetrieverBean.lengthForField('Number','Number')}"
-                                                         title="#{MetadataRetrieverBean.tipForField('Number','Number')}"
+                                                         maxlength="#{MetadataRetrieverBean.lengthForField('OtherNumbers','OtherNumber')}"
+                                                         title="#{MetadataRetrieverBean.tipForField('OtherNumbers','OtherNumber')}"
                                                          />
                                             <h:outputLabel value="#{bundle.ListOtherNumbersTitle_numberType}" for="txt_nt"></h:outputLabel>
                                             <p:selectOneMenu editable="true" id="txt_nt" value="#{specimenController.temp_NumberType}"
-                                                         title="#{MetadataRetrieverBean.tipForField('Number','NumberType')}"
+                                                         title="#{MetadataRetrieverBean.tipForField('OtherNumbers','NumberType')}"
                                                          >
                                                 <f:selectItems value="#{pickListsManagedBean.numberTypeValues}" />
                                             </p:selectOneMenu>
