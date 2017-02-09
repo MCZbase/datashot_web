@@ -15,11 +15,13 @@
     <ui:define name="body" >
 	<h:outputText style="font-weight: bold" value="Community-sourcing the transcription of label data in the MCZ Collections" />
 		<p:panel header="Transcribe Label Data" toggleable="false" collapsed="false" >
-			<h:panelGrid columns="3" >
-				<h:panelGrid columns="1">
-					<h:form>
-						<h:commandLink action="/lepidoptera/specimen/List?faces-redirect=true" value="List/Search All Specimens"/>
-					</h:form>
+			<p:panelGrid >
+			  <p:row>
+			    <p:column style="vertical-align: top;">
+				<p:panelGrid columns="1">
+				    <f:facet name="header">
+				        Quick Search Links
+				    </f:facet>
 					<h:form rendered="#{!loginBean.userExactlyAnyEditor}" >
 						<h:commandLink action="#{specimenController.worflowstatusAsOCR}" value="Work on specimens in state OCR"/>
 					</h:form>
@@ -35,9 +37,14 @@
 					<h:form  rendered="#{!loginBean.userExactlyDataEntry}" >
 						<h:commandLink action="#{specimenController.worflowstatusAsQCPass}" value="Work on specimens with reviewed quality problems."/>
 					</h:form>
-				</h:panelGrid>
+				</p:panelGrid>
+				</p:column>
+			    <p:column style="vertical-align: top;">
 				<h:form >
-					<h:panelGrid columns="4" >
+					<p:panelGrid columns="4" >
+					    <f:facet name="header">
+					        Find Records To Work On
+					    </f:facet>
 						<h:outputLabel value="Family" for="it_fam" />
 						<p:autoComplete id="it_fam"
 										   value="#{specimenController.familyFilterCriterion}"
@@ -55,9 +62,9 @@
 						<h:outputLabel value="species" for="it_sp" />
 						<h:inputText id="it_sp" value="#{specimenController.specificepithetFilterCriterion}" />
 						<h:outputLabel value="Status" for="it_stat" />
-						<h:selectOneMenu id="it_stat" value="#{specimenController.workflowstatusFilterCriterion}" required="false" >
+						<p:selectOneMenu id="it_stat" value="#{specimenController.workflowstatusFilterCriterion}" required="false" >
 							<f:selectItems value="#{workFlowStatusManagedBean.allWorkflowStatusValuesWithBlankAndNot}"  />
-						</h:selectOneMenu>
+						</p:selectOneMenu>
 
 						<h:outputLabel value="subspecies" for="it_ssp" />
 						<h:inputText id="it_ssp" value="#{specimenController.subspecificepithetFilterCriterion}" />
@@ -80,15 +87,34 @@
 						
                         <h:outputLabel value="HigherGeog" for="it_hgeo" />
                         <h:inputText id="it_hgeo" value="#{specimenController.higherGeographyFilterCriterion}" />
-						<h:outputLabel value=" "/>
-						<h:commandButton action="#{specimenController.prepareListFromIndexSearch}" value="Search" />
-					</h:panelGrid>
+						<h:outputLabel value="" />
+						<h:outputLabel value="" />
+						
+						<f:facet name="footer" style="margin: 0 auto 0 0; ">
+						  <div align="right">
+						     <p:commandButton action="#{specimenController.prepareListFromIndexSearch}"
+						                      ajax="false" 
+						                      value="Search" />
+						     <p:commandButton type="reset" value="Clear Form" />
+						  </div>
+						</f:facet>
+					</p:panelGrid>
 				</h:form>
-			    <components:genusTagCloud />
-			</h:panelGrid>
+				</p:column>
+			    <p:column style="vertical-align: top;">
+			      <p:panelGrid columns="1">
+					 <f:facet name="header">
+					     Genera most needing work
+					 </f:facet>
+			        <components:genusTagCloud />
+			      </p:panelGrid>
+				</p:column>
+			  </p:row>
+			</p:panelGrid>
 			<h:panelGrid columns="3">
 					<h:form>
-						<h:commandButton action="#{specimenController.prepareListFromIndexBarcodes}"
+						<p:commandButton action="#{specimenController.prepareListFromIndexBarcodes}"
+						                 ajax="false"
 										 value="Find Specimens by Barcodes" />
 						<h:outputLabel value="Barcodes:" for="it_bars2" />
 						<h:inputText id="it_bars2"
