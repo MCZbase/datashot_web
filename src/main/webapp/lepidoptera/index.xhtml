@@ -130,22 +130,36 @@
 				 toggleSpeed="500"
 				 >
 			<h:panelGrid columns="2">
+			    <p:column style="vertical-align: top;">
 				<h:panelGrid columns="1">
-
 					<h:form>
-						<h:commandLink rendered="#{loginBean.userChiefEditor}"
+						<p:commandButton rendered="#{loginBean.userChiefEditor}"
 									   action="/lepidoptera/users/List?faces-redirect=true"
+									   ajax="false"
 									   value="Manage Users"/>
+					</h:form>
+                    <h:form>
+                        <p:commandButton rendered="#{loginBean.userAbleToEditImages}"
+                                       action="/lepidoptera/image/List?faces-redirect=true"
+									   ajax="false"
+                                       value="Find Images"/>
+                    </h:form>					
+					<h:form>
+						<p:commandButton rendered="#{loginBean.userChiefEditor}"
+									   action="/lepidoptera/image/RemoveBatch?faces-redirect=true"
+									   ajax="false"
+									   value="Delete unwanted image batches/folders"/>
+					</h:form>
+					<h:form >
+						<p:commandButton rendered="#{loginBean.userAbleToEditImages}"
+									   ajax="false"
+							           action="/lepidoptera/collector/QCList"
+									   value="Edit Unique Collector Names"/>
 					</h:form>
 					<h:form>
 						<h:commandLink rendered="#{loginBean.userFullAccess}"
 									   action="/lepidoptera/determination/ListProblems?faces-redirect=true"
 									   value="Find Problematic Determinations"/>
-					</h:form>
-					<h:form >
-						<h:commandLink rendered="#{loginBean.userAbleToEditImages}"
-							           action="/lepidoptera/collector/QCList"
-									   value="Edit Unique Collector Names"/>
 					</h:form>
 					<h:form >
 						<h:commandLink rendered="#{loginBean.userAbleToEditImages}"
@@ -158,18 +172,8 @@
 									   value="Edit Unique State/Province Names"/>
 					</h:form>
 					<h:form>
-						<h:commandLink rendered="#{loginBean.userAbleToEditImages}"
-							           action="/lepidoptera/image/List?faces-redirect=true"
-									   value="Find Images"/>
-					</h:form>
-					<h:form>
 						<h:commandLink rendered="#{loginBean.userAbleToEditImages}" action="#{imageController.prepareProblemView}"
 									   value="List Problem Images"/>
-					</h:form>
-					<h:form>
-						<h:commandLink rendered="#{loginBean.userChiefEditor}"
-									   action="/lepidoptera/image/RemoveBatch?faces-redirect=true"
-									   value="Delete unwanted image batches/folders"/>
 					</h:form>
 					<h:form>
 						<h:commandLink rendered="#{loginBean.userChiefEditor}" action="/lepidoptera/unitTrayLabel/List?faces-redirect=true"
@@ -184,17 +188,21 @@
 									   value="Show All Exemplar Pin Labels"/>
 					</h:form>
 				</h:panelGrid>
+				</p:column>
+			    <p:column style="vertical-align: top;">
 				<h:panelGrid columns="3">
 					<h:form>
-						<h:commandButton action="#{imageController.prepareBarcodesListFromIndex}"
+						<p:commandButton action="#{imageController.prepareBarcodesListFromIndex}"
+									     ajax="false"
 										 value="Find Images for Barcodes" />
 						<h:outputLabel value="Barcodes:" for="it_bar" />
-						<h:inputText id="it_bar"
+						<p:inputText id="it_bar"
 									 value="#{imageController.barcodeListFilterCriterion}"
 									 size="80"
 									 label="Comma Separated List of Barcodes (up to 100)" />
 					</h:form>
 				</h:panelGrid>
+				</p:column>
 			</h:panelGrid>
 		</p:panel>
 		<p:panel header="Administrative Links" toggleable="true" toggleSpeed="500"
