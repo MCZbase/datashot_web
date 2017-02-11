@@ -21,7 +21,13 @@
 				<h:panelGroup id="messagePanel" layout="block">
 					<h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
 				</h:panelGroup>
-				<h:outputText escape="false" value="Clean up a Batch"/>
+				<h:outputText escape="false" value="Clean up a Batch: If, upon pre-processing, you find that an entire batch of images 
+				needs to be removed and replaced, you can remove the image and specimen records from the preprocessing from here, 
+				if no specimen record in the batch has been edited after pre-processing, and if no image is linked to a specimen record 
+				created from another batch.  You will need to separately delete the image files from the filesystem.  Cleanup proceeds in
+				three steps.  First select a batch to check, then if the conditions for deleting are met, you will be able to delete the 
+			    specimen and image records created by pre-processing the batch from here.  Third, delete the image files."
+			    style="font-size:larger;"/>
 				<p:panel header="Clean up a Batch" toggleable="false" collapsed="false" >
 			    <h:form id="setupForm">
                   <h:panelGrid id="setupFormContent" columns="3" >
