@@ -718,11 +718,11 @@
                                                          />
                                                          
                                     <h:panelGrid columns="2" >
-                                        <h:dataTable id="collectorList"
+                                        <p:dataTable id="collectorList" widgetVar="collectorList"
                                                      value="#{specimenController.selected.collectorCollection}"
                                                      var="coll_item"
-                                                     border="0" cellpadding="2" cellspacing="0" rowClasses="jsfcrud_odd_row,jsfcrud_even_row" rules="all" style="border:solid 1px" >
-                                            <h:column>
+                                                     >
+                                            <p:column>
                                                 <f:facet name="header">
                                                     <h:outputText value="#{bundle.ListCollectorTitle_collectorName}"/>
                                                 </f:facet>
@@ -734,8 +734,20 @@
                                                         completeMethod="#{specimenController.autocompleteAgent}"
                                                         maxlength="#{MetadataRetrieverBean.lengthForField('Collector','CollectorName')}"
                                                  />              
-                                            </h:column>
-                                        </h:dataTable>
+                                            </p:column>
+                                            <p:column>
+                                                <f:facet name="header">
+                                                    <h:outputText value=""/>
+                                                </f:facet>
+                                                <p:commandButton id="cl_colldelete" 
+                                                        process="@this"
+                                                        value="Delete"
+                                                        update="mainForm:collectorList"
+                                                        action="#{specimenController.deleteCollector(coll_item)}"
+                                                        ajax="true"
+                                                 />              
+                                            </p:column>
+                                        </p:dataTable>
                                         <h:graphicImage id="collectorsInMCZbaseIcon"
                                                         library="images" name="#{specimenController.iconForCollectorsInMCZbase}"
                                                         height="24" width="33"

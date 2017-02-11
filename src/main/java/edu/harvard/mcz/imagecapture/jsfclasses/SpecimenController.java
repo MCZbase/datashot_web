@@ -243,6 +243,12 @@ logger.log(Level.INFO, "SpecimenController.createNewDetermination() was invoked.
 		FacesContext.getCurrentInstance().renderResponse();
 		return null;
 	}
+	
+	public String deleteCollector(Collector collToRemove) { 
+		current.getCollectorCollection().remove(collToRemove);
+		FacesContext.getCurrentInstance().renderResponse();
+		return null;
+	}
 
 	public String getDrawerNumberSize() {
 		return Integer.toString(metadataRetrieverEJBFacade.getFieldLength(Specimen.class, "DrawerNumber"));
