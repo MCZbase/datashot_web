@@ -465,6 +465,18 @@
                                                     target="#{specimenController.temp_CurrentEditIdentification}" />
                                        </p:commandButton>
                                      </p:column>        
+                                     <p:column>
+                                        <f:facet name="header">
+                                             <h:outputText value=""/>
+                                        </f:facet>
+                                        <p:commandButton id="cl_detdelete" 
+                                                        process="@this"
+                                                        value="Delete"
+                                                        update="mainForm:determinationList"
+                                                        action="#{specimenController.deleteDetermination(det_item)}"
+                                                        ajax="true"
+                                        />              
+                                     </p:column>                                    
                                     
                                 </p:dataTable>
                             </p:panel>
@@ -1054,6 +1066,18 @@
                                         </h:selectOneMenu>
                                         </f:facet>
                                         </p:cellEditor>
+                                    </p:column>
+                                    <p:column>
+                                         <f:facet name="header">
+                                              <h:outputText value=""/>
+                                         </f:facet>
+                                         <p:commandButton id="partdelete" 
+                                                        process="@this"
+                                                        value="Delete"
+                                                        update="mainForm:SpecimenPartList"
+                                                        action="#{specimenController.deletePart(specimenPart)}"
+                                                        ajax="true"
+                                         />              
                                     </p:column>
                                     <p:rowExpansion rendered="${specimenController.isTaxonWithPartAttributes()}" >
                                     <p:dataTable id="partAttributeTable"

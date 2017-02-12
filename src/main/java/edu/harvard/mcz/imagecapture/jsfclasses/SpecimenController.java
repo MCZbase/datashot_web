@@ -75,10 +75,10 @@ public class SpecimenController {
 	private SpecimenPartAttributeFacadeLocal partAttributeFacade;
 	@EJB 
 	private LatLongFacadeLocal latLongFacade;
-	@EJB
-	private CollectorFacadeLocal collectorFacade;
-	@EJB
-	private OtherNumbersFacadeLocal otherNumbersFacade;
+	//@EJB
+	// private CollectorFacadeLocal collectorFacade;
+	//@EJB
+	// private OtherNumbersFacadeLocal otherNumbersFacade;
 	
 	
 	private PaginationHelper pagination;
@@ -239,6 +239,13 @@ logger.log(Level.INFO, "SpecimenController.createNewDetermination() was invoked.
 		FacesContext.getCurrentInstance().renderResponse();
 		return null;
 	}
+	
+	public String deleteDetermination(Determination detToRemove) { 
+		boolean removeResult = current.removeFromDeterminationCollection(detToRemove);
+		logger.log(Level.FINE,Boolean.toString(removeResult));
+		FacesContext.getCurrentInstance().renderResponse();
+		return null;
+	}	
 
 	/**
 	 * Method to invoke from a JSF form to add a new Collector to the current
@@ -257,12 +264,29 @@ logger.log(Level.INFO, "SpecimenController.createNewDetermination() was invoked.
 		return null;
 	}
 	
+	/**
+	 * Method to invoke from a JSF form to remove a Collector from the current
+	 * instance of a Specimen.  Invoke from a table of collectors with the collector
+	 * object passed from the selected row.  
+	 * 
+	 * @param collToRemove the collector to remove from the list of collectors for 
+	 * the specimen.
+	 * 
+	 * @return null, also calls the faces context to render a response for ajax update.
+	 */
 	public String deleteCollector(Collector collToRemove) { 
 		boolean removeResult = current.removeFromCollectorCollection(collToRemove);
 		logger.log(Level.FINE,Boolean.toString(removeResult));
 		FacesContext.getCurrentInstance().renderResponse();
 		return null;
 	}
+	
+	public String deletePart(SpecimenPart partToRemove) { 
+		boolean removeResult = current.removeFromPartCollection(partToRemove);
+		logger.log(Level.FINE,Boolean.toString(removeResult));
+		FacesContext.getCurrentInstance().renderResponse();
+		return null;
+	}	
 
 	public String getDrawerNumberSize() {
 		return Integer.toString(metadataRetrieverEJBFacade.getFieldLength(Specimen.class, "DrawerNumber"));
