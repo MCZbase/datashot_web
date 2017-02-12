@@ -848,11 +848,11 @@
                                                      onclick="PF('numberAddPanel').show()"
                                                          />     
                                      
-                                <h:dataTable id="otherNumberList"
+                                <p:dataTable id="otherNumberList"
                                              value="#{specimenController.selected.otherNumbersCollection}"
                                              var="on_item"
-                                             border="0" cellpadding="2" cellspacing="0" rowClasses="jsfcrud_odd_row,jsfcrud_even_row" rules="all" style="border:solid 1px" >
-                                    <h:column>
+                                    >
+                                    <p:column>
                                         <f:facet name="header">
                                             <h:outputText value="#{bundle.ListOtherNumbersTitle_numberType}" />
                                         </f:facet>
@@ -861,8 +861,8 @@
                                                      >
                                             <f:selectItems value="#{pickListsManagedBean.numberTypeValues}" />
                                         </p:selectOneMenu>
-                                    </h:column>
-                                    <h:column>
+                                    </p:column>
+                                    <p:column>
                                         <f:facet name="header">
                                             <h:outputText value="#{bundle.ListOtherNumbersTitle_otherNumber}"/>
                                         </f:facet>
@@ -870,8 +870,20 @@
                                                      maxlength="#{MetadataRetrieverBean.lengthForField('OtherNumbers','OtherNumber')}"
                                                      title="#{MetadataRetrieverBean.tipForField('OtherNumbers','OtherNumber')}"
                                                      />
-                                    </h:column>
-                                </h:dataTable>
+                                    </p:column>
+                                    <p:column>
+                                                <f:facet name="header">
+                                                    <h:outputText value=""/>
+                                                </f:facet>
+                                                <p:commandButton id="on_numdelete" 
+                                                        process="@this"
+                                                        value="Delete"
+                                                        update="mainForm:otherNumberList"
+                                                        action="#{specimenController.deleteOtherNumber(on_item)}"
+                                                        ajax="true"
+                                                 />              
+                                     </p:column>
+                                </p:dataTable>
                             </p:panel>
                             <p:panel header="Notes"
                                      toggleable="true"
@@ -1511,7 +1523,7 @@
                                             <p:commandButton value="Cancel"
                                                              onclick="PF('numberAddPanel').hide(); return false;" />
                                             <p:commandButton value="Store" action="#{specimenController.createNewOtherNumber()}" 
-                                                             update=":mainForm:otherNumberList" 
+                                                             update=":mainForm:otherNumberList :numberAddForm:numberAddPanel" 
                                                              oncomplete="PF('numberAddPanel').hide(); " />
                                         </h:panelGrid>
                                 </p:dialog> 

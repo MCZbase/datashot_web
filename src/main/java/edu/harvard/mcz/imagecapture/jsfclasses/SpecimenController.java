@@ -18,6 +18,7 @@ import edu.harvard.mcz.imagecapture.ejb.LatLongFacadeLocal;
 import edu.harvard.mcz.imagecapture.ejb.MCZbaseAuthAgentNameFacadeLocal;
 import edu.harvard.mcz.imagecapture.ejb.MCZbaseGeogAuthRecFacadeLocal;
 import edu.harvard.mcz.imagecapture.ejb.MetadataRetrieverSessionBeanLocal;
+import edu.harvard.mcz.imagecapture.ejb.OtherNumbersFacadeLocal;
 import edu.harvard.mcz.imagecapture.ejb.SpecimenPartAttributeFacadeLocal;
 import edu.harvard.mcz.imagecapture.jsfclasses.util.JsfUtil;
 import edu.harvard.mcz.imagecapture.jsfclasses.util.PaginationHelper;
@@ -76,6 +77,8 @@ public class SpecimenController {
 	private LatLongFacadeLocal latLongFacade;
 	@EJB
 	private CollectorFacadeLocal collectorFacade;
+	@EJB
+	private OtherNumbersFacadeLocal otherNumbersFacade;
 	
 	
 	private PaginationHelper pagination;
@@ -180,6 +183,13 @@ public class SpecimenController {
 		return null;
 	}
 	
+	public String deleteOtherNumber(OtherNumbers numToRemove) { 
+		boolean removeResult = current.removeFromOtherNumbersCollection(numToRemove);
+		logger.log(Level.FINE,Boolean.toString(removeResult));
+		FacesContext.getCurrentInstance().renderResponse();
+		return null;
+	}	
+	
 	/**
 	 * Method to invoke from a JSF form to add a new Determination to the current
 	 * instance of a Specimen.  Use a form containing input fields bound to
@@ -248,11 +258,8 @@ logger.log(Level.INFO, "SpecimenController.createNewDetermination() was invoked.
 	}
 	
 	public String deleteCollector(Collector collToRemove) { 
-		boolean removeResult = current.getCollectorCollection().remove(collToRemove);
+		boolean removeResult = current.removeFromCollectorCollection(collToRemove);
 		logger.log(Level.FINE,Boolean.toString(removeResult));
-		if (removeResult) { 
-			collectorFacade.remove(collToRemove);
-		}
 		FacesContext.getCurrentInstance().renderResponse();
 		return null;
 	}
