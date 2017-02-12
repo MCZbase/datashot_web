@@ -12,6 +12,7 @@ import edu.harvard.mcz.imagecapture.data.SpecimenPart;
 import edu.harvard.mcz.imagecapture.data.SpecimenPartAttribute;
 import edu.harvard.mcz.imagecapture.data.Users;
 import edu.harvard.mcz.imagecapture.data.WorkFlowStatus;
+import edu.harvard.mcz.imagecapture.ejb.CollectorFacadeLocal;
 import edu.harvard.mcz.imagecapture.ejb.HigherTaxonFacadeLocal;
 import edu.harvard.mcz.imagecapture.ejb.LatLongFacadeLocal;
 import edu.harvard.mcz.imagecapture.ejb.MCZbaseAuthAgentNameFacadeLocal;
@@ -73,6 +74,8 @@ public class SpecimenController {
 	private SpecimenPartAttributeFacadeLocal partAttributeFacade;
 	@EJB 
 	private LatLongFacadeLocal latLongFacade;
+	@EJB
+	private CollectorFacadeLocal collectorFacade;
 	
 	
 	private PaginationHelper pagination;
@@ -245,7 +248,11 @@ logger.log(Level.INFO, "SpecimenController.createNewDetermination() was invoked.
 	}
 	
 	public String deleteCollector(Collector collToRemove) { 
-		current.getCollectorCollection().remove(collToRemove);
+		boolean removeResult = current.getCollectorCollection().remove(collToRemove);
+		logger.log(Level.FINE,Boolean.toString(removeResult));
+		if (removeResult) { 
+			collectorFacade.remove(collToRemove);
+		}
 		FacesContext.getCurrentInstance().renderResponse();
 		return null;
 	}
