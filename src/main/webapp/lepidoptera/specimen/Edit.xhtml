@@ -729,7 +729,7 @@
                                                      onclick="PF('collectorAddPanel').show()"
                                                          />
                                                          
-                                    <h:panelGrid columns="2" >
+                                    <h:panelGrid columns="1" >
                                         <p:dataTable id="collectorList" widgetVar="collectorList"
                                                      value="#{specimenController.selected.collectorCollection}"
                                                      var="coll_item"
@@ -759,11 +759,16 @@
                                                         ajax="true"
                                                  />              
                                             </p:column>
-                                        </p:dataTable>
-                                        <h:graphicImage id="collectorsInMCZbaseIcon"
-                                                        library="images" name="#{specimenController.iconForCollectorsInMCZbase}"
+                                            <p:column>
+                                               <f:facet name="header">
+                                                    <h:outputText value="Exists"/>
+                                               </f:facet>
+                                               <h:graphicImage id="collectorInMCZbaseIcon"
+                                                        library="images" name="#{specimenController.getIconForCollectorInMCZbase(coll_item)}"
                                                         height="24" width="33"
-                                                        rendered="#{specimenController.hasCollectors}" />
+                                                         />
+                                            </p:column>
+                                        </p:dataTable>
                                     </h:panelGrid>
                                     
                                 </h:panelGrid>
@@ -1515,10 +1520,9 @@
                                                         dropdownMode="current"
                                                  />              
                                             <p:commandButton value="Cancel"
-                                                             update=":mainForm:collectorsInMCZbaseIcon"
                                                              onclick="PF('collectorAddPanel').hide(); return false;" />
                                             <p:commandButton value="Store" action="#{specimenController.createNewCollector()}" immediate="false"
-                                                             update=":mainForm:collectorList :mainForm:collectorsInMCZbaseIcon"
+                                                             update=":mainForm:collectorList"
                                                              process=":collectorAddForm:collectorAddGrid"
                                                              oncomplete="PF('collectorAddPanel').hide(); " />                                                             
                                             </h:panelGrid>

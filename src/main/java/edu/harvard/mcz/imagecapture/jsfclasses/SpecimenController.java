@@ -1850,6 +1850,22 @@ try {
 		}
 		return result;
 	}
+	
+	public String getIconForCollectorInMCZbase(Collector collToCheck) {
+		String result = "upload_problem.png";
+		try { 
+		if (collToCheck!=null && collToCheck.getCollectorName()!=null && collToCheck.getCollectorName().trim().length()>0) { 
+		   Map<String,String> filter = new HashMap<String,String>();
+		   filter.put("agent_name", collToCheck.getCollectorName());
+           if (agentNameFacade.findAgents(filter,1).size()>0) {
+			  result = "upload_ok.png";
+		   }
+		}
+		} catch (Exception e) { 
+			logger.log(Level.WARNING, e.getMessage());
+		}
+		return result;
+	}	
 
 	public boolean isHasCollectors() {
 		boolean result = false;
