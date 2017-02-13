@@ -32,6 +32,9 @@
             </h:form>
         </ui:define>
         <ui:define name="body" >
+            <style type="text/css">
+                .selectMenu { display: inline-block; vertical-align: top; }
+            </style>
             <table>
                 <tr><td width="675" valign="top">
                     <h:form id="mainForm">
@@ -113,6 +116,7 @@
                                 </p:commandButton>
                                 <h:outputLabel value="and" for="saveandgoto" />
                                 <p:selectOneMenu
+                                    styleClass="selectMenu"
                                     id="saveandgoto" value="#{specimenController.andGoTo}"
                                     title="choose what happens after you save this record."
                                     required="false"
