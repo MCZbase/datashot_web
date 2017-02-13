@@ -112,13 +112,13 @@
                                                  value="QC Reviewed" >
                                 </p:commandButton>
                                 <h:outputLabel value="and" for="saveandgoto" />
-                                <h:selectOneMenu
+                                <p:selectOneMenu
                                     id="saveandgoto" value="#{specimenController.andGoTo}"
                                     title="choose what happens after you save this record."
                                     required="false"
                                     disabled="false" >
                                     <f:selectItems value="#{pickListsManagedBean.andGoToValues}"  />
-                                </h:selectOneMenu>   
+                                </p:selectOneMenu>   
                                 <h:outputText value = "At last Record." rendered="#{!specimenController.hasNextRow}" /> 
                                 <h:outputText value = "At first Record." rendered="#{!specimenController.hasPreviousRow}" /> 
 
