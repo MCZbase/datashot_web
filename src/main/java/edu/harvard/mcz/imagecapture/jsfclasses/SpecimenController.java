@@ -793,6 +793,10 @@ try {
 			current.setDateEmergedIndicator(lastEditedSpecimen.getDateEmergedIndicator());
 			current.setCollection(lastEditedSpecimen.getCollection());
 			current.setCollectingMethod(lastEditedSpecimen.getCollectingMethod());
+			current.setIdentifiedBy(lastEditedSpecimen.getIdentifiedBy());
+			current.setDateIdentified(lastEditedSpecimen.getDateIdentified());
+			// nature of Id shouldn't carry forward without thought.
+			// current.setNatureOfId(lastEditedSpecimen.getNatureOfId());
 			
 			current.setGeoreferenceValues(lastEditedSpecimen.getGeoreference());
 			logger.log(Level.INFO, "Georeference is current = " + Boolean.toString(latLongFacade.isManaged(current.getGeoreference())));
@@ -836,6 +840,11 @@ try {
 			current.setCollection(undoState.getCollection());
 			current.setCollectingMethod(undoState.getCollectingMethod());
 			current.setGeoreferenceValues(undoState.getGeoreference());
+			current.setIdentifiedBy(undoState.getIdentifiedBy());
+			current.setDateIdentified(undoState.getDateIdentified());
+			// nature of Id shouldn't carry forward without thought.
+			//  current.setNatureOfId(undoState.getNatureOfId());	
+			
 			specimenFacade.replaceCollectorCollection(current,undoState.getCollectorCollection());
 			specimenFacade.trackChange(current);
 		}
