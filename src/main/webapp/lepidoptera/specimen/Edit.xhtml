@@ -388,8 +388,8 @@
                                         <p:inputMask value="#{specimenController.selected.dateIdentified}"
                                                      maxlength="#{MetadataRetrieverBean.lengthForField('Specimen','identificationDate')}"
                                                      title="#{MetadataRetrieverBean.tipForField('Specimen','identificationDate')}"
-                                                     mask="9999?/99/99-9999/99/99"
-                                                     validatorMessage="Date must be in the format yyyy/mm/dd-yyyy/mm/dd where at least a 4 digit year must be supplied"
+                                                     mask="9999/99/99"
+                                                     validatorMessage="Date must be in the format yyyy/mm/dd with a numeric 4 digit year, along with month and day must be supplied.  Use first day of month/year if day/month are unknown."
                                                      >
                                                   <f:validateRegex pattern="${MetadataRetrieverBean.regexForField('Specimen','ISODate')}" />
                                         </p:inputMask>                                                      

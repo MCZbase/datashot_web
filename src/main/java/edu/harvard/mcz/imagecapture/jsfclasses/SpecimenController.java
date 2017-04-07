@@ -855,7 +855,7 @@ try {
 	 * Paste into the current record values of the identification 
 	 * fields from the most recently edited specimen.
 	 * Stores current state in undo state.
-	 * @see pasteTaxnoFromUndo
+	 * @see pasteTaxonFromUndo
 	 */
 	public void pasteTaxonFromPrevious() { 
 		undoState = specimenFacade.cloneDetatch(current);
