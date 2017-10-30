@@ -15,7 +15,8 @@
 /*  Modifications to style to allow more form elements on one page */
 
 .ui-widget, .ui-widget .ui-widget { 
-    font-size: 85% !important;    /* Font size for controls */
+    /* font-size: 85% !important;    /* Font size for controls, using percent is recursive, so text in tables is small... */
+    font-size: .9em !important;    /* Font size for controls */
     padding: 2px;                 /* To reduce space taken up by styled inputs. */
     margin: 0px;
 }
@@ -24,6 +25,13 @@
    padding: 0px;                  /* To reduce space taken up by buttons */ 
    margin: 0px;
 }
+
+/* select menus render poorly in table with default style inline-block */
+/*  but this appears to need to be defined in an internal style in the header template.html.
+.ui-selectonemenu { 
+	display: block;
+}
+*/
 
 #mainForm input { 
         margin-top: -1px;         /* hack to reduce the spacing of text inputs on form */
@@ -78,3 +86,4 @@ tr.jsfcrud_even_row {
     background-color: #eff5fa;
     color: #4e6a71;
 }
+

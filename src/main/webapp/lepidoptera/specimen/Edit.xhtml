@@ -117,6 +117,7 @@
                                 <h:outputLabel value="and" for="saveandgoto" />
                                 <p:selectOneMenu
                                     styleClass="selectMenu"
+                                    style="width: 5em;"
                                     id="saveandgoto" value="#{specimenController.andGoTo}"
                                     title="choose what happens after you save this record."
                                     required="false"
@@ -559,7 +560,7 @@
                                                      styleClass="dataNotTransfered"
                                                      autocomplete="on"
                                                      value="#{specimenController.selected.verbatimUnclassifiedText}"
-                                                     maxlength="#{MetadataRetrieverBean.lengthForField('Specimen','VerbatimUnclassifiedDext')}"
+                                                     maxlength="#{MetadataRetrieverBean.lengthForField('Specimen','VerbatimUnclassifiedText')}"
                                                      title="#{MetadataRetrieverBean.tipForField('Specimen','VerbatimUnclassifiedText')}"
                                                      />
                                         <components:fieldInfoPopup field="VerbatimUnclassifiedText" table="Specimen" tipName="VerbatimUnclassifiedTextTip"  />
@@ -575,6 +576,38 @@
                                         </p:inputText>
                                         <components:fieldInfoPopup field="Questions" table="Specimen" tipName="QuestionsTip"  />
                                     </h:panelGrid>    
+                                    
+                                <h:panelGrid columns="2">
+                                    <h:outputLabel value="Verbatim Cluster Identifier" for="verbatimClusterIdentifier" 
+                                                 rendered="#{not empty specimenController.selected.verbatimClusterIdentifier }"
+                                    />
+                                    <p:inputText id="verbatimClusterIdentifier" value="#{specimenController.selected.verbatimClusterIdentifier}" 
+                                                 size="50"
+                                                 disabled="true"
+                                                 rendered="#{not empty specimenController.selected.verbatimClusterIdentifier }"
+                                                 >
+                                    </p:inputText>
+                            
+                                    <h:outputLabel value="External Process" for="externalWorkflowProcess" 
+                                                 rendered="#{not empty specimenController.selected.externalWorkflowProcess }"
+                                    />
+                                    <p:inputText id="externalWorkflowProcess" value="#{specimenController.selected.externalWorkflowProcess}" 
+                                                 size="50"
+                                                 disabled="true"
+                                                 rendered="#{not empty specimenController.selected.externalWorkflowProcess }"
+                                                 >
+                                    </p:inputText>
+                                    
+                                    <h:outputLabel value="External Process Date" for="externalWorkflowDate" 
+                                                 rendered="#{not empty specimenController.selected.externalWorkflowDate }"
+                                    />
+                                    <p:inputText id="externalWorkflowDate" value="#{specimenController.selected.externalWorkflowDate}" 
+                                                 size="50"
+                                                 disabled="true"
+                                                 rendered="#{not empty specimenController.selected.externalWorkflowDate }"
+                                                 >
+                                    </p:inputText>
+                                </h:panelGrid>
                             
                             </p:panel> <!-- End Verbatim Panel -->
                             
@@ -666,7 +699,7 @@
                                     
                                     <h:outputLabel value="#{bundle.EditSpecimenLabel_country}" for="country" />
                                     <h:panelGrid columns="3">
-                                        <h:inputText id="country" value="#{specimenController.selected.country}"
+                                        <p:inputText id="country" value="#{specimenController.selected.country}"
                                                      styleClass="dataNotTransfered"
                                                      maxlength="#{MetadataRetrieverBean.lengthForField('Specimen','Country')}"
                                                      title="#{MetadataRetrieverBean.tipForField('Specimen','Country')}"
@@ -682,7 +715,7 @@
                                     </h:panelGrid>
                                     <h:outputLabel value="#{bundle.EditSpecimenLabel_primaryDivison}" for="primaryDivison" />
                                     <h:panelGrid columns="2">
-                                        <h:inputText id="primaryDivison" value="#{specimenController.selected.primaryDivison}"
+                                        <p:inputText id="primaryDivison" value="#{specimenController.selected.primaryDivison}"
                                                      styleClass="dataNotTransfered"
                                                      maxlength="#{MetadataRetrieverBean.lengthForField('Specimen','PrimaryDivision')}"
                                                      title="#{MetadataRetrieverBean.tipForField('Specimen','PrimaryDivision')}"

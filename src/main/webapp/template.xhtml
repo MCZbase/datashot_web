@@ -12,7 +12,16 @@
 <f:facet name="last">
     <!--  Put output stylesheet last facet to enforce loading after the theme stylesheet through PrimeFaces HeadRenderer. -->
     <h:outputStylesheet library="css" name="styles.css" />
-</f:facet>    
+</f:facet>   
+<style>
+/* select menus render poorly in table with default style inline-block */
+.ui-selectonemenu { 
+    display: block;
+}
+.ui-selectonemenu .ui-selectonemenu-label {
+    width: auto;
+}
+</style> 
 </h:head>
 <h:body>
     <p:growl id="messages" showDetail="true" life="5000" />

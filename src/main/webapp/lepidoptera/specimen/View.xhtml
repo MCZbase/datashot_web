@@ -164,6 +164,43 @@
 									<h:outputText value="#{det_item.typeStatus}"/>
 								</h:column>
 							</h:dataTable>
+							
+							<h:panelGrid columns="2">
+                                <h:outputText value="Verbatim Locality (retained)" />
+								<h:outputText value="#{specimenController.selected.verbatimLocality}"/>
+								
+                                <h:outputText value="Verbatim Date (retained)" />
+								<h:outputText value="#{specimenController.selected.dateNOS}"/>
+								
+                                <h:outputText value="Verbatim Collector (must parse)" />
+								<h:outputText value="#{specimenController.selected.verbatimCollector}"/>
+								
+                                <h:outputText value="Verbatim Collection (must parse)" />
+								<h:outputText value="#{specimenController.selected.verbatimCollection}"/>
+								
+                                <h:outputText value="Verbatim Numbers (must parse)" />
+								<h:outputText value="#{specimenController.selected.verbatimNumbers}"/>
+								
+                                <h:outputText value="Verbatim Other Text (must parse)" />
+								<h:outputText value="#{specimenController.selected.verbatimUnclassifiedText}"/>
+								
+                                <h:outputLabel value="Verbatim Cluster Identifier" for="verbatimClusterIdentifier" />
+                                <p:inputText id="verbatimClusterIdentifier" value="#{specimenController.selected.verbatimClusterIdentifier}" 
+                                                 size="50" disabled="true" >
+                                </p:inputText>
+                            
+                                <h:outputLabel value="External Process" for="externalWorkflowProcess" />
+                                <p:inputText id="externalWorkflowProcess" value="#{specimenController.selected.externalWorkflowProcess}" 
+                                                 size="50" disabled="true" >
+                                </p:inputText>
+                                    
+                                <h:outputLabel value="External Process Date" for="externalWorkflowDate" />
+                                <p:inputText id="externalWorkflowDate" value="#{specimenController.selected.externalWorkflowDate}" 
+                                                 size="50" disabled="true" >
+                                </p:inputText>								
+								
+							</h:panelGrid>
+							
 							<h:panelGrid columns="2">
 								<h:outputText value="Higher Geography"/>
 								<h:outputText value="#{specimenController.selected.higherGeography}" title="#{bundle.ViewSpecimenTitle_country}"/>
