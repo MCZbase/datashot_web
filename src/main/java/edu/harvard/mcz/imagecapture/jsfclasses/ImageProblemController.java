@@ -5,23 +5,23 @@ import edu.harvard.mcz.imagecapture.data.Image;
 import edu.harvard.mcz.imagecapture.jsfclasses.util.JsfUtil;
 import edu.harvard.mcz.imagecapture.jsfclasses.util.PaginationHelper;
 import edu.harvard.mcz.imagecapture.ejb.ImageFacadeLocal;
+
 import java.io.File;
-import java.io.InputStream;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.annotation.security.DenyAll;
+
 import javax.annotation.security.RolesAllowed;
 import javax.ejb.EJB;
+import javax.enterprise.context.SessionScoped;
 import javax.faces.FacesException;
+import javax.faces.annotation.ManagedProperty;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.SessionScoped;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
@@ -29,15 +29,16 @@ import javax.faces.convert.FacesConverter;
 import javax.faces.model.DataModel;
 import javax.faces.model.ListDataModel;
 import javax.faces.model.SelectItem;
-import org.primefaces.model.DefaultStreamedContent;
-import org.primefaces.model.StreamedContent;
+import javax.inject.Named;
 
-@ManagedBean (name="imageProblemController")
+//@Named("imageProblemController")
+@ManagedBean
 @SessionScoped
-public class ImageProblemController {
+public class ImageProblemController implements Serializable {
 
+	private static final long serialVersionUID = -5658082677712185069L;
 
-    private final static Logger logger = Logger.getLogger(ImageProblemController.class.getName());
+	private final static Logger logger = Logger.getLogger(ImageProblemController.class.getName());
 
     private Image current;
     private DataModel<Image> items = null;

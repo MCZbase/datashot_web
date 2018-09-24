@@ -1,5 +1,6 @@
 package edu.harvard.mcz.imagecapture.managedbeans;
 
+import java.io.Serializable;
 import java.util.Iterator;
 import java.util.List;
 
@@ -7,7 +8,6 @@ import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.SessionScoped;
 import javax.faces.bean.ViewScoped;
 
 import org.primefaces.event.SelectEvent;  
@@ -23,11 +23,13 @@ import edu.harvard.mcz.imagecapture.utility.CountValue;
 /**
  * Session Bean implementation class GenusTagCloudBean
  */
-@ManagedBean(name = "genusTagCloudBean")
+@ManagedBean
 @ViewScoped
-public class GenusTagCloudBean {
+public class GenusTagCloudBean   implements Serializable {
 	
-	@EJB
+	private static final long serialVersionUID = 3743188999464993047L;
+
+	@EJB(beanName="specimenFacade")
 	private SpecimenFacadeLocal specimenFacade;
 	
 	@ManagedProperty(value="#{specimenController}")

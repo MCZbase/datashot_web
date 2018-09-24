@@ -16,13 +16,13 @@
 	<!-- IMPLEMENTATION -->
 	<cc:implementation>
 		<h:graphicImage library="images" name="information.png"
-						title="#{MetadataRetrieverBean.tipForField(cc.attrs.table,cc.attrs.field)}"
+						title="#{metadataRetrieverBean.tipForField(cc.attrs.table,cc.attrs.field)}"
 						id="${cc.attrs.tipName}"  />
 		<p:overlayPanel for="${cc.attrs.tipName}" >
 			<f:facet name="header" >
 				<h:outputText value = "Definition for #{cc.attrs.field}" />
 			</f:facet>
-			<h:outputText value="#{MetadataRetrieverBean.tipForField(cc.attrs.table,cc.attrs.field)}" />
+			<h:outputText value="#{metadataRetrieverBean.tipForField(cc.attrs.table,cc.attrs.field)}" />
 		</p:overlayPanel>
 	</cc:implementation>
 </html>

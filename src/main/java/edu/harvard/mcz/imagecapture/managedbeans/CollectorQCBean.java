@@ -10,24 +10,29 @@ import edu.harvard.mcz.imagecapture.interfaces.CountValueChangeListener;
 import edu.harvard.mcz.imagecapture.jsfclasses.util.PaginationHelper;
 import edu.harvard.mcz.imagecapture.utility.CountValue;
 
-import java.util.EventObject;
+import java.io.Serializable;
 import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
+
 import javax.ejb.EJB;
+import javax.faces.bean.SessionScoped;
+import javax.faces.bean.ManagedBean;
 import javax.faces.model.DataModel;
 import javax.faces.model.ListDataModel;
+import javax.inject.Named;
 
 /**
  *
  * @author mole
  */
-@ManagedBean(name = "collectorQCBean")
+//@Named("collectorQCBean")
+@ManagedBean
 @SessionScoped
-public class CollectorQCBean implements CountValueChangeListener {
+public class CollectorQCBean implements CountValueChangeListener, Serializable {
+
+	private static final long serialVersionUID = -4910426720692522588L;
 
 	private final static Logger logger = Logger.getLogger(CollectorQCBean.class.getName());
 

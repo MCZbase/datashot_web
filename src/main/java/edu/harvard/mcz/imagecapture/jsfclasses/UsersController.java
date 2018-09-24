@@ -6,6 +6,7 @@ import edu.harvard.mcz.imagecapture.jsfclasses.util.PaginationHelper;
 import edu.harvard.mcz.imagecapture.ejb.UsersFacadeLocal;
 import edu.harvard.mcz.imagecapture.utility.AuthenticationUtility;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.ResourceBundle;
@@ -13,8 +14,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.ejb.EJB;
+import javax.enterprise.context.SessionScoped;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
 import javax.faces.component.UIComponent;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
@@ -23,11 +24,15 @@ import javax.faces.convert.FacesConverter;
 import javax.faces.model.DataModel;
 import javax.faces.model.ListDataModel;
 import javax.faces.model.SelectItem;
+import javax.inject.Named;
 
-@ManagedBean (name="usersController")
+//@Named("usersController")
+@ManagedBean
 @SessionScoped
-public class UsersController {
+public class UsersController  implements Serializable {
 	
+	private static final long serialVersionUID = 6493301386438480771L;
+
 	private final static Logger logger = Logger.getLogger(UsersController.class.getName());
 
     private Users current;

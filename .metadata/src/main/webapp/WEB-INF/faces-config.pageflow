@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pageflow:Pageflow xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:pageflow="http://www.sybase.com/suade/pageflow" id="pf15368720308690" configfile="/datashot_web/src/main/webapp/WEB-INF/faces-config.xml">
+  <nodes xsi:type="pageflow:PFPage" name="*" x="132" y="192" id="pf15369479933930" outlinks="pf15369479933941" path="*"/>
+  <nodes xsi:type="pageflow:PFPage" name="login.xhtml" x="336" y="192" id="pf15369479933942" referenceLink="//@navigationRule.0/@navigationCase.0/@toViewId|" outlinks="pf15375323873973" inlinks="pf15369479933941" path="/login.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="lepidoptera/index.xhtml" x="615" y="201" id="pf15375323874214" inlinks="pf15375323873973" path="/lepidoptera/index.xhtml"/>
+  <links id="pf15369479933941" target="pf15369479933942" source="pf15369479933930" outcome="logout" redirect="true"/>
+  <links id="pf15375323873973" target="pf15375323874214" source="pf15369479933942" outcome="success"/>
+</pageflow:Pageflow>

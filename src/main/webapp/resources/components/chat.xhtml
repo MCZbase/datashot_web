@@ -29,16 +29,28 @@
 				       escape="false" 
 				       style="line-height: 90%; 
 				       padding-top: 0px; padding-bottom: 0px;" />
-                <p:socket channel="/chat" >
+                <f:websocket channel="chat" onmessage="handleChat" >
                     <p:ajax event="message" update="chatform:chatwindow chatform:chathead" />
-                </p:socket>
-                <p:socket onMessage="handleMessage" channel="/serverNotifications" />
+                </f:websocket>
+                <f:websocket onmessage="handleMessage" channel="serverNotifications" onopen="handleOpen" onclose="handleClose" >
+                    <p:ajax event="message" update="chatform:chatwindow chatform:chathead" />
+                </f:websocket>
+                <p:growl widgetVar="servergrowl" id="servergrowl" showDetail="true" sticky="true" autoUpdate="false" />
                 <script type="text/javascript">
-                     function handleMessage(msg) {
+                function handleOpen(channel) {
+                    alert(channel);
+                }
+                function handleClose(code,channel,e) {
+                    alert(code);
+                }
+                function handleChat(msg,channel,evt) {
+                    alert(channel);
+                }
+                     function handleMessage(msg,channel,evt) {
+                         alert(channel);
                          PF('servergrowl').show([msg]);
                      }
                 </script>
-                <p:growl widgetVar="servergrowl" id="servergrowl" showDetail="true" sticky="true" autoUpdate="false" />
 			</p:panel>
 		</h:form>
 </cc:implementation>

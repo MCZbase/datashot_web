@@ -4,16 +4,17 @@ import edu.harvard.mcz.imagecapture.data.Determination;
 import edu.harvard.mcz.imagecapture.jsfclasses.util.JsfUtil;
 import edu.harvard.mcz.imagecapture.jsfclasses.util.PaginationHelper;
 import edu.harvard.mcz.imagecapture.ejb.DeterminationFacadeLocal;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-
 import java.util.ResourceBundle;
+
 import javax.ejb.EJB;
+import javax.enterprise.context.SessionScoped;
+import javax.faces.annotation.ManagedProperty;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.SessionScoped;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
@@ -21,8 +22,10 @@ import javax.faces.convert.FacesConverter;
 import javax.faces.model.DataModel;
 import javax.faces.model.ListDataModel;
 import javax.faces.model.SelectItem;
+import javax.inject.Named;
 
-@ManagedBean (name="determinationController")
+//@Named("determinationController")
+@ManagedBean
 @SessionScoped
 public class DeterminationController implements Serializable {
 	private static final long serialVersionUID = -6235127539980043405L;

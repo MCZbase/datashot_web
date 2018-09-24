@@ -1,10 +1,46 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <persistence version="2.0" xmlns="http://java.sun.com/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd">
-  <persistence-unit name="bu_test_web_PU" transaction-type="JTA">
+  <persistence-unit name="mysql_localhost_lepidoptera" transaction-type="JTA">
+    <!-- The server resources file sun-resources.xml is not available to the unit testing
+         framework, which isn't running the tests inside the EJB container.  Thus
+	 the properties for a persistence provider for the unit tests need to be declared here.
+	<provider>org.hibernate.ejb.HibernatePersistence</provider>
+    -->
     <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
     <jta-data-source>mysql_localhost_lepidoptera</jta-data-source>
-    <exclude-unlisted-classes>false</exclude-unlisted-classes>
+    <class>edu.harvard.mcz.imagecapture.data.Specimen</class>
+    <class>edu.harvard.mcz.imagecapture.data.Tracking</class>
+    <class>edu.harvard.mcz.imagecapture.data.Template</class>
+    <class>edu.harvard.mcz.imagecapture.data.Determination</class>
+    <class>edu.harvard.mcz.imagecapture.data.Image</class>
+    <class>edu.harvard.mcz.imagecapture.data.OtherNumbers</class>
+    <class>edu.harvard.mcz.imagecapture.data.MCZbaseGeogAuthRec</class>
+    <class>edu.harvard.mcz.imagecapture.data.Collector</class>
+    <class>edu.harvard.mcz.imagecapture.data.Label</class>
+    <class>edu.harvard.mcz.imagecapture.data.LabelTag</class>
+    <class>edu.harvard.mcz.imagecapture.data.Tag</class>
+    <class>edu.harvard.mcz.imagecapture.data.LatLong</class>
     <properties>
+      <property name="toplink.logging.level" value="FINE"/>
+      <property name="hibernate.show_sql" value="true"/>
+	  <!-- Enable the following three lines to turn on sql logging
+      <property name="eclipselink.logging.level" value="ALL"/>
+      <property name="eclipselink.logging.level.sql" value="FINE"/>
+      <property name="eclipselink.logging.parameters" value="true"/>
+	  -->
+	  <!-- Turn off caching -->
+	  <property name="eclipselink.query-results-cache" value="false"/>
+	  <property name="eclipselink.cache.shared.default" value="false"/>
     </properties>
+    <!--
+      <property name="eclipselink.ddl-generation" value="drop-and-create-tables"/>
+      <property name="eclipselink.jdbc.serverName" value="localhost"/>
+      <property name="eclipselink.jdbc.portNumber" value="1527"/>
+      <property name="eclipselink.jdbc.databaseName" value="testdb"/>
+      <property name="javax.persistence.jdbc.user" value="app"/>
+      <property name="javax.persistence.jdbc.password" value="app"/>
+      <property name="eclipselink.jdbc.url" value="jdbc:derby://localhost:1527/testdb;create=true"/>
+      <property name="eclipselink.jdbc.driver" value="org.apache.derby.jdbc.ClientDriver"/>
+	  -->
   </persistence-unit>
 </persistence>

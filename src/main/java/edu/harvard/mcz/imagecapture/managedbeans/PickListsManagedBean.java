@@ -18,6 +18,7 @@ import edu.harvard.mcz.imagecapture.ejb.TemplateFacadeLocal;
 import edu.harvard.mcz.imagecapture.ejb.TypeStatusBeanLocal;
 import edu.harvard.mcz.imagecapture.ejb.UsersFacadeLocal;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
@@ -26,16 +27,20 @@ import java.util.List;
 import javax.ejb.EJB;
 import javax.inject.Named;
 import javax.enterprise.context.Dependent;
+import javax.faces.bean.ManagedBean;
 
 /**
  *
  * @author mole
  */
-@Named(value="pickListsManagedBean")
+//@Named("pickListsManagedBean")
+@ManagedBean
 @Dependent
-public class PickListsManagedBean {
+public class PickListsManagedBean  implements Serializable {
 
-    @EJB
+	private static final long serialVersionUID = 6249111851786070584L;
+	
+	@EJB
 	private SexBeanLocal sexBean;
 	@EJB
 	private LifeStageBeanLocal lifeStageBean;

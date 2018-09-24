@@ -6,24 +6,19 @@ package edu.harvard.mcz.imagecapture.managedbeans;
 
 import edu.harvard.mcz.imagecapture.data.Users;
 import edu.harvard.mcz.imagecapture.jsfclasses.ChatController;
-import edu.harvard.mcz.imagecapture.jsfclasses.SpecimenController;
 
-import java.util.List;
+import java.io.Serializable;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import javax.annotation.security.DenyAll;
 import javax.annotation.security.RolesAllowed;
 import javax.ejb.EJB;
-import javax.faces.application.FacesMessage;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.RequestScoped;
 import javax.faces.bean.SessionScoped;
+import javax.faces.annotation.ManagedProperty;
+import javax.faces.bean.ManagedBean;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
-import javax.inject.Inject;
-import javax.servlet.ServletException;
+import javax.inject.Named;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -31,10 +26,13 @@ import javax.servlet.http.HttpSession;
  *
  * @author mole
  */
-@ManagedBean(name = "loginBean")
+//@Named("loginBean")
+@ManagedBean
 @SessionScoped
-public class LoginBean {
+public class LoginBean  implements Serializable{
 
+	private static final long serialVersionUID = 3117579405513401728L;
+	
 	@EJB
 	edu.harvard.mcz.imagecapture.managedbeans.WebStatusSingletonBean status;
 	@EJB

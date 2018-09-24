@@ -23,24 +23,23 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.faces.application.FacesMessage;
-
-import org.primefaces.push.annotation.OnMessage;
-import org.primefaces.push.annotation.PushEndpoint;
-import org.primefaces.push.impl.JSONEncoder;
+import javax.websocket.OnMessage;
+import javax.websocket.server.ServerEndpoint;
 
 
 /**
- * PrimeFacesPush atmosphere endpoint to support server messaging.
+ * Websocket endpoint to support server messaging.
  * @author mole
  *
  */
-@PushEndpoint("/serverNotifications")
-public class ServerNotificationsResource {
-	private final static Logger logger = Logger.getLogger(ServerNotificationsResource.class.getName());
+//@ServerEndpoint("/serverNotifications")
+//public class ServerNotificationsResource {
 	
-	@OnMessage(encoders = {JSONEncoder.class})
-	public FacesMessage onMessage(FacesMessage message) {
-		logger.log(Level.INFO, message.getDetail());
-	    return message;
-	}
-}
+//	private final static Logger logger = Logger.getLogger(ServerNotificationsResource.class.getName());
+	
+	//@OnMessage
+	//public FacesMessage onMessage(FacesMessage message) {
+	//	logger.log(Level.INFO, message.getDetail());
+	//    return message;
+	//}
+//}

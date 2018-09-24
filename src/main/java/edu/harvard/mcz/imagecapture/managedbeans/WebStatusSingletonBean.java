@@ -1,21 +1,27 @@
 package edu.harvard.mcz.imagecapture.managedbeans;
 
+import java.io.Serializable;
+
 import javax.annotation.security.DeclareRoles;
 import javax.annotation.security.RolesAllowed;
-import javax.faces.bean.ManagedBean;
 import javax.ejb.Singleton;
+import javax.faces.bean.ManagedBean;
+import javax.inject.Named;
 
 /**
  *
  * @author Paul J. Morris
  */
 @Singleton
-@ManagedBean(name = "WebStatusSingletonBean")
+//@Named("WebStatusSingletonBean")
+@ManagedBean
 @DeclareRoles("Administrator")
 @RolesAllowed("Administrator")
-public class WebStatusSingletonBean  {
+public class WebStatusSingletonBean   implements Serializable {
 
-    /**
+	private static final long serialVersionUID = 1265428887335277695L;
+	
+	/**
      * The number of users currently logged in.
      */
     private int loggedInUserCount;

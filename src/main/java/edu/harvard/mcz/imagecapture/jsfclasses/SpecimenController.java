@@ -12,18 +12,17 @@ import edu.harvard.mcz.imagecapture.data.SpecimenPart;
 import edu.harvard.mcz.imagecapture.data.SpecimenPartAttribute;
 import edu.harvard.mcz.imagecapture.data.Users;
 import edu.harvard.mcz.imagecapture.data.WorkFlowStatus;
-import edu.harvard.mcz.imagecapture.ejb.CollectorFacadeLocal;
 import edu.harvard.mcz.imagecapture.ejb.HigherTaxonFacadeLocal;
 import edu.harvard.mcz.imagecapture.ejb.LatLongFacadeLocal;
 import edu.harvard.mcz.imagecapture.ejb.MCZbaseAuthAgentNameFacadeLocal;
 import edu.harvard.mcz.imagecapture.ejb.MCZbaseGeogAuthRecFacadeLocal;
 import edu.harvard.mcz.imagecapture.ejb.MetadataRetrieverSessionBeanLocal;
-import edu.harvard.mcz.imagecapture.ejb.OtherNumbersFacadeLocal;
 import edu.harvard.mcz.imagecapture.ejb.SpecimenPartAttributeFacadeLocal;
 import edu.harvard.mcz.imagecapture.jsfclasses.util.JsfUtil;
 import edu.harvard.mcz.imagecapture.jsfclasses.util.PaginationHelper;
 import edu.harvard.mcz.imagecapture.ejb.SpecimenFacadeLocal;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -35,8 +34,8 @@ import java.util.logging.Logger;
 
 import javax.annotation.security.RolesAllowed;
 import javax.ejb.EJB;
-import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.faces.bean.ManagedBean;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
@@ -44,12 +43,16 @@ import javax.faces.convert.FacesConverter;
 import javax.faces.model.DataModel;
 import javax.faces.model.ListDataModel;
 import javax.faces.model.SelectItem;
+import javax.inject.Named;
 
 import org.primefaces.event.RowEditEvent;
 
-@ManagedBean(name = "specimenController")
+//@Named("specimenController")
+@ManagedBean
 @SessionScoped
-public class SpecimenController {
+public class SpecimenController  implements Serializable {
+
+	private static final long serialVersionUID = 251387584838746350L;
 
 	private final static Logger logger = Logger.getLogger(SpecimenController.class.getName());
 

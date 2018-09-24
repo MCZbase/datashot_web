@@ -9,23 +9,30 @@ import edu.harvard.mcz.imagecapture.ejb.SpecimenFacadeLocal;
 import edu.harvard.mcz.imagecapture.interfaces.CountValueValueChangeListener;
 import edu.harvard.mcz.imagecapture.jsfclasses.util.PaginationHelper;
 import edu.harvard.mcz.imagecapture.utility.CountValueValue;
+
+import java.io.Serializable;
 import java.util.Iterator;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
+
 import javax.ejb.EJB;
+import javax.faces.bean.SessionScoped;
+import javax.faces.bean.ManagedBean;
 import javax.faces.event.ValueChangeEvent;
 import javax.faces.model.DataModel;
 import javax.faces.model.ListDataModel;
+import javax.inject.Named;
 
 /**
  *
  * @author mole
  */
-@ManagedBean(name = "countryStateQCBean")
+//@Named("countryStateQCBean")
+@ManagedBean
 @SessionScoped
-public class CountryStateQCBean implements CountValueValueChangeListener {
+public class CountryStateQCBean implements CountValueValueChangeListener, Serializable {
+
+	private static final long serialVersionUID = -4090938819856849875L;
 
 	private final static Logger logger = Logger.getLogger(CountryStateQCBean.class.getName());
 

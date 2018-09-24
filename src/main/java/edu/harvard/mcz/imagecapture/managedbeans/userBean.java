@@ -7,23 +7,31 @@ package edu.harvard.mcz.imagecapture.managedbeans;
 
 import edu.harvard.mcz.imagecapture.data.Users;
 import edu.harvard.mcz.imagecapture.ejb.UsersFacadeLocal;
+
+import java.io.Serializable;
 import java.util.List;
+
 import javax.annotation.security.DeclareRoles;
 import javax.annotation.security.RolesAllowed;
 import javax.ejb.EJB;
-import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
+import javax.faces.bean.ManagedBean;
+import javax.inject.Named;
 
 /**
  *
  * @author mole
  */
-@ManagedBean(name="userBean")
+//@Named("userBean")
+@ManagedBean
 @RequestScoped
 @DeclareRoles("Administrator")
 @RolesAllowed("Administrator")
-public class userBean {
-    @EJB
+public class userBean  implements Serializable{ 
+	
+	private static final long serialVersionUID = 7850573718338503505L;
+	
+	@EJB
     private UsersFacadeLocal usersFacade;
 
     /** Creates a new instance of userBean */

@@ -19,6 +19,7 @@
  */
 package edu.harvard.mcz.imagecapture.jsfclasses;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -27,16 +28,20 @@ import java.util.logging.Logger;
 
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
-import javax.faces.bean.ViewScoped;
+import javax.faces.view.ViewScoped;
+import javax.inject.Named;
 
 /**
  * @author mole
  *
  */
-@ManagedBean (name="imageBatchController")
+//@Named("imageBatchController")
+@ManagedBean
 @ViewScoped
-public class ImageBatchController {
+public class ImageBatchController implements Serializable {
+	
+	private static final long serialVersionUID = -5913826561791637038L;
+
 	private final static Logger logger = Logger.getLogger(ImageBatchController.class.getName());
 	
 	@EJB 

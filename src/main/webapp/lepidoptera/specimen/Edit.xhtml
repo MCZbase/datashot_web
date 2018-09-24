@@ -201,11 +201,11 @@
                                 
                                     <h:outputLabel value="#{bundle.EditSpecimenLabel_barcode}" for="barcode" />
                                     <h:outputText id="barcode" value="#{specimenController.selected.barcode}"
-                                                  title="#{MetadataRetrieverBean.tipForField('Specimen','Barcode')}"/>
+                                                  title="#{metadataRetrieverBean.tipForField('Specimen','Barcode')}"/>
                                     <h:outputLabel value="#{bundle.EditSpecimenLabel_locationInCollection}" for="locationInCollection" />
                                     <h:panelGrid columns="2" >
                                         <h:selectOneMenu id="locationInCollection" value="#{specimenController.selected.locationInCollection}"
-                                                         title="#{MetadataRetrieverBean.tipForField('Specimen','LocationInCollection')}" >
+                                                         title="#{metadataRetrieverBean.tipForField('Specimen','LocationInCollection')}" >
                                             <f:selectItems value="#{pickListsManagedBean.locationInCollectionValues}"  />
                                         </h:selectOneMenu>
                                         <components:fieldInfoPopup field="LocationInCollection" table="Specimen" tipName="LocationInCollTip"  />
@@ -213,15 +213,15 @@
                                     <h:outputLabel value="#{bundle.EditSpecimenLabel_drawerNumber}" for="drawerNumber" />
                                     <h:panelGrid columns="2" >
                                         <h:inputText id="drawerNumber" value="#{specimenController.selected.drawerNumber}"
-                                                     title="#{MetadataRetrieverBean.tipForField('Specimen','DrawerNumber')}"
-                                                     maxlength="#{MetadataRetrieverBean.lengthForField('Specimen','DrawerNumber')}"  />
+                                                     title="#{metadataRetrieverBean.tipForField('Specimen','DrawerNumber')}"
+                                                     maxlength="#{metadataRetrieverBean.lengthForField('Specimen','DrawerNumber')}"  />
                                         <components:fieldInfoPopup field="DrawerNumber" table="Specimen" tipName="DrawerNumberTip"  />
                                     </h:panelGrid>
                                     <h:outputLabel value="#{bundle.EditSpecimenLabel_typeStatus}" for="typeStatus" />
                                     <h:panelGrid columns="2" >
                                         <h:selectOneMenu
                                             id="typeStatus" value="#{specimenController.selected.typeStatus}"
-                                            title="#{MetadataRetrieverBean.tipForField('Specimen','TypeStatus')}"
+                                            title="#{metadataRetrieverBean.tipForField('Specimen','TypeStatus')}"
                                             required="true" requiredMessage="#{bundle.EditSpecimenRequiredMessage_typeStatus}"
                                             disabled="false" >
                                             <f:selectItems value="#{pickListsManagedBean.typeStatusValues}"  />
@@ -231,15 +231,15 @@
                                     <h:outputLabel value="#{bundle.EditSpecimenLabel_typeNumber}" for="typeNumber" />
                                     <h:panelGrid columns="2" >
                                         <h:inputText id="typeNumber" value="#{specimenController.selected.typeNumber}"
-                                                     maxlength="#{MetadataRetrieverBean.lengthForField('Specimen','TypeNumber')}"
-                                                     title="#{MetadataRetrieverBean.tipForField('Specimen','TypeNumber')}" />
+                                                     maxlength="#{metadataRetrieverBean.lengthForField('Specimen','TypeNumber')}"
+                                                     title="#{metadataRetrieverBean.tipForField('Specimen','TypeNumber')}" />
                                         <components:fieldInfoPopup field="TypeNumber" table="Specimen" tipName="TypeNumberTip"  />
                                     </h:panelGrid>
                                     <h:outputLabel value="#{bundle.EditSpecimenLabel_citedInPublication}" for="citedInPublication" />
                                     <h:panelGrid columns="2" >
                                         <h:inputText id="citedInPublication" value="#{specimenController.selected.citedInPublication}"
-                                                     maxlength="#{MetadataRetrieverBean.lengthForField('Specimen','citedInPublication')}"
-                                                     title="#{MetadataRetrieverBean.tipForField('Specimen','citedInPublication')}" />
+                                                     maxlength="#{metadataRetrieverBean.lengthForField('Specimen','citedInPublication')}"
+                                                     title="#{metadataRetrieverBean.tipForField('Specimen','citedInPublication')}" />
                                         <components:fieldInfoPopup field="citedInPublication" table="Specimen" tipName="citedInPublicationTip"  />
                                     </h:panelGrid>
                                 </h:panelGrid>
@@ -289,7 +289,7 @@
                                                        />                                     
                                     
                                     </h:panelGrid>
-                                    <h:outputLabel value="#{bundle.EditSpecimenLabel_family}" for="family" title="#{MetadataRetrieverBean.tipForField('Specimen','Family')}" />
+                                    <h:outputLabel value="#{bundle.EditSpecimenLabel_family}" for="family" title="#{metadataRetrieverBean.tipForField('Specimen','Family')}" />
                                     <h:panelGrid columns="2" style="pdding:0; margin: 0px; " >
                                         <p:autoComplete id="family" 
                                                            value="#{specimenController.selected.family}"
@@ -298,7 +298,7 @@
                                         </p:autoComplete>
                                         <components:fieldInfoPopup field="Family" table="Specimen" tipName="FamilyTip"  />
                                     </h:panelGrid>
-                                    <h:outputLabel value="#{bundle.EditSpecimenLabel_subfamily}" for="subfamily" title="#{MetadataRetrieverBean.tipForField('Specimen','Subfamily')}" />
+                                    <h:outputLabel value="#{bundle.EditSpecimenLabel_subfamily}" for="subfamily" title="#{metadataRetrieverBean.tipForField('Specimen','Subfamily')}" />
                                     <h:panelGrid columns="2" style="padding:0;" >
                                         <p:autoComplete id="subfamily" 
                                                            value="#{specimenController.selected.subfamily}"
@@ -307,7 +307,7 @@
                                         </p:autoComplete>
                                         <components:fieldInfoPopup field="Subfamily" table="Specimen" tipName="SubfamilyTip"  />
                                     </h:panelGrid>
-                                    <h:outputLabel value="#{bundle.EditSpecimenLabel_tribe}" for="tribe" title="#{MetadataRetrieverBean.tipForField('Specimen','Tribe')}" />
+                                    <h:outputLabel value="#{bundle.EditSpecimenLabel_tribe}" for="tribe" title="#{metadataRetrieverBean.tipForField('Specimen','Tribe')}" />
                                     <h:panelGrid columns="2" style="padding:0;" >
                                         <p:autoComplete id="tribe"
                                                            value="#{specimenController.selected.tribe}"
@@ -319,47 +319,47 @@
                                     <h:outputLabel value="#{bundle.EditSpecimenLabel_genus}" for="genus" />
                                     <h:panelGrid columns="2" >
                                         <h:inputText id="genus" style="font-style: italic"
-                                                     maxlength="#{MetadataRetrieverBean.lengthForField('Specimen','Genus')}"
-                                                     title="#{MetadataRetrieverBean.tipForField('Specimen','Genus')}"
+                                                     maxlength="#{metadataRetrieverBean.lengthForField('Specimen','Genus')}"
+                                                     title="#{metadataRetrieverBean.tipForField('Specimen','Genus')}"
                                                      value="#{specimenController.selected.genus}" />
                                         <components:fieldInfoPopup field="Genus" table="Specimen" tipName="GenusTip" />
                                     </h:panelGrid>
                                     <h:outputLabel value="#{bundle.EditSpecimenLabel_specificEpithet}" for="specificEpithet" />
                                     <h:panelGrid columns="2" >
                                         <h:inputText id="specificEpithet"  style="font-style: italic"
-                                                     maxlength="#{MetadataRetrieverBean.lengthForField('Specimen','SpecificEpithet')}"
-                                                     title="#{MetadataRetrieverBean.tipForField('Specimen','SpecificEpithet')}"
+                                                     maxlength="#{metadataRetrieverBean.lengthForField('Specimen','SpecificEpithet')}"
+                                                     title="#{metadataRetrieverBean.tipForField('Specimen','SpecificEpithet')}"
                                                      value="#{specimenController.selected.specificEpithet}"  />
                                         <components:fieldInfoPopup field="SpecificEpithet" table="Specimen" tipName="SpecificEpithetTip" />
                                     </h:panelGrid>
                                     <h:outputLabel value="#{bundle.EditSpecimenLabel_subspecificEpithet}" for="subspecificEpithet" />
                                     <h:panelGrid columns="2" >
                                         <h:inputText id="subspecificEpithet"  style="font-style: italic"
-                                                     maxlength="#{MetadataRetrieverBean.lengthForField('Specimen','SubspecificEpithet')}"
-                                                     title="#{MetadataRetrieverBean.tipForField('Specimen','SubspecificEpithet')}"
+                                                     maxlength="#{metadataRetrieverBean.lengthForField('Specimen','SubspecificEpithet')}"
+                                                     title="#{metadataRetrieverBean.tipForField('Specimen','SubspecificEpithet')}"
                                                      value="#{specimenController.selected.subspecificEpithet}" />
                                         <components:fieldInfoPopup field="SubspecificEpithet" table="Specimen" tipName="SubspecificEpithetTip" />
                                     </h:panelGrid>
                                     <h:outputLabel value="#{bundle.EditSpecimenLabel_infraspecificEpithet}" for="infraspecificEpithet" />
                                     <h:panelGrid columns="2" >
                                         <h:inputText id="infraspecificEpithet"  style="font-style: italic"
-                                                     maxlength="#{MetadataRetrieverBean.lengthForField('Specimen','InfraspecificEpithet')}"
-                                                     title="#{MetadataRetrieverBean.tipForField('Specimen','InfraspecificEpithet')}"
+                                                     maxlength="#{metadataRetrieverBean.lengthForField('Specimen','InfraspecificEpithet')}"
+                                                     title="#{metadataRetrieverBean.tipForField('Specimen','InfraspecificEpithet')}"
                                                      value="#{specimenController.selected.infraspecificEpithet}" />
                                         <components:fieldInfoPopup field="InfraspecificEpithet" table="Specimen" tipName="InfraspecificEpithetTip" />
                                     </h:panelGrid>
                                     <h:outputLabel value="#{bundle.EditSpecimenLabel_infraspecificRank}" for="infraspecificRank" />
                                     <h:panelGrid columns="2" >
                                         <h:inputText id="infraspecificRank" value="#{specimenController.selected.infraspecificRank}"
-                                                     maxlength="#{MetadataRetrieverBean.lengthForField('Specimen','InfraspecificRank')}"
-                                                     title="#{MetadataRetrieverBean.tipForField('Specimen','InfraspecificRank')}" />
+                                                     maxlength="#{metadataRetrieverBean.lengthForField('Specimen','InfraspecificRank')}"
+                                                     title="#{metadataRetrieverBean.tipForField('Specimen','InfraspecificRank')}" />
                                         <components:fieldInfoPopup field="InfraspecificRank" table="Specimen" tipName="InfraspecificRankTip" />
                                     </h:panelGrid>
                                     <h:outputLabel value="#{bundle.EditSpecimenLabel_authorship}" for="authorship" />
                                     <h:panelGrid columns="2" >
                                         <p:keyboard id="authorship" value="#{specimenController.selected.authorship}"
-                                                     maxlength="#{MetadataRetrieverBean.lengthForField('Specimen','Authorship')}"
-                                                     title="#{MetadataRetrieverBean.tipForField('Specimen','Authorship')}"
+                                                     maxlength="#{metadataRetrieverBean.lengthForField('Specimen','Authorship')}"
+                                                     title="#{metadataRetrieverBean.tipForField('Specimen','Authorship')}"
                                                      showMode="button"
                                                      layoutTemplate="ÀÁÂÃÄÅÆÇ,ÈÉÊËÌÍÎÏ,ÐÑÒÓÔÕÖØ,ÙÚÛÜÝÞß,àáâãäåæç,èéêëìíîï,ðñòóôõöø,ùúûüýþÿ"
                                                      />
@@ -368,8 +368,8 @@
                                     <h:outputLabel value="#{bundle.EditSpecimenLabel_unNamedForm}" for="unNamedForm" />
                                     <h:panelGrid columns="2" >
                                         <h:inputText id="unNamedForm" value="#{specimenController.selected.unNamedForm}"
-                                                     maxlength="#{MetadataRetrieverBean.lengthForField('Specimen','UnnamedForm')}"
-                                                     title="#{MetadataRetrieverBean.tipForField('Specimen','UnnamedForm')}"
+                                                     maxlength="#{metadataRetrieverBean.lengthForField('Specimen','UnnamedForm')}"
+                                                     title="#{metadataRetrieverBean.tipForField('Specimen','UnnamedForm')}"
                                                      />
                                         <components:fieldInfoPopup field="UnnamedForm" table="Specimen" tipName="UnnamedFormTip" />
                                     </h:panelGrid>
@@ -377,7 +377,7 @@
                                     <h:outputLabel value="Nature Of ID" for="natureOfId"/>
                                     <h:panelGrid columns="2" >
                                         <h:selectOneMenu id="natureOfId" value="#{specimenController.selected.natureOfId}"
-                                                     title="#{MetadataRetrieverBean.tipForField('Specimen','natureOfId')}"
+                                                     title="#{metadataRetrieverBean.tipForField('Specimen','natureOfId')}"
                                                      >  
                                             <f:selectItems value="#{pickListsManagedBean.natureOfIdValues}"  />
                                         </h:selectOneMenu>                                                     
@@ -387,12 +387,12 @@
                                     <h:outputLabel value="Date Determined"/>
                                     <h:panelGrid columns="2" >
                                         <p:inputMask value="#{specimenController.selected.dateIdentified}"
-                                                     maxlength="#{MetadataRetrieverBean.lengthForField('Specimen','identificationDate')}"
-                                                     title="#{MetadataRetrieverBean.tipForField('Specimen','identificationDate')}"
+                                                     maxlength="#{metadataRetrieverBean.lengthForField('Specimen','identificationDate')}"
+                                                     title="#{metadataRetrieverBean.tipForField('Specimen','identificationDate')}"
                                                      mask="9999/99/99"
                                                      validatorMessage="Date must be in the format yyyy/mm/dd with a numeric 4 digit year, along with month and day must be supplied.  Use first day of month/year if day/month are unknown."
                                                      >
-                                                  <f:validateRegex pattern="${MetadataRetrieverBean.regexForField('Specimen','ISODate')}" />
+                                                  <f:validateRegex pattern="${metadataRetrieverBean.regexForField('Specimen','ISODate')}" />
                                         </p:inputMask>                                                      
                                         <components:fieldInfoPopup field="identificationDate" table="Specimen" tipName="NatureOfIdTip" />
                                     </h:panelGrid>
@@ -405,7 +405,7 @@
                                                          process="@this"
                                                          value="#{specimenController.selected.identifiedBy}"
                                                          completeMethod="#{specimenController.autocompleteAgent}"
-                                                         maxlength="#{MetadataRetrieverBean.lengthForField('Collector','CollectorName')}"
+                                                         maxlength="#{metadataRetrieverBean.lengthForField('Collector','CollectorName')}"
                                                          /> 
                                         <components:fieldInfoPopup field="identifiedBy" table="Specimen" tipName="specidentifiedbyTip" />
                                     </h:panelGrid>                                         
@@ -413,8 +413,8 @@
                                     <h:outputLabel value="ID Remarks" for="detRemarks" />
                                     <h:panelGrid columns="2" >
                                         <h:inputText id="detRemarks" value="#{specimenController.selected.identificationRemarks}" 
-                                                     maxlength="#{MetadataRetrieverBean.lengthForField('Specimen','identificationRemarks')}"
-                                                     title="#{MetadataRetrieverBean.tipForField('Specimen','identificationRemarks')}"
+                                                     maxlength="#{metadataRetrieverBean.lengthForField('Specimen','identificationRemarks')}"
+                                                     title="#{metadataRetrieverBean.tipForField('Specimen','identificationRemarks')}"
                                                      />                                    
                                         <components:fieldInfoPopup field="identificationRemarks" table="Specimen" tipName="DetRemarksTip" />
                                     </h:panelGrid>
@@ -436,8 +436,8 @@
                                             <h:outputText value="#{bundle.ListDeterminationTitle_verbatimText}"/>
                                         </f:facet>
                                         <h:inputText value="#{det_item.verbatimText}" size="10"
-                                                     maxlength="#{MetadataRetrieverBean.lengthForField('Determination','VerbatimText')}"
-                                                     title="#{MetadataRetrieverBean.tipForField('Determination','VerbatimText')}"
+                                                     maxlength="#{metadataRetrieverBean.lengthForField('Determination','VerbatimText')}"
+                                                     title="#{metadataRetrieverBean.tipForField('Determination','VerbatimText')}"
                                                      />
                                     </p:column>
                                     <p:column>
@@ -456,7 +456,7 @@
                                                         process="@this"
                                                         value="#{det_item.identifiedBy}"
                                                         completeMethod="#{specimenController.autocompleteAgent}"
-                                                        maxlength="#{MetadataRetrieverBean.lengthForField('Determination','IdentifiedBy')}"
+                                                        maxlength="#{metadataRetrieverBean.lengthForField('Determination','IdentifiedBy')}"
                                                  />                                          
                                     </p:column>
                                     <p:column>
@@ -497,8 +497,8 @@
                                         <p:inputText id="verbVerbatimLocality" size="50"
                                                      autocomplete="on"
                                                      value="#{specimenController.selected.verbatimLocality}"
-                                                     maxlength="#{MetadataRetrieverBean.lengthForField('Specimen','VerbatimLocality')}"
-                                                     title="#{MetadataRetrieverBean.tipForField('Specimen','VerbatimLocality')}"
+                                                     maxlength="#{metadataRetrieverBean.lengthForField('Specimen','VerbatimLocality')}"
+                                                     title="#{metadataRetrieverBean.tipForField('Specimen','VerbatimLocality')}"
                                                      widgetVar="vVerbatimLocality"
                                                      >
                                            <p:ajax event="change" update="mainForm:verbatimLocality" />
@@ -510,8 +510,8 @@
                                     <h:panelGrid columns="2">
                                         <p:inputText id="verbVerbatimDate" value="#{specimenController.selected.dateNOS}"
                                                  size="50"
-                                                 maxlength="#{MetadataRetrieverBean.lengthForField('Specimen','DateNOS')}"
-                                                 title="#{MetadataRetrieverBean.tipForField('Specimen','DateNOS')}"
+                                                 maxlength="#{metadataRetrieverBean.lengthForField('Specimen','DateNOS')}"
+                                                 title="#{metadataRetrieverBean.tipForField('Specimen','DateNOS')}"
                                                  >
                                            <p:ajax event="change" update="mainForm:dateNOS" />
                                         </p:inputText>
@@ -524,8 +524,8 @@
                                                      styleClass="dataNotTransfered"
                                                      autocomplete="on" 
                                                      value="#{specimenController.selected.verbatimCollector}"
-                                                     maxlength="#{MetadataRetrieverBean.lengthForField('Specimen','VerbatimCollector')}"
-                                                     title="#{MetadataRetrieverBean.tipForField('Specimen','VerbatimCollector')}"
+                                                     maxlength="#{metadataRetrieverBean.lengthForField('Specimen','VerbatimCollector')}"
+                                                     title="#{metadataRetrieverBean.tipForField('Specimen','VerbatimCollector')}"
                                                      />
                                         <components:fieldInfoPopup field="verbatimCollector" table="Specimen" tipName="VerbatimCollectorTip"  />
                                     </h:panelGrid>
@@ -536,8 +536,8 @@
                                                      styleClass="dataNotTransfered"
                                                      autocomplete="on"
                                                      value="#{specimenController.selected.verbatimCollection}"
-                                                     maxlength="#{MetadataRetrieverBean.lengthForField('Specimen','VerbatimCollection')}"
-                                                     title="#{MetadataRetrieverBean.tipForField('Specimen','VerbatimCollection')}"
+                                                     maxlength="#{metadataRetrieverBean.lengthForField('Specimen','VerbatimCollection')}"
+                                                     title="#{metadataRetrieverBean.tipForField('Specimen','VerbatimCollection')}"
                                                      />
                                         <components:fieldInfoPopup field="VerbatimCollection" table="Specimen" tipName="VerbatimCollectionTip"  />
                                     </h:panelGrid>
@@ -548,8 +548,8 @@
                                                      styleClass="dataNotTransfered"
                                                      autocomplete="on"
                                                      value="#{specimenController.selected.verbatimNumbers}"
-                                                     maxlength="#{MetadataRetrieverBean.lengthForField('Specimen','VerbatimNumbers')}"
-                                                     title="#{MetadataRetrieverBean.tipForField('Specimen','VerbatimNumbers')}"
+                                                     maxlength="#{metadataRetrieverBean.lengthForField('Specimen','VerbatimNumbers')}"
+                                                     title="#{metadataRetrieverBean.tipForField('Specimen','VerbatimNumbers')}"
                                                      />
                                         <components:fieldInfoPopup field="VerbatimNumbers" table="Specimen" tipName="VerbatimNumbersTip"  />
                                     </h:panelGrid>                                    
@@ -560,8 +560,8 @@
                                                      styleClass="dataNotTransfered"
                                                      autocomplete="on"
                                                      value="#{specimenController.selected.verbatimUnclassifiedText}"
-                                                     maxlength="#{MetadataRetrieverBean.lengthForField('Specimen','VerbatimUnclassifiedText')}"
-                                                     title="#{MetadataRetrieverBean.tipForField('Specimen','VerbatimUnclassifiedText')}"
+                                                     maxlength="#{metadataRetrieverBean.lengthForField('Specimen','VerbatimUnclassifiedText')}"
+                                                     title="#{metadataRetrieverBean.tipForField('Specimen','VerbatimUnclassifiedText')}"
                                                      />
                                         <components:fieldInfoPopup field="VerbatimUnclassifiedText" table="Specimen" tipName="VerbatimUnclassifiedTextTip"  />
                                     </h:panelGrid>                                    
@@ -569,8 +569,8 @@
                                     <h:outputLabel value="#{bundle.EditSpecimenLabel_questions}" for="verbQuestions" />
                                     <h:panelGrid columns="2" >
                                         <p:inputText id="verbQuestions" value="#{specimenController.selected.questions}" size="50"
-                                                 maxlength="#{MetadataRetrieverBean.lengthForField('Specimen','Questions')}"
-                                                 title="#{MetadataRetrieverBean.tipForField('Specimen','Questions')}"
+                                                 maxlength="#{metadataRetrieverBean.lengthForField('Specimen','Questions')}"
+                                                 title="#{metadataRetrieverBean.tipForField('Specimen','Questions')}"
                                                  >
                                            <p:ajax event="change" update="mainForm:questions" />
                                         </p:inputText>
@@ -669,8 +669,8 @@
                                         <p:inputText id="verbatimLocality" size="50"
                                                      autocomplete="on"
                                                      value="#{specimenController.selected.verbatimLocality}"
-                                                     maxlength="#{MetadataRetrieverBean.lengthForField('Specimen','VerbatimLocality')}"
-                                                     title="#{MetadataRetrieverBean.tipForField('Specimen','VerbatimLocality')}"
+                                                     maxlength="#{metadataRetrieverBean.lengthForField('Specimen','VerbatimLocality')}"
+                                                     title="#{metadataRetrieverBean.tipForField('Specimen','VerbatimLocality')}"
                                                      update="mainForm:verbVerbatimLocality"
                                                      >
                                            <p:ajax event="change" update="mainForm:verbVerbatimLocality" />
@@ -690,7 +690,7 @@
                                                      title="Maximum Elevation"
                                                      />                                                     
                                         <h:selectOneMenu id="Elev_Units" value="#{specimenController.selected.elev_units}"
-                                                         title="#{MetadataRetrieverBean.tipForField('Specimen','Elev_Units')}"
+                                                         title="#{metadataRetrieverBean.tipForField('Specimen','Elev_Units')}"
                                                          >
                                             <f:selectItems value="#{pickListsManagedBean.elevUnitsValues}"  />
                                         </h:selectOneMenu>
@@ -701,8 +701,8 @@
                                     <h:panelGrid columns="3">
                                         <p:inputText id="country" value="#{specimenController.selected.country}"
                                                      styleClass="dataNotTransfered"
-                                                     maxlength="#{MetadataRetrieverBean.lengthForField('Specimen','Country')}"
-                                                     title="#{MetadataRetrieverBean.tipForField('Specimen','Country')}"
+                                                     maxlength="#{metadataRetrieverBean.lengthForField('Specimen','Country')}"
+                                                     title="#{metadataRetrieverBean.tipForField('Specimen','Country')}"
                                                      />
                                         <components:fieldInfoPopup field="Country" table="Specimen" tipName="CountryTip"  />
                                         
@@ -717,8 +717,8 @@
                                     <h:panelGrid columns="2">
                                         <p:inputText id="primaryDivison" value="#{specimenController.selected.primaryDivison}"
                                                      styleClass="dataNotTransfered"
-                                                     maxlength="#{MetadataRetrieverBean.lengthForField('Specimen','PrimaryDivision')}"
-                                                     title="#{MetadataRetrieverBean.tipForField('Specimen','PrimaryDivision')}"
+                                                     maxlength="#{metadataRetrieverBean.lengthForField('Specimen','PrimaryDivision')}"
+                                                     title="#{metadataRetrieverBean.tipForField('Specimen','PrimaryDivision')}"
                                                      />
                                         <components:fieldInfoPopup field="PrimaryDivision" table="Specimen" tipName="PrimaryDivisionTip"  />
                                     </h:panelGrid>
@@ -731,7 +731,7 @@
                                            process="@this mainForm:country mainForm:primaryDivision"
                                            value="#{specimenController.selected.higherGeography}"
                                            completeMethod="#{specimenController.autocompleteHigherGeography}"
-                                           maxlength="#{MetadataRetrieverBean.lengthForField('Specimen','Higher_Geography')}"
+                                           maxlength="#{metadataRetrieverBean.lengthForField('Specimen','Higher_Geography')}"
                                            />              
                                         <components:fieldInfoPopup field="Higher_Geography" table="Specimen" tipName="HigherGeogTip"  />
                                     </h:panelGrid>                                                                 
@@ -746,8 +746,8 @@
                                     <h:panelGrid columns="2">
                                         <h:inputText id="specificLocality" size="50"
                                                      value="#{specimenController.selected.specificLocality}"
-                                                     maxlength="#{MetadataRetrieverBean.lengthForField('Specimen','SpecificLocality')}"
-                                                     title="#{MetadataRetrieverBean.tipForField('Specimen','SpecificLocality')}"
+                                                     maxlength="#{metadataRetrieverBean.lengthForField('Specimen','SpecificLocality')}"
+                                                     title="#{metadataRetrieverBean.tipForField('Specimen','SpecificLocality')}"
                                                      />
                                         <h:panelGrid columns="2">
                                              <components:fieldInfoPopup field="SpecificLocality" table="Specimen" tipName="SpecificLocalityTip"  />
@@ -781,7 +781,7 @@
                                                         process="@this"
                                                         value="#{coll_item.collectorName}"
                                                         completeMethod="#{specimenController.autocompleteAgent}"
-                                                        maxlength="#{MetadataRetrieverBean.lengthForField('Collector','CollectorName')}"
+                                                        maxlength="#{metadataRetrieverBean.lengthForField('Collector','CollectorName')}"
                                                  />              
                                             </p:column>
                                             <p:column>
@@ -813,8 +813,8 @@
                                 <h:panelGrid columns="2">
                                     <h:outputLabel value="#{bundle.EditSpecimenLabel_dateNOS}" for="dateNOS" />
                                     <p:inputText id="dateNOS" value="#{specimenController.selected.dateNOS}"
-                                                 maxlength="#{MetadataRetrieverBean.lengthForField('Specimen','DateNOS')}"
-                                                 title="#{MetadataRetrieverBean.tipForField('Specimen','DateNOS')}"
+                                                 maxlength="#{metadataRetrieverBean.lengthForField('Specimen','DateNOS')}"
+                                                 title="#{metadataRetrieverBean.tipForField('Specimen','DateNOS')}"
                                                  update="mainForm:verbVerbatimDate"
                                                  >
                                            <p:ajax event="change" update="mainForm:verbVerbatimDate" />
@@ -822,12 +822,12 @@
                                     <h:outputLabel value="#{bundle.EditSpecimenLabel_ISODate}" for="ISODate" />
                                     <p:inputMask id="ISODate" value="#{specimenController.selected.ISODate}"
                                                  mask="9999?/99/99-9999/99/99"
-                                                 maxlength="#{MetadataRetrieverBean.lengthForField('Specimen','ISODate')}"
-                                                 title="#{MetadataRetrieverBean.tipForField('Specimen','ISODate')}"
+                                                 maxlength="#{metadataRetrieverBean.lengthForField('Specimen','ISODate')}"
+                                                 title="#{metadataRetrieverBean.tipForField('Specimen','ISODate')}"
                                                  validatorMessage="ISO Date does not follow the correct format of yyyy/mm/dd-yyyy/mm/dd where at least a 4 digit year must be supplied"
                                                  
                                                  >
-                                                 <f:validateRegex pattern="${MetadataRetrieverBean.regexForField('Specimen','ISODate')}" />
+                                                 <f:validateRegex pattern="${metadataRetrieverBean.regexForField('Specimen','ISODate')}" />
                                     </p:inputMask>
                                     
                                     <p:commandButton value="#{bundle.EditSpecimenLabel_dateEmerged}"
@@ -838,16 +838,16 @@
                                                      />
                                     <h:inputText id="dateEmerged" value="#{specimenController.selected.dateEmerged}"
                                                  rendered="#{specimenController.isShowDateEmerged()}"
-                                                 maxlength="#{MetadataRetrieverBean.lengthForField('Specimen','DateEmerged')}"
-                                                 title="#{MetadataRetrieverBean.tipForField('Specimen','DateEmerged')}"
+                                                 maxlength="#{metadataRetrieverBean.lengthForField('Specimen','DateEmerged')}"
+                                                 title="#{metadataRetrieverBean.tipForField('Specimen','DateEmerged')}"
                                                  />
                                     <h:outputLabel value="#{bundle.EditSpecimenLabel_dateEmergedIndicator}" 
                                                    rendered="#{specimenController.isShowDateEmerged()}"
                                                    for="dateEmergedIndicator" />
                                     <h:inputText id="dateEmergedIndicator" value="#{specimenController.selected.dateEmergedIndicator}"
                                                  rendered="#{specimenController.isShowDateEmerged()}"
-                                                 maxlength="#{MetadataRetrieverBean.lengthForField('Specimen','DateEmergedIndicator')}"
-                                                 title="#{MetadataRetrieverBean.tipForField('Specimen','DateEmergedIndicator')}"
+                                                 maxlength="#{metadataRetrieverBean.lengthForField('Specimen','DateEmergedIndicator')}"
+                                                 title="#{metadataRetrieverBean.tipForField('Specimen','DateEmergedIndicator')}"
                                                  />
 
                                     <p:commandButton value="#{bundle.EditSpecimenLabel_dateCollected}"
@@ -858,8 +858,8 @@
                                                        />
                                     <h:inputText id="dateCollected" rendered="#{!loginBean.userExactlyAnyEditor}"
                                                  value="#{specimenController.selected.dateCollected}"
-                                                 maxlength="#{MetadataRetrieverBean.lengthForField('Specimen','DateCollected')}"
-                                                 title="#{MetadataRetrieverBean.tipForField('Specimen','DateCollected')}"
+                                                 maxlength="#{metadataRetrieverBean.lengthForField('Specimen','DateCollected')}"
+                                                 title="#{metadataRetrieverBean.tipForField('Specimen','DateCollected')}"
                                                  />
                                     <h:outputLabel
                                         rendered="#{!loginBean.userEditor}"
@@ -869,12 +869,12 @@
                                         rendered="#{!loginBean.userEditor}"
                                         id="dateCollectedIndicator"
                                         value="#{specimenController.selected.dateCollectedIndicator}"
-                                        maxlength="#{MetadataRetrieverBean.lengthForField('Specimen','DateCollectedIndicator')}"
-                                        title="#{MetadataRetrieverBean.tipForField('Specimen','DateCollectedIndicator')}"
+                                        maxlength="#{metadataRetrieverBean.lengthForField('Specimen','DateCollectedIndicator')}"
+                                        title="#{metadataRetrieverBean.tipForField('Specimen','DateCollectedIndicator')}"
                                         />
 
                                     <h:outputLabel value="#{bundle.EditSpecimenLabel_collection}" for="collection"
-                                                   title="#{MetadataRetrieverBean.tipForField('Specimen','Collection')}"
+                                                   title="#{metadataRetrieverBean.tipForField('Specimen','Collection')}"
                                                    />
                                     <h:panelGrid columns="2">
                                         <p:autoComplete  id="collection"
@@ -882,12 +882,12 @@
                                                             value="#{specimenController.selected.collection}"
                                                             completeMethod="#{specimenController.autocompleteCollection}"
                                                             />
-                                        <h:graphicImage library="images" name="information.png" title="#{MetadataRetrieverBean.tipForField('Specimen','Collection')}" />
+                                        <h:graphicImage library="images" name="information.png" title="#{metadataRetrieverBean.tipForField('Specimen','Collection')}" />
                                     </h:panelGrid>
                                     <h:outputLabel value="#{bundle.EditSpecimenLabel_collectingMethod}" for="collectingMethod" />
                                     <h:inputText id="collectingMethod" value="#{specimenController.selected.collectingMethod}"
-                                                 maxlength="#{MetadataRetrieverBean.lengthForField('Specimen','CollectingMethod')}"
-                                                 title="#{MetadataRetrieverBean.tipForField('Specimen','CollectingMethod')}"
+                                                 maxlength="#{metadataRetrieverBean.lengthForField('Specimen','CollectingMethod')}"
+                                                 title="#{metadataRetrieverBean.tipForField('Specimen','CollectingMethod')}"
                                                  />
                                 </h:panelGrid>
                             </p:panel>
@@ -911,7 +911,7 @@
                                             <h:outputText value="#{bundle.ListOtherNumbersTitle_numberType}" />
                                         </f:facet>
                                         <p:selectOneMenu id="otherNumberListnumbertype" editable="true" value="#{on_item.numberType}"
-                                                         title="#{MetadataRetrieverBean.tipForField('OtherNumbers','NumberType')}"
+                                                         title="#{metadataRetrieverBean.tipForField('OtherNumbers','NumberType')}"
                                                      >
                                             <f:selectItems value="#{pickListsManagedBean.numberTypeValues}" />
                                         </p:selectOneMenu>
@@ -921,8 +921,8 @@
                                             <h:outputText value="#{bundle.ListOtherNumbersTitle_otherNumber}"/>
                                         </f:facet>
                                         <h:inputText value="#{on_item.otherNumber}"
-                                                     maxlength="#{MetadataRetrieverBean.lengthForField('OtherNumbers','OtherNumber')}"
-                                                     title="#{MetadataRetrieverBean.tipForField('OtherNumbers','OtherNumber')}"
+                                                     maxlength="#{metadataRetrieverBean.lengthForField('OtherNumbers','OtherNumber')}"
+                                                     title="#{metadataRetrieverBean.tipForField('OtherNumbers','OtherNumber')}"
                                                      />
                                     </p:column>
                                     <p:column>
@@ -948,8 +948,8 @@
                                     <h:outputLabel value="#{bundle.EditSpecimenLabel_specimenNotes}" for="specimenNotes" />
                                     <h:panelGrid columns="2" >
                                         <h:inputText size="50" id="specimenNotes" value="#{specimenController.selected.specimenNotes}"
-                                                     maxlength="#{MetadataRetrieverBean.lengthForField('Specimen','SpecimenNotes')}"
-                                                     title="#{MetadataRetrieverBean.tipForField('Specimen','SpecimenNotes')}"
+                                                     maxlength="#{metadataRetrieverBean.lengthForField('Specimen','SpecimenNotes')}"
+                                                     title="#{metadataRetrieverBean.tipForField('Specimen','SpecimenNotes')}"
                                                      />
                                         <components:fieldInfoPopup field="SpecimenNotes" table="Specimen" tipName="SpecimenNotesTip"  />
                                     </h:panelGrid>
@@ -961,7 +961,7 @@
                                                  rendered="${!specimenController.isTaxonWithPartAttributes()}" 
                                                  >
                                         <h:selectOneMenu id="sex" value="#{specimenController.selected.sex}"
-                                                         title="#{MetadataRetrieverBean.tipForField('Specimen','Sex')}"
+                                                         title="#{metadataRetrieverBean.tipForField('Specimen','Sex')}"
                                                          >
                                             <f:selectItems value="#{pickListsManagedBean.sexValues}"  />
                                         </h:selectOneMenu>
@@ -974,7 +974,7 @@
                                                  rendered="${!specimenController.isTaxonWithPartAttributes()}" 
                                                  >
                                         <h:selectOneMenu id="lifeStage" value="#{specimenController.selected.lifeStage}"
-                                                         title="#{MetadataRetrieverBean.tipForField('Specimen','LifeStage')}"
+                                                         title="#{metadataRetrieverBean.tipForField('Specimen','LifeStage')}"
                                                          >
                                             <f:selectItems value="#{pickListsManagedBean.lifeStageValues}"  />
                                         </h:selectOneMenu>
@@ -989,38 +989,38 @@
                                                             value="#{specimenController.selected.features}"
                                                                >
                                             </p:autoComplete>
-                                            <h:graphicImage library="images" name="information.png" title="#{MetadataRetrieverBean.tipForField('Specimen','Features')}" />
+                                            <h:graphicImage library="images" name="information.png" title="#{metadataRetrieverBean.tipForField('Specimen','Features')}" />
                                         </h:panelGrid>
                                         <components:fieldInfoPopup field="Features" table="Specimen" tipName="FeaturesTip"  />
                                     </h:panelGrid>
                                     <h:outputLabel value="#{bundle.EditSpecimenLabel_habitat}" for="habitat" />
                                     <h:panelGrid columns="2" >
                                         <h:inputText id="habitat" size="50" value="#{specimenController.selected.habitat}"
-                                                     maxlength="#{MetadataRetrieverBean.lengthForField('Specimen','Habitat')}"
-                                                     title="#{MetadataRetrieverBean.tipForField('Specimen','Habitat')}"
+                                                     maxlength="#{metadataRetrieverBean.lengthForField('Specimen','Habitat')}"
+                                                     title="#{metadataRetrieverBean.tipForField('Specimen','Habitat')}"
                                                      />
                                         <components:fieldInfoPopup field="Habitat" table="Specimen" tipName="HabitatTip"  />
                                     </h:panelGrid>
                                     <h:outputLabel value="Microhabitat" for="microhabitat" />
                                     <h:panelGrid columns="2" >
                                         <h:inputText id="microhabitat" size="50" value="#{specimenController.selected.microhabitat}"
-                                                     maxlength="#{MetadataRetrieverBean.lengthForField('Specimen','Microhabitat')}"
-                                                     title="#{MetadataRetrieverBean.tipForField('Specimen','Microhabitat')}"
+                                                     maxlength="#{metadataRetrieverBean.lengthForField('Specimen','Microhabitat')}"
+                                                     title="#{metadataRetrieverBean.tipForField('Specimen','Microhabitat')}"
                                                      />
                                         <components:fieldInfoPopup field="Habitat" table="Specimen" tipName="HabitatTip"  />
                                     </h:panelGrid>                                    
                                     <h:outputLabel value="#{bundle.EditSpecimenLabel_associatedTaxon}" for="associatedTaxon" />
                                     <h:panelGrid columns="2" >
                                         <h:inputText id="associatedTaxon" size="50" value="#{specimenController.selected.associatedTaxon}"
-                                                     maxlength="#{MetadataRetrieverBean.lengthForField('Specimen','AssociatedTaxon')}"
-                                                     title="#{MetadataRetrieverBean.tipForField('Specimen','AssociatedTaxon')}"
+                                                     maxlength="#{metadataRetrieverBean.lengthForField('Specimen','AssociatedTaxon')}"
+                                                     title="#{metadataRetrieverBean.tipForField('Specimen','AssociatedTaxon')}"
                                                      />
                                         <components:fieldInfoPopup field="AssociatedTaxon" table="Specimen" tipName="AssociatedTaxonTip"  />
                                     </h:panelGrid>
                                     <h:outputLabel value="#{bundle.EditSpecimenLabel_validDistributionFlag}" for="validDistributionFlag" />
                                     <h:panelGrid columns="2" >
                                         <h:selectBooleanCheckbox id="validDistributionFlag" value="#{specimenController.selected.validDistributionFlag}"
-                                                                 title="#{MetadataRetrieverBean.tipForField('Specimen','ValidDistributionFlag')}"
+                                                                 title="#{metadataRetrieverBean.tipForField('Specimen','ValidDistributionFlag')}"
                                                                  />
                                         <components:fieldInfoPopup field="ValidDistributionFlag" table="Specimen" tipName="ValidDistributionFlagTip"  />
                                     </h:panelGrid>
@@ -1051,7 +1051,7 @@
                                            </f:facet>
                                            <f:facet name="input">
                                         <h:selectOneMenu value="#{specimenPart.partName}"
-                                                         title="#{MetadataRetrieverBean.tipForField('SpecimenPart','Part_Name')}"
+                                                         title="#{metadataRetrieverBean.tipForField('SpecimenPart','Part_Name')}"
                                                          >
                                             <f:selectItems value="#{pickListsManagedBean.partNameValues}"  />
                                         </h:selectOneMenu>
@@ -1068,7 +1068,7 @@
                                            </f:facet>
                                            <f:facet name="input">
                                         <h:selectOneMenu value="#{specimenPart.preserveMethod}"
-                                                         title="#{MetadataRetrieverBean.tipForField('SpecimenPart','Preserve_Method')}"
+                                                         title="#{metadataRetrieverBean.tipForField('SpecimenPart','Preserve_Method')}"
                                                          >
                                             <f:selectItems value="#{pickListsManagedBean.preserveMethodValues}"  />
                                         </h:selectOneMenu>
@@ -1086,8 +1086,8 @@
                                            <f:facet name="input">
                                               <h:inputText value="#{specimenPart.lotCount}" 
                                                            size="5" 
-                                                           maxlength="#{MetadataRetrieverBean.lengthForField('SpecimenPart','Lot_Count')}"
-                                                           title="#{MetadataRetrieverBean.tipForField('SpecimenPart','Lot_Count')}"
+                                                           maxlength="#{metadataRetrieverBean.lengthForField('SpecimenPart','Lot_Count')}"
+                                                           title="#{metadataRetrieverBean.tipForField('SpecimenPart','Lot_Count')}"
                                                      />
                                              </f:facet>
                                           </p:cellEditor>
@@ -1102,7 +1102,7 @@
                                            </f:facet>
                                            <f:facet name="input">
                                         <h:selectOneMenu value="#{specimenPart.lotCountModifier}"
-                                                         title="#{MetadataRetrieverBean.tipForField('SpecimenPart','Lot_Count_Modifier')}"
+                                                         title="#{metadataRetrieverBean.tipForField('SpecimenPart','Lot_Count_Modifier')}"
                                                          >
                                             <f:selectItems value="#{pickListsManagedBean.countModifierValues}"  />
                                         </h:selectOneMenu>
@@ -1178,8 +1178,8 @@
                                 <h:outputLabel value="#{bundle.EditSpecimenLabel_questions}" for="questions" />
                                 <h:panelGrid columns="2" >
                                     <p:inputText id="questions" value="#{specimenController.selected.questions}" size="50"
-                                                 maxlength="#{MetadataRetrieverBean.lengthForField('Specimen','Questions')}"
-                                                 title="#{MetadataRetrieverBean.tipForField('Specimen','Questions')}"
+                                                 maxlength="#{metadataRetrieverBean.lengthForField('Specimen','Questions')}"
+                                                 title="#{metadataRetrieverBean.tipForField('Specimen','Questions')}"
                                                  update="mainFrame:verbQuestions"
                                                  >
                                            <p:ajax event="change" update="mainForm:questions" />
@@ -1189,15 +1189,15 @@
                                 <h:outputLabel value="#{bundle.EditSpecimenLabel_inferences}" for="inferences" />
                                 <h:panelGrid columns="2" >
                                     <h:inputText id="inferences" value="#{specimenController.selected.inferences}" size="50"
-                                                 maxlength="#{MetadataRetrieverBean.lengthForField('Specimen','Inferences')}"
-                                                 title="#{MetadataRetrieverBean.tipForField('Specimen','Inferences')}"
+                                                 maxlength="#{metadataRetrieverBean.lengthForField('Specimen','Inferences')}"
+                                                 title="#{metadataRetrieverBean.tipForField('Specimen','Inferences')}"
                                                  />
                                     <components:fieldInfoPopup field="Inferences" table="Specimen" tipName="InferencesTip"  />
                                 </h:panelGrid>
                                 <h:outputLabel value="#{bundle.EditSpecimenLabel_workFlowStatus}" for="workFlowStatus" />
                                 <h:panelGrid columns="2" >
                                     <h:selectOneMenu id="workFlowStatus" value="#{specimenController.selected.workFlowStatus}"
-                                                     title="#{MetadataRetrieverBean.tipForField('Specimen','WorkFlowStatus')}"
+                                                     title="#{metadataRetrieverBean.tipForField('Specimen','WorkFlowStatus')}"
                                                      required="true" disabled="${!loginBean.userAdministrator}" >
                                         <f:selectItems value="#{workFlowStatusManagedBean.workFlowStatusValues}"  />
                                     </h:selectOneMenu>
@@ -1349,48 +1349,48 @@
                                         <h:panelGrid columns="2" id="detAddGrid">
                                             <h:outputText value="#{bundle.ListDeterminationTitle_verbatimText}"/>
                                             <h:inputText value="#{specimenController.temp_verbatimText}" size="30"
-                                                         maxlength="#{MetadataRetrieverBean.lengthForField('Determination','VerbatimText')}"
-                                                         title="#{MetadataRetrieverBean.tipForField('Determination','VerbatimText')}"
+                                                         maxlength="#{metadataRetrieverBean.lengthForField('Determination','VerbatimText')}"
+                                                         title="#{metadataRetrieverBean.tipForField('Determination','VerbatimText')}"
                                                          />
                                             <h:outputText value="#{bundle.ListDeterminationTitle_genus}"/>
                                             <h:inputText value="#{specimenController.temp_genus}" size="30"
-                                                         maxlength="#{MetadataRetrieverBean.lengthForField('Determination','Genus')}"
-                                                         title="#{MetadataRetrieverBean.tipForField('Determination','Genus')}"
+                                                         maxlength="#{metadataRetrieverBean.lengthForField('Determination','Genus')}"
+                                                         title="#{metadataRetrieverBean.tipForField('Determination','Genus')}"
                                                          />
                                             <h:outputText value="#{bundle.ListDeterminationTitle_specificEpithet}"/>
                                             <h:inputText value="#{specimenController.temp_specificEpithet}" size="30"
-                                                         maxlength="#{MetadataRetrieverBean.lengthForField('Determination','SubspecificEpithet')}"
-                                                         title="#{MetadataRetrieverBean.tipForField('Determination','SubspecificEpithet')}"
+                                                         maxlength="#{metadataRetrieverBean.lengthForField('Determination','SubspecificEpithet')}"
+                                                         title="#{metadataRetrieverBean.tipForField('Determination','SubspecificEpithet')}"
                                                          />
                                             <h:outputText value="#{bundle.ListDeterminationTitle_subspecificEpithet}"/>
                                             <h:inputText value="#{specimenController.temp_subspecificEpithet}" size="30"
-                                                         maxlength="#{MetadataRetrieverBean.lengthForField('Determination','SubspecificEpithet')}"
-                                                         title="#{MetadataRetrieverBean.tipForField('Determination','SubspecificEpithet')}"
+                                                         maxlength="#{metadataRetrieverBean.lengthForField('Determination','SubspecificEpithet')}"
+                                                         title="#{metadataRetrieverBean.tipForField('Determination','SubspecificEpithet')}"
                                                          />
                                             <h:outputText value="#{bundle.ListDeterminationTitle_infraspecificEpithet}"/>
                                             <h:inputText value="#{specimenController.temp_infraspecificEpithet}" size="30"
-                                                         maxlength="#{MetadataRetrieverBean.lengthForField('Determination','InfraspecificEpithet')}"
-                                                         title="#{MetadataRetrieverBean.tipForField('Determination','InfraspecificEpithet')}"
+                                                         maxlength="#{metadataRetrieverBean.lengthForField('Determination','InfraspecificEpithet')}"
+                                                         title="#{metadataRetrieverBean.tipForField('Determination','InfraspecificEpithet')}"
                                                          />
                                             <h:outputText value="#{bundle.ListDeterminationTitle_infraspecificRank}"/>
                                             <h:inputText value="#{specimenController.temp_infraspecificRank}" size="30"
-                                                         maxlength="#{MetadataRetrieverBean.lengthForField('Determination','InfraspecificRank')}"
-                                                         title="#{MetadataRetrieverBean.tipForField('Determination','InfraspecificRank')}"
+                                                         maxlength="#{metadataRetrieverBean.lengthForField('Determination','InfraspecificRank')}"
+                                                         title="#{metadataRetrieverBean.tipForField('Determination','InfraspecificRank')}"
                                                          />
                                             <h:outputText value="#{bundle.ListDeterminationTitle_authorship}"/>
                                             <h:inputText value="#{specimenController.temp_authorship}" size="30"
-                                                         maxlength="#{MetadataRetrieverBean.lengthForField('Determination','Authorship')}"
-                                                         title="#{MetadataRetrieverBean.tipForField('Determination','Authorship')}"
+                                                         maxlength="#{metadataRetrieverBean.lengthForField('Determination','Authorship')}"
+                                                         title="#{metadataRetrieverBean.tipForField('Determination','Authorship')}"
                                                          />
                                             <h:outputText value="#{bundle.ListDeterminationTitle_speciesNumber}"/>
                                             <h:inputText value="#{specimenController.temp_speciesNumber}" size="30"
-                                                         maxlength="#{MetadataRetrieverBean.lengthForField('Determination','SpeciesNumber')}"
-                                                         title="#{MetadataRetrieverBean.tipForField('Determination','SpeciesNumber')}"
+                                                         maxlength="#{metadataRetrieverBean.lengthForField('Determination','SpeciesNumber')}"
+                                                         title="#{metadataRetrieverBean.tipForField('Determination','SpeciesNumber')}"
                                                          />
                                             <h:outputText value="#{bundle.ListDeterminationTitle_unNamedForm}"/>
                                             <h:inputText value="#{specimenController.temp_unNamedForm}" size="30"
-                                                         maxlength="#{MetadataRetrieverBean.lengthForField('Determination','UnnamedForm')}"
-                                                         title="#{MetadataRetrieverBean.tipForField('Determination','UnnamedForm')}"
+                                                         maxlength="#{metadataRetrieverBean.lengthForField('Determination','UnnamedForm')}"
+                                                         title="#{metadataRetrieverBean.tipForField('Determination','UnnamedForm')}"
                                                          />
                                             <h:outputText value="#{bundle.ListDeterminationTitle_identifiedBy}"/>
                                             <p:autoComplete id="pl_determinerAdd_agentName" size="30"
@@ -1399,34 +1399,34 @@
                                                          process="@this"
                                                          value="#{specimenController.temp_identifiedBy}"
                                                          completeMethod="#{specimenController.autocompleteAgent}"
-                                                         maxlength="#{MetadataRetrieverBean.lengthForField('Collector','CollectorName')}"
+                                                         maxlength="#{metadataRetrieverBean.lengthForField('Collector','CollectorName')}"
                                                          />                                          
                                             <h:outputText value="#{bundle.ListDeterminationTitle_typeStatus}"/>
                                             <h:selectOneMenu
                                                         id="crdetfm_typeStatus" value="#{specimenController.temp_typeStatus}"
-                                                        title="#{MetadataRetrieverBean.tipForField('Determination','TypeStatus')}"
+                                                        title="#{metadataRetrieverBean.tipForField('Determination','TypeStatus')}"
                                                         disabled="false" >
                                                     <f:selectItems value="#{pickListsManagedBean.typeStatusValues}"  />
                                             </h:selectOneMenu>
                                             <h:outputText value="Nature Of ID"/>
                                             <h:selectOneMenu id="crdetfrnatureOfId" value="#{specimenController.temp_natureOfId}"
-                                                     title="#{MetadataRetrieverBean.tipForField('Determination','natureOfId')}"
+                                                     title="#{metadataRetrieverBean.tipForField('Determination','natureOfId')}"
                                                      >  
                                                 <f:selectItems value="#{pickListsManagedBean.natureOfIdValues}"  />
                                             </h:selectOneMenu>                                                
                                             <h:outputText value="Date Determined"/>
                                             <p:inputMask value="#{specimenController.temp_dateIdentified}" size="30"
-                                                         maxlength="#{MetadataRetrieverBean.lengthForField('Determination','natureOfId')}"
-                                                         title="#{MetadataRetrieverBean.tipForField('Determination','natureOfId')}"
+                                                         maxlength="#{metadataRetrieverBean.lengthForField('Determination','natureOfId')}"
+                                                         title="#{metadataRetrieverBean.tipForField('Determination','natureOfId')}"
                                                          mask="9999?/99/99-9999/99/99"
                                                          validatorMessage="Date must be in the format yyyy/mm/dd-yyyy/mm/dd where at least a 4 digit year must be supplied"
                                                          >
-                                                  <f:validateRegex pattern="${MetadataRetrieverBean.regexForField('Specimen','ISODate')}" />
+                                                  <f:validateRegex pattern="${metadataRetrieverBean.regexForField('Specimen','ISODate')}" />
                                             </p:inputMask>                                                         
                                             <h:outputText value="Remarks"/>
                                             <h:inputText value="#{specimenController.temp_remarks}" size="30"
-                                                         maxlength="#{MetadataRetrieverBean.lengthForField('Determination','natureOfId')}"
-                                                         title="#{MetadataRetrieverBean.tipForField('Determination','natureOfId')}"
+                                                         maxlength="#{metadataRetrieverBean.lengthForField('Determination','natureOfId')}"
+                                                         title="#{metadataRetrieverBean.tipForField('Determination','natureOfId')}"
                                                          />                                                         
                                             <p:commandButton value="Cancel"
                                                              onclick="PF('newDetDialog').hide(); return false;" />
@@ -1448,48 +1448,48 @@
                                     <h:panelGrid columns="2" id="detEditGrid">
                                         <h:outputText value="#{bundle.ListDeterminationTitle_verbatimText}"/>
                                         <h:inputText value="#{specimenController.temp_CurrentEditIdentification.verbatimText}" size="30"
-                                                     maxlength="#{MetadataRetrieverBean.lengthForField('Determination','VerbatimText')}"
-                                                     title="#{MetadataRetrieverBean.tipForField('Determination','VerbatimText')}"
+                                                     maxlength="#{metadataRetrieverBean.lengthForField('Determination','VerbatimText')}"
+                                                     title="#{metadataRetrieverBean.tipForField('Determination','VerbatimText')}"
                                                      />
                                         <h:outputText value="#{bundle.ListDeterminationTitle_genus}"/>
                                         <h:inputText value="#{specimenController.temp_CurrentEditIdentification.genus}" size="30"
-                                                     maxlength="#{MetadataRetrieverBean.lengthForField('Determination','Genus')}"
-                                                     title="#{MetadataRetrieverBean.tipForField('Determination','Genus')}"
+                                                     maxlength="#{metadataRetrieverBean.lengthForField('Determination','Genus')}"
+                                                     title="#{metadataRetrieverBean.tipForField('Determination','Genus')}"
                                                      />
                                         <h:outputText value="#{bundle.ListDeterminationTitle_specificEpithet}"/>
                                         <h:inputText value="#{specimenController.temp_CurrentEditIdentification.specificEpithet}" size="30"
-                                                     maxlength="#{MetadataRetrieverBean.lengthForField('Determination','SpecificEpithet')}"
-                                                     title="#{MetadataRetrieverBean.tipForField('Determination','SpecificEpithet')}"
+                                                     maxlength="#{metadataRetrieverBean.lengthForField('Determination','SpecificEpithet')}"
+                                                     title="#{metadataRetrieverBean.tipForField('Determination','SpecificEpithet')}"
                                                      />
                                         <h:outputText value="#{bundle.ListDeterminationTitle_subspecificEpithet}"/>
                                         <h:inputText value="#{specimenController.temp_CurrentEditIdentification.subspecificEpithet}" size="30"
-                                                     maxlength="#{MetadataRetrieverBean.lengthForField('Determination','SubspecificEpithet')}"
-                                                     title="#{MetadataRetrieverBean.tipForField('Determination','SubspecificEpithet')}"
+                                                     maxlength="#{metadataRetrieverBean.lengthForField('Determination','SubspecificEpithet')}"
+                                                     title="#{metadataRetrieverBean.tipForField('Determination','SubspecificEpithet')}"
                                                      />
                                         <h:outputText value="#{bundle.ListDeterminationTitle_infraspecificEpithet}"/>
                                         <h:inputText value="#{specimenController.temp_CurrentEditIdentification.infraspecificEpithet}" size="30"
-                                                     maxlength="#{MetadataRetrieverBean.lengthForField('Determination','InfraspecificEpithet')}"
-                                                     title="#{MetadataRetrieverBean.tipForField('Determination','InfraspecificEpithet')}"
+                                                     maxlength="#{metadataRetrieverBean.lengthForField('Determination','InfraspecificEpithet')}"
+                                                     title="#{metadataRetrieverBean.tipForField('Determination','InfraspecificEpithet')}"
                                                      />
                                         <h:outputText value="#{bundle.ListDeterminationTitle_infraspecificRank}"/>
                                         <h:inputText value="#{specimenController.temp_CurrentEditIdentification.infraspecificRank}" size="30"
-                                                     maxlength="#{MetadataRetrieverBean.lengthForField('Determination','InfraspecificRank')}"
-                                                     title="#{MetadataRetrieverBean.tipForField('Determination','InfraspecificRanke')}"
+                                                     maxlength="#{metadataRetrieverBean.lengthForField('Determination','InfraspecificRank')}"
+                                                     title="#{metadataRetrieverBean.tipForField('Determination','InfraspecificRanke')}"
                                                      />
                                         <h:outputText value="#{bundle.ListDeterminationTitle_authorship}"/>
                                         <h:inputText value="#{specimenController.temp_CurrentEditIdentification.authorship}" size="30"
-                                                     maxlength="#{MetadataRetrieverBean.lengthForField('Determination','Authorship')}"
-                                                     title="#{MetadataRetrieverBean.tipForField('Determination','Authorship')}"
+                                                     maxlength="#{metadataRetrieverBean.lengthForField('Determination','Authorship')}"
+                                                     title="#{metadataRetrieverBean.tipForField('Determination','Authorship')}"
                                                      />
                                         <h:outputText value="#{bundle.ListDeterminationTitle_speciesNumber}"/>
                                         <h:inputText value="#{specimenController.temp_CurrentEditIdentification.speciesNumber}" size="30"
-                                                     maxlength="#{MetadataRetrieverBean.lengthForField('Determination','SpeciesNumber')}"
-                                                     title="#{MetadataRetrieverBean.tipForField('Determination','SpeciesNumber')}"
+                                                     maxlength="#{metadataRetrieverBean.lengthForField('Determination','SpeciesNumber')}"
+                                                     title="#{metadataRetrieverBean.tipForField('Determination','SpeciesNumber')}"
                                                      />
                                         <h:outputText value="#{bundle.ListDeterminationTitle_unNamedForm}"/>
                                         <h:inputText value="#{specimenController.temp_CurrentEditIdentification.unNamedForm}" size="30"
-                                                     maxlength="#{MetadataRetrieverBean.lengthForField('Determination','UnNamedForm')}"
-                                                     title="#{MetadataRetrieverBean.tipForField('Determination','UnNamedForm')}"
+                                                     maxlength="#{metadataRetrieverBean.lengthForField('Determination','UnNamedForm')}"
+                                                     title="#{metadataRetrieverBean.tipForField('Determination','UnNamedForm')}"
                                                      />
                                         <h:outputText value="#{bundle.ListDeterminationTitle_identifiedBy}"/>
                                         <p:autoComplete id="pl_determinerAdd_agentName" size="30"
@@ -1498,34 +1498,34 @@
                                                         process="@this"
                                                         value="#{specimenController.temp_CurrentEditIdentification.identifiedBy}"
                                                         completeMethod="#{specimenController.autocompleteAgent}"
-                                                        maxlength="#{MetadataRetrieverBean.lengthForField('Collector','CollectorName')}"
+                                                        maxlength="#{metadataRetrieverBean.lengthForField('Collector','CollectorName')}"
                                                  />                                          
                                         <h:outputText value="#{bundle.ListDeterminationTitle_typeStatus}"/>
                                         <h:selectOneMenu
                                                         id="editdetfm_typeStatus" value="#{specimenController.temp_CurrentEditIdentification.typeStatus}"
-                                                        title="#{MetadataRetrieverBean.tipForField('Determination','TypeStatus')}"
+                                                        title="#{metadataRetrieverBean.tipForField('Determination','TypeStatus')}"
                                                         disabled="false" >
                                                     <f:selectItems value="#{pickListsManagedBean.typeStatusValues}"  />
                                         </h:selectOneMenu>
                                         <h:outputText value="Nature Of ID"/>
                                         <h:selectOneMenu id="editdetfrnatureOfId" value="#{specimenController.temp_CurrentEditIdentification.natureOfId}"
-                                                     title="#{MetadataRetrieverBean.tipForField('Determination','natureOfId')}"
+                                                     title="#{metadataRetrieverBean.tipForField('Determination','natureOfId')}"
                                                      >  
                                                 <f:selectItems value="#{pickListsManagedBean.natureOfIdValues}"  />
                                         </h:selectOneMenu>                                                
                                         <h:outputText value="Date Determined"/>
                                         <p:inputMask value="#{specimenController.temp_CurrentEditIdentification.dateIdentified}" size="30"
-                                                     maxlength="#{MetadataRetrieverBean.lengthForField('Determination','natureOfId')}"
-                                                     title="#{MetadataRetrieverBean.tipForField('Determination','natureOfId')}"
+                                                     maxlength="#{metadataRetrieverBean.lengthForField('Determination','natureOfId')}"
+                                                     title="#{metadataRetrieverBean.tipForField('Determination','natureOfId')}"
                                                      mask="9999?/99/99-9999/99/99"
                                                      validatorMessage="Date must be in the format yyyy/mm/dd-yyyy/mm/dd where at least a 4 digit year must be supplied"
                                                      >
-                                              <f:validateRegex pattern="${MetadataRetrieverBean.regexForField('Specimen','ISODate')}" />
+                                              <f:validateRegex pattern="${metadataRetrieverBean.regexForField('Specimen','ISODate')}" />
                                         </p:inputMask>                                                         
                                         <h:outputText value="Remarks"/>
                                         <h:inputText value="#{specimenController.temp_CurrentEditIdentification.remarks}" size="30"
-                                                     maxlength="#{MetadataRetrieverBean.lengthForField('Determination','natureOfId')}"
-                                                     title="#{MetadataRetrieverBean.tipForField('Determination','natureOfId')}"
+                                                     maxlength="#{metadataRetrieverBean.lengthForField('Determination','natureOfId')}"
+                                                     title="#{metadataRetrieverBean.tipForField('Determination','natureOfId')}"
                                                      />
                                                      
                                         <p:commandButton value="Store" action="#{specimenController.updateCurrentEditIdentification()}" 
@@ -1551,7 +1551,7 @@
                                                         process="@this"
                                                         value="#{specimenController.temp_CollectorName}"
                                                         completeMethod="#{specimenController.autocompleteAgent}"
-                                                        maxlength="#{MetadataRetrieverBean.lengthForField('Collector','CollectorName')}"
+                                                        maxlength="#{metadataRetrieverBean.lengthForField('Collector','CollectorName')}"
                                                         forceSelection="false"
                                                         queryDelay="200"
                                                         dropdownMode="current"
@@ -1576,12 +1576,12 @@
                                         <h:panelGrid columns="2" id="numberAddGrid">
                                             <h:outputLabel value="#{bundle.ListOtherNumbersTitle_otherNumber}" for="txt_on"></h:outputLabel>
                                             <h:inputText id="txt_on" value="#{specimenController.temp_Number}" required="false"
-                                                         maxlength="#{MetadataRetrieverBean.lengthForField('OtherNumbers','OtherNumber')}"
-                                                         title="#{MetadataRetrieverBean.tipForField('OtherNumbers','OtherNumber')}"
+                                                         maxlength="#{metadataRetrieverBean.lengthForField('OtherNumbers','OtherNumber')}"
+                                                         title="#{metadataRetrieverBean.tipForField('OtherNumbers','OtherNumber')}"
                                                          />
                                             <h:outputLabel value="#{bundle.ListOtherNumbersTitle_numberType}" for="txt_nt"></h:outputLabel>
                                             <p:selectOneMenu editable="true" id="txt_nt" value="#{specimenController.temp_NumberType}"
-                                                         title="#{MetadataRetrieverBean.tipForField('OtherNumbers','NumberType')}"
+                                                         title="#{metadataRetrieverBean.tipForField('OtherNumbers','NumberType')}"
                                                          >
                                                 <f:selectItems value="#{pickListsManagedBean.numberTypeValues}" />
                                             </p:selectOneMenu>
@@ -1605,7 +1605,7 @@
                                             <h:outputText value="Attribute"/>
                                             <p:selectOneMenu value="#{specimenController.temp_CurrentPartAttribute.attributeType}"
                                                              style="width:100%;"
-                                                             title="#{MetadataRetrieverBean.tipForField('SpecimenPartAttribute','Attribute_Type')}"
+                                                             title="#{metadataRetrieverBean.tipForField('SpecimenPartAttribute','Attribute_Type')}"
                                                              >
                                                      <f:selectItems value="#{pickListsManagedBean.partAttributeNameValues}"  />
                                                      <p:ajax update="pa_attributeValueMenu" />
@@ -1616,7 +1616,7 @@
                                                              style="width:100%;"
                                                              value="#{specimenController.temp_CurrentPartAttribute.attributeValue}"
                                                              editable = "#{specimenController.temp_CurrentPartAttribute.hasEditablePartAttributeType()}"
-                                                                    title="#{MetadataRetrieverBean.tipForField('SpecimenPartAttribute','Attribute_Value')}"
+                                                                    title="#{metadataRetrieverBean.tipForField('SpecimenPartAttribute','Attribute_Value')}"
                                                                 >
                                                        <f:selectItems value="#{specimenController.temp_CurrentPartAttribute.getPicklistValuesForAttributeType()}"  />
                                             </p:selectOneMenu>
@@ -1624,15 +1624,15 @@
                                             <h:outputText value="Units"/>
                                             <p:inputText value="#{specimenController.temp_CurrentPartAttribute.attributeUnits}"
                                                          style="width:100%;"
-                                                         maxlength="#{MetadataRetrieverBean.lengthForField('SpecimenPartAttribute','Attribute_Units')}"
-                                                         title="#{MetadataRetrieverBean.tipForField('SpecimenPartAttribute','Attribute_Units')}"
+                                                         maxlength="#{metadataRetrieverBean.lengthForField('SpecimenPartAttribute','Attribute_Units')}"
+                                                         title="#{metadataRetrieverBean.tipForField('SpecimenPartAttribute','Attribute_Units')}"
                                                          /> 
                                                          
                                             <h:outputText value="Remarks"/>
                                             <p:inputText value="#{specimenController.temp_CurrentPartAttribute.attributeRemark}"
                                                          style="width:100%;"
-                                                         maxlength="#{MetadataRetrieverBean.lengthForField('SpecimenPartAttribute','Attribute_Remark')}"
-                                                         title="#{MetadataRetrieverBean.tipForField('SpecimenPartAttribute','Attribute_Remark')}"
+                                                         maxlength="#{metadataRetrieverBean.lengthForField('SpecimenPartAttribute','Attribute_Remark')}"
+                                                         title="#{metadataRetrieverBean.tipForField('SpecimenPartAttribute','Attribute_Remark')}"
                                                          /> 
                                       </h:panelGrid>                                       
                                       <p:commandButton value="Store" action="#{specimenController.updateCurrentPartAttribute()}" 
@@ -1659,9 +1659,9 @@
                                                          disabled="#{!specimenController.selected.georeference.enableDecimalDegrees}"
                                                          value="#{specimenController.selected.georeference.decLat}"
                                                          style="width:100%;"
-                                                         maxlength="#{MetadataRetrieverBean.lengthForField('LatLong','decLat')}"
-                                                         size="#{MetadataRetrieverBean.lengthForField('LatLong','decLat')}"
-                                                         title="#{MetadataRetrieverBean.tipForField('LatLong','decLat')}"
+                                                         maxlength="#{metadataRetrieverBean.lengthForField('LatLong','decLat')}"
+                                                         size="#{metadataRetrieverBean.lengthForField('LatLong','decLat')}"
+                                                         title="#{metadataRetrieverBean.tipForField('LatLong','decLat')}"
                                                          >
                                                      <p:ajax process="@this tf_decLong" update="georeferenceGrid" />
                                             </p:inputText>
@@ -1672,9 +1672,9 @@
                                                          value="#{specimenController.selected.georeference.decLong}"
                                                          disabled="#{!specimenController.selected.georeference.enableDecimalDegrees}"
                                                          style="width:100%;"
-                                                         maxlength="#{MetadataRetrieverBean.lengthForField('LatLong','decLong')}"
-                                                         size="#{MetadataRetrieverBean.lengthForField('LatLong','decLong')}"
-                                                         title="#{MetadataRetrieverBean.tipForField('LatLong','decLong')}"
+                                                         maxlength="#{metadataRetrieverBean.lengthForField('LatLong','decLong')}"
+                                                         size="#{metadataRetrieverBean.lengthForField('LatLong','decLong')}"
+                                                         title="#{metadataRetrieverBean.tipForField('LatLong','decLong')}"
                                                          >
                                                      <p:ajax process="@this tf_decLat" update="georeferenceGrid" />
                                             </p:inputText>
@@ -1682,7 +1682,7 @@
  
                                             <h:outputText value="Original Lat/Long Units"/>
                                             <p:selectOneMenu id="tf_origlatlongunits" editable="true" value="#{specimenController.selected.georeference.origLatLongUnits}"
-                                                             title="#{MetadataRetrieverBean.tipForField('LatLong','origLatLongUnits')}"
+                                                             title="#{metadataRetrieverBean.tipForField('LatLong','origLatLongUnits')}"
                                                          >
                                                 <f:selectItems value="#{pickListsManagedBean.origLatLongUnitsValues}" />
                                                 <p:ajax process="@this tf_decLat tf_decLong tf_latDeg tf_latMin tf_latDecMin tf_latSec tf_latDir tf_longDeg tf_longMin tf_longDecMin tf_longSec tf_longDir " 
@@ -1691,14 +1691,14 @@
                                            
                                             <h:outputText value="Datum"/>
                                             <p:selectOneMenu id="tf_datum" editable="true" value="#{specimenController.selected.georeference.datum}"
-                                                             title="#{MetadataRetrieverBean.tipForField('LatLong','datum')}"
+                                                             title="#{metadataRetrieverBean.tipForField('LatLong','datum')}"
                                                          >
                                                 <f:selectItems value="#{pickListsManagedBean.datumValues}" />
                                             </p:selectOneMenu>                                            
                                             
                                             <h:outputText value="Georeference Method"/>
                                             <p:selectOneMenu id="tf_georefmethod" editable="true" value="#{specimenController.selected.georeference.georefmethod}"
-                                                             title="#{MetadataRetrieverBean.tipForField('LatLong','georefmethod}')}"
+                                                             title="#{metadataRetrieverBean.tipForField('LatLong','georefmethod}')}"
                                                          >
                                                 <f:selectItems value="#{pickListsManagedBean.georefMethodValues}" />
                                             </p:selectOneMenu>                                              
@@ -1708,9 +1708,9 @@
                                                          disabled="#{!specimenController.selected.georeference.enableDegrees}"
                                                          value="#{specimenController.selected.georeference.latDeg}"
                                                          style="width:100%;"
-                                                         maxlength="#{MetadataRetrieverBean.lengthForField('LatLong','latDeg')}"
-                                                         size="#{MetadataRetrieverBean.lengthForField('LatLong','latDeg')}"
-                                                         title="#{MetadataRetrieverBean.tipForField('LatLong','latDeg')}"
+                                                         maxlength="#{metadataRetrieverBean.lengthForField('LatLong','latDeg')}"
+                                                         size="#{metadataRetrieverBean.lengthForField('LatLong','latDeg')}"
+                                                         title="#{metadataRetrieverBean.tipForField('LatLong','latDeg')}"
                                                          >
                                                      <p:ajax process="tf_latDeg tf_latMin tf_latDecMin tf_latSec tf_latDir tf_longDeg tf_longMin tf_longDecMin tf_longSec tf_longDir" 
                                                              update="tf_decLat tf_decLong" />
@@ -1721,9 +1721,9 @@
                                                          disabled="#{!specimenController.selected.georeference.unitsDecimalMin}"
                                                          value="#{specimenController.selected.georeference.decLatMin}"
                                                          style="width:100%;"
-                                                         maxlength="#{MetadataRetrieverBean.lengthForField('LatLong','decLatMin')}"
-                                                         size="#{MetadataRetrieverBean.lengthForField('LatLong','decLatMin')}"
-                                                         title="#{MetadataRetrieverBean.tipForField('LatLong','decLatMin')}"
+                                                         maxlength="#{metadataRetrieverBean.lengthForField('LatLong','decLatMin')}"
+                                                         size="#{metadataRetrieverBean.lengthForField('LatLong','decLatMin')}"
+                                                         title="#{metadataRetrieverBean.tipForField('LatLong','decLatMin')}"
                                                          >
                                                      <p:ajax process="tf_latDeg tf_latMin tf_latDecMin tf_latSec tf_latDir tf_longDeg tf_longMin tf_longDecMin tf_longSec tf_longDir" update="tf_decLat tf_decLong" />
                                             </p:inputText>    
@@ -1733,9 +1733,9 @@
                                                          disabled="#{!specimenController.selected.georeference.unitsDegMinSec}"
                                                          value="#{specimenController.selected.georeference.latMin}"
                                                          style="width:100%;"
-                                                         maxlength="#{MetadataRetrieverBean.lengthForField('LatLong','latMin')}"
-                                                         size="#{MetadataRetrieverBean.lengthForField('LatLong','latMin')}"
-                                                         title="#{MetadataRetrieverBean.tipForField('LatLong','latMin')}"
+                                                         maxlength="#{metadataRetrieverBean.lengthForField('LatLong','latMin')}"
+                                                         size="#{metadataRetrieverBean.lengthForField('LatLong','latMin')}"
+                                                         title="#{metadataRetrieverBean.tipForField('LatLong','latMin')}"
                                                          >
                                                      <p:ajax process="tf_latDeg tf_latMin tf_latDecMin tf_latSec tf_latDir tf_longDeg tf_longMin tf_longDecMin tf_longSec tf_longDir" update="tf_decLat tf_decLong" />
                                             </p:inputText>        
@@ -1745,9 +1745,9 @@
                                                          disabled="#{!specimenController.selected.georeference.unitsDegMinSec}"
                                                          value="#{specimenController.selected.georeference.latSec}"
                                                          style="width:100%;"
-                                                         maxlength="#{MetadataRetrieverBean.lengthForField('LatLong','latSec')}"
-                                                         size="#{MetadataRetrieverBean.lengthForField('LatLong','latSec')}"
-                                                         title="#{MetadataRetrieverBean.tipForField('LatLong','latSec')}"
+                                                         maxlength="#{metadataRetrieverBean.lengthForField('LatLong','latSec')}"
+                                                         size="#{metadataRetrieverBean.lengthForField('LatLong','latSec')}"
+                                                         title="#{metadataRetrieverBean.tipForField('LatLong','latSec')}"
                                                          >
                                                      <p:ajax process="tf_latDeg tf_latMin tf_latDecMin tf_latSec tf_latDir tf_longDeg tf_longMin tf_longDecMin tf_longSec tf_longDir" update="tf_decLat tf_decLong" />
                                             </p:inputText>    
@@ -1757,7 +1757,7 @@
                                             <p:selectOneMenu id="tf_latDir" 
                                                              disabled="#{!specimenController.selected.georeference.enableDegrees}"
                                                              editable="true" value="#{specimenController.selected.georeference.latDir}"
-                                                             title="#{MetadataRetrieverBean.tipForField('LatLong','latDir}')}"
+                                                             title="#{metadataRetrieverBean.tipForField('LatLong','latDir}')}"
                                                          >
                                                 <f:selectItems value="#{pickListsManagedBean.latDirValues}" />
                                                 <p:ajax process="tf_latDeg tf_latMin tf_latDecMin tf_latSec tf_latDir tf_longDeg tf_longMin tf_longDecMin tf_longSec tf_longDir" update="tf_decLat tf_decLong" />
@@ -1769,9 +1769,9 @@
                                                          disabled="#{!specimenController.selected.georeference.enableDegrees}"
                                                          value="#{specimenController.selected.georeference.longDeg}"
                                                          style="width:100%;"
-                                                         maxlength="#{MetadataRetrieverBean.lengthForField('LatLong','longDeg')}"
-                                                         size="#{MetadataRetrieverBean.lengthForField('LatLong','longDeg')}"
-                                                         title="#{MetadataRetrieverBean.tipForField('LatLong','longDeg')}"
+                                                         maxlength="#{metadataRetrieverBean.lengthForField('LatLong','longDeg')}"
+                                                         size="#{metadataRetrieverBean.lengthForField('LatLong','longDeg')}"
+                                                         title="#{metadataRetrieverBean.tipForField('LatLong','longDeg')}"
                                                          >
                                                      <p:ajax process="tf_latDeg tf_latMin tf_latDecMin tf_latSec tf_latDir tf_longDeg tf_longMin tf_longDecMin tf_longSec tf_longDir" update="tf_decLat tf_decLong" />
                                             </p:inputText> 
@@ -1781,9 +1781,9 @@
                                                          disabled="#{!specimenController.selected.georeference.unitsDecimalMin}"
                                                          value="#{specimenController.selected.georeference.decLongMin}"
                                                          style="width:100%;"
-                                                         maxlength="#{MetadataRetrieverBean.lengthForField('LatLong','decLongMin')}"
-                                                         size="#{MetadataRetrieverBean.lengthForField('LatLong','decLongMin')}"
-                                                         title="#{MetadataRetrieverBean.tipForField('LatLong','decLongMin')}"
+                                                         maxlength="#{metadataRetrieverBean.lengthForField('LatLong','decLongMin')}"
+                                                         size="#{metadataRetrieverBean.lengthForField('LatLong','decLongMin')}"
+                                                         title="#{metadataRetrieverBean.tipForField('LatLong','decLongMin')}"
                                                          >
                                                      <p:ajax process="tf_latDeg tf_latMin tf_latDecMin tf_latSec tf_latDir tf_longDeg tf_longMin tf_longDecMin tf_longSec tf_longDir" update="tf_decLat tf_decLong" />
                                             </p:inputText>    
@@ -1793,9 +1793,9 @@
                                                          disabled="#{!specimenController.selected.georeference.unitsDegMinSec}"
                                                          value="#{specimenController.selected.georeference.longMin}"
                                                          style="width:100%;"
-                                                         maxlength="#{MetadataRetrieverBean.lengthForField('LatLong','longMin')}"
-                                                         size="#{MetadataRetrieverBean.lengthForField('LatLong','longMin')}"
-                                                         title="#{MetadataRetrieverBean.tipForField('LatLong','longMin')}"
+                                                         maxlength="#{metadataRetrieverBean.lengthForField('LatLong','longMin')}"
+                                                         size="#{metadataRetrieverBean.lengthForField('LatLong','longMin')}"
+                                                         title="#{metadataRetrieverBean.tipForField('LatLong','longMin')}"
                                                          >
                                                      <p:ajax process="@this tf_latDeg tf_latMin tf_latDecMin tf_latSec tf_latDir tf_longDeg tf_longDecMin tf_longSec tf_longDir" update="georeferenceGrid" />
                                             </p:inputText>        
@@ -1805,9 +1805,9 @@
                                                          disabled="#{!specimenController.selected.georeference.unitsDegMinSec}"
                                                          value="#{specimenController.selected.georeference.longSec}"
                                                          style="width:100%;"
-                                                         maxlength="#{MetadataRetrieverBean.lengthForField('LatLong','longSec')}"
-                                                         size="#{MetadataRetrieverBean.lengthForField('LatLong','longSec')}"
-                                                         title="#{MetadataRetrieverBean.tipForField('LatLong','longSec')}"
+                                                         maxlength="#{metadataRetrieverBean.lengthForField('LatLong','longSec')}"
+                                                         size="#{metadataRetrieverBean.lengthForField('LatLong','longSec')}"
+                                                         title="#{metadataRetrieverBean.tipForField('LatLong','longSec')}"
                                                          >
                                                      <p:ajax process="tf_latDeg tf_latMin tf_latDecMin tf_latSec tf_latDir tf_longDeg tf_longMin tf_longDecMin tf_longSec tf_longDir" update="tf_decLat tf_decLong" />
                                             </p:inputText>    
@@ -1816,7 +1816,7 @@
                                             <p:selectOneMenu id="tf_longDir" 
                                                              disabled="#{!specimenController.selected.georeference.enableDegrees}"
                                                              editable="true" value="#{specimenController.selected.georeference.longDir}"
-                                                             title="#{MetadataRetrieverBean.tipForField('LatLong','longDir}')}"
+                                                             title="#{metadataRetrieverBean.tipForField('LatLong','longDir}')}"
                                                          >
                                                 <f:selectItems value="#{pickListsManagedBean.longDirValues}" />
                                                 <p:ajax process="tf_latDeg tf_latMin tf_latDecMin tf_latSec tf_latDir tf_longDeg tf_longMin tf_longDecMin tf_longSec tf_longDir" update="tf_decLat tf_decLong" />
@@ -1826,8 +1826,8 @@
                                             <p:inputText id = "tf_detbyagent"
                                                          value="#{specimenController.selected.georeference.determinedByAgent}"
                                                          style="width:100%;"
-                                                         maxlength="#{MetadataRetrieverBean.lengthForField('LatLong','determinedByAgent')}"
-                                                         title="#{MetadataRetrieverBean.tipForField('LatLong','determinedByAgent')}"
+                                                         maxlength="#{metadataRetrieverBean.lengthForField('LatLong','determinedByAgent')}"
+                                                         title="#{metadataRetrieverBean.tipForField('LatLong','determinedByAgent')}"
                                                          >
                                             </p:inputText>       
 
@@ -1835,22 +1835,22 @@
                                             <p:inputText id = "tf_determinedDate"
                                                          value="#{specimenController.selected.georeference.determinedDate}"
                                                          style="width:100%;"
-                                                         maxlength="#{MetadataRetrieverBean.lengthForField('LatLong','determinedDate')}"
-                                                         title="#{MetadataRetrieverBean.tipForField('LatLong','determinedDate')}"
+                                                         maxlength="#{metadataRetrieverBean.lengthForField('LatLong','determinedDate')}"
+                                                         title="#{metadataRetrieverBean.tipForField('LatLong','determinedDate')}"
                                                          >
                                             </p:inputText>   
 
                                             <h:outputText value="Field Verified"/>
                                             <h:selectBooleanCheckbox id="chbfieldverifeid" value="#{specimenController.selected.georeference.fieldVerifiedFg}"
-                                                                 title="#{MetadataRetrieverBean.tipForField('LatLong','fieldVerifiedFg')}"
+                                                                 title="#{metadataRetrieverBean.tipForField('LatLong','fieldVerifiedFg')}"
                                                                  /> 
                                                                     
                                             <h:outputText value="Verification Status"/>
                                             <p:inputText id = "tf_verificationsstatus"
                                                          value="#{specimenController.selected.georeference.verificationstatus}"
                                                          style="width:100%;"
-                                                         maxlength="#{MetadataRetrieverBean.lengthForField('LatLong','verificationstatus')}"
-                                                         title="#{MetadataRetrieverBean.tipForField('LatLong','verificationstatus')}"
+                                                         maxlength="#{metadataRetrieverBean.lengthForField('LatLong','verificationstatus')}"
+                                                         title="#{metadataRetrieverBean.tipForField('LatLong','verificationstatus')}"
                                                          >
                                             </p:inputText>  
                                             
@@ -1858,37 +1858,37 @@
                                             <p:inputText id = "tf_gpsaccuracy"
                                                          value="#{specimenController.selected.georeference.gpsaccuracy}"
                                                          style="width:100%;"
-                                                         maxlength="#{MetadataRetrieverBean.lengthForField('LatLong','gpsaccuracy')}"
-                                                         title="#{MetadataRetrieverBean.tipForField('LatLong','gpsaccuracy')}"
+                                                         maxlength="#{metadataRetrieverBean.lengthForField('LatLong','gpsaccuracy')}"
+                                                         title="#{metadataRetrieverBean.tipForField('LatLong','gpsaccuracy')}"
                                                          >
                                             </p:inputText>  
                                             <h:outputText value="Source"/>
                                             <p:inputText id = "tf_latlongRefSource"
                                                          value="#{specimenController.selected.georeference.latLongRefSource}"
                                                          style="width:100%;"
-                                                         maxlength="#{MetadataRetrieverBean.lengthForField('LatLong','latLongRefSource')}"
-                                                         title="#{MetadataRetrieverBean.tipForField('LatLong','latLongRefSource')}"
+                                                         maxlength="#{metadataRetrieverBean.lengthForField('LatLong','latLongRefSource')}"
+                                                         title="#{metadataRetrieverBean.tipForField('LatLong','latLongRefSource')}"
                                                          >
                                             </p:inputText>  
                                             <h:outputText value="Georeference Remarks"/>
                                             <p:inputText id = "tf_latLongRemarks"
                                                          value="#{specimenController.selected.georeference.latLongRemarks}"
                                                          style="width:100%;"
-                                                         maxlength="#{MetadataRetrieverBean.lengthForField('LatLong','latLongRemarks')}"
-                                                         title="#{MetadataRetrieverBean.tipForField('LatLong','latLongRemarks')}"
+                                                         maxlength="#{metadataRetrieverBean.lengthForField('LatLong','latLongRemarks')}"
+                                                         title="#{metadataRetrieverBean.tipForField('LatLong','latLongRemarks')}"
                                                          >
                                             </p:inputText>     
                                             <h:outputText value="Error Radius"/>
                                             <p:inputText id = "tf_maxErrorDistance"
                                                          value="#{specimenController.selected.georeference.maxErrorDistance}"
                                                          style="width:100%;"
-                                                         maxlength="#{MetadataRetrieverBean.lengthForField('LatLong','maxErrorDistance')}"
-                                                         title="#{MetadataRetrieverBean.tipForField('LatLong','maxErrorDistance')}"
+                                                         maxlength="#{metadataRetrieverBean.lengthForField('LatLong','maxErrorDistance')}"
+                                                         title="#{metadataRetrieverBean.tipForField('LatLong','maxErrorDistance')}"
                                                          >
                                             </p:inputText>
                                             <h:outputText value="Error Radius Units"/>
                                             <p:selectOneMenu id="tf_maxErrorUnits" editable="false" value="#{specimenController.selected.georeference.maxErrorUnits}"
-                                                             title="#{MetadataRetrieverBean.tipForField('LatLong','maxErrorUnits}')}"
+                                                             title="#{metadataRetrieverBean.tipForField('LatLong','maxErrorUnits}')}"
                                                          >
                                                 <f:selectItems value="#{pickListsManagedBean.maxErrorUnitValues}" />
                                             </p:selectOneMenu>     
@@ -1898,24 +1898,24 @@
                                             <p:inputText id = "tf_utmZone"
                                                          value="#{specimenController.selected.georeference.utmZone}"
                                                          style="width:100%;"
-                                                         maxlength="#{MetadataRetrieverBean.lengthForField('LatLong','utmZone')}"
-                                                         title="#{MetadataRetrieverBean.tipForField('LatLong','utmZone')}"
+                                                         maxlength="#{metadataRetrieverBean.lengthForField('LatLong','utmZone')}"
+                                                         title="#{metadataRetrieverBean.tipForField('LatLong','utmZone')}"
                                                          >
                                             </p:inputText>     
                                             <h:outputText value="UTM Easting"/>
                                             <p:inputText id = "tf_utmEw"
                                                          value="#{specimenController.selected.georeference.utmEw}"
                                                          style="width:100%;"
-                                                         maxlength="#{MetadataRetrieverBean.lengthForField('LatLong','utmEw')}"
-                                                         title="#{MetadataRetrieverBean.tipForField('LatLong','utmEw')}"
+                                                         maxlength="#{metadataRetrieverBean.lengthForField('LatLong','utmEw')}"
+                                                         title="#{metadataRetrieverBean.tipForField('LatLong','utmEw')}"
                                                          >
                                             </p:inputText>    
                                             <h:outputText value="UTM Northing"/>
                                             <p:inputText id = "tf_utmNs"
                                                          value="#{specimenController.selected.georeference.utmNs}"
                                                          style="width:100%;"
-                                                         maxlength="#{MetadataRetrieverBean.lengthForField('LatLong','utmNs')}"
-                                                         title="#{MetadataRetrieverBean.tipForField('LatLong','utmNs')}"
+                                                         maxlength="#{metadataRetrieverBean.lengthForField('LatLong','utmNs')}"
+                                                         title="#{metadataRetrieverBean.tipForField('LatLong','utmNs')}"
                                                          >
                                             </p:inputText>                                              
                                             

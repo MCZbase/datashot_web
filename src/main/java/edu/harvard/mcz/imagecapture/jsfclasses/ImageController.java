@@ -8,6 +8,7 @@ import edu.harvard.mcz.imagecapture.ejb.ImageFacadeLocal;
 
 import java.io.File;
 import java.io.InputStream;
+import java.io.Serializable;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
@@ -21,9 +22,9 @@ import java.util.logging.Logger;
 import javax.annotation.security.DenyAll;
 import javax.annotation.security.RolesAllowed;
 import javax.ejb.EJB;
+import javax.enterprise.context.SessionScoped;
+import javax.faces.annotation.ManagedProperty;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.SessionScoped;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
@@ -44,15 +45,19 @@ import javax.faces.model.SelectItem;
 
 
 
+import javax.inject.Named;
+
 import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
 
-@ManagedBean (name="imageController")
+//@Named("imageController")
+@ManagedBean
 @SessionScoped
-public class ImageController {
+public class ImageController implements Serializable {
 
+	private static final long serialVersionUID = -293818133098676404L;
 
-    private final static Logger logger = Logger.getLogger(ImageController.class.getName());
+	private final static Logger logger = Logger.getLogger(ImageController.class.getName());
 
     private Image current;
     private DataModel<Image> items = null;

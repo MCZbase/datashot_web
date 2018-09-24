@@ -5,11 +5,13 @@ import edu.harvard.mcz.imagecapture.ejb.CollectorFacadeLocal;
 import edu.harvard.mcz.imagecapture.jsfclasses.util.JsfUtil;
 import edu.harvard.mcz.imagecapture.jsfclasses.util.PaginationHelper;
 
+import java.io.Serializable;
 import java.util.ResourceBundle;
+
 import javax.annotation.security.RolesAllowed;
 import javax.ejb.EJB;
+import javax.enterprise.context.SessionScoped;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
@@ -17,13 +19,17 @@ import javax.faces.convert.FacesConverter;
 import javax.faces.model.DataModel;
 import javax.faces.model.ListDataModel;
 import javax.faces.model.SelectItem;
+import javax.inject.Named;
 
-@ManagedBean (name="collectorController")
+//@Named ("collectorController")
+@ManagedBean
 @SessionScoped
 @RolesAllowed("Administrator")
-public class CollectorController {
+public class CollectorController implements Serializable {
 
-    private Collector current;
+	private static final long serialVersionUID = 4361852273917006721L;
+	
+	private Collector current;
     private DataModel items = null;
     @EJB private edu.harvard.mcz.imagecapture.ejb.CollectorFacadeLocal ejbFacade;
     private PaginationHelper pagination;

@@ -17,13 +17,12 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 import javax.ejb.EJB;
-import javax.ejb.Stateful;
 import javax.ejb.Stateless;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
-
 import javax.faces.context.FacesContext;
+import javax.inject.Named;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 
@@ -34,7 +33,8 @@ import org.primefaces.model.CroppedImage;
  * @author mole
  */
 @Stateless
-@ManagedBean(name = "imageCropBean")
+//@Named("imageCropBean")
+@ManagedBean
 public class ImageCropBean implements Serializable {
 	
 	/**

@@ -322,7 +322,7 @@
                                 <h:outputText value="#{item.workFlowStatus}"
                                     rendered="#{item.stateDoneMigrated}" />
                                 <h:selectOneMenu id="workFlowStatus" value="#{specimenController.selected.workFlowStatus}"
-                                                title="#{MetadataRetrieverBean.tipForField('Specimen','WorkFlowStatus')}"
+                                                title="#{metadataRetrieverBean.tipForField('Specimen','WorkFlowStatus')}"
                                                 required="true" disabled="${!loginBean.userChiefEditor}" >
                                     <f:selectItems value="#{workFlowStatusManagedBean.workFlowStatusValues}"  />
                                 </h:selectOneMenu>   
@@ -339,7 +339,7 @@
                             </f:facet>
                             <f:facet name="input">
                                 <h:selectOneMenu id="locationInCollection" value="#{specimenController.selected.locationInCollection}"
-                                                title="#{MetadataRetrieverBean.tipForField('Specimen','LocationInCollection')}"
+                                                title="#{metadataRetrieverBean.tipForField('Specimen','LocationInCollection')}"
                                                 required="true" >
                                     <f:selectItems value="#{pickListsManagedBean.locationInCollectionValues}"  />
                                 </h:selectOneMenu>   

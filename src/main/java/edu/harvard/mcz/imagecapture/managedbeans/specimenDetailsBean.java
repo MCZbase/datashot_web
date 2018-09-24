@@ -6,23 +6,30 @@
 package edu.harvard.mcz.imagecapture.managedbeans;
 
 import edu.harvard.mcz.imagecapture.data.Specimen;
+
+import java.io.Serializable;
+
 import javax.annotation.security.DeclareRoles;
 import javax.annotation.security.RolesAllowed;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
+import javax.faces.annotation.ManagedProperty;
+import javax.faces.bean.ManagedBean;
+import javax.inject.Named;
 
 /**
  *
  * @author mole
  */
-@ManagedBean(name="specimenDetailsBean")
+//@Named("specimenDetailsBean")
+@ManagedBean
 @RequestScoped
 @DeclareRoles("Administrator")
 @RolesAllowed("Administrator")
-public class specimenDetailsBean {
+public class specimenDetailsBean  implements Serializable {
 
-    @ManagedProperty(value="#{param.specimenId")
+	private static final long serialVersionUID = 5531663810787706029L;
+
+	@ManagedProperty(value="#{param.specimenId")
     private int specimenId;
 
 

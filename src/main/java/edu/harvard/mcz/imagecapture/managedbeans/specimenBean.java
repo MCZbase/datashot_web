@@ -8,6 +8,8 @@ package edu.harvard.mcz.imagecapture.managedbeans;
 import edu.harvard.mcz.imagecapture.buisness.StatusCount;
 import edu.harvard.mcz.imagecapture.data.Specimen;
 import edu.harvard.mcz.imagecapture.ejb.SpecimenFacadeLocal;
+
+import java.io.Serializable;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -15,20 +17,25 @@ import java.util.logging.Logger;
 import javax.annotation.security.DeclareRoles;
 import javax.annotation.security.RolesAllowed;
 import javax.ejb.EJB;
-import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
+import javax.faces.bean.ManagedBean;
 import javax.faces.event.ComponentSystemEvent;
+import javax.inject.Named;
 
 /**
  *
  * @author mole
  */
-@ManagedBean(name="specimenBean")
+//@Named("specimenBean")
+@ManagedBean
 @RequestScoped
 @DeclareRoles("Administrator")
 @RolesAllowed("Administrator")
-public class specimenBean {
-    @EJB
+public class specimenBean implements Serializable {
+	
+	private static final long serialVersionUID = -518965794305891988L;
+
+	@EJB
     private SpecimenFacadeLocal specimenFacade;
 
 	private final static Logger logger = Logger.getLogger(specimenBean.class.getName());

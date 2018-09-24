@@ -4,15 +4,16 @@ import edu.harvard.mcz.imagecapture.data.HigherTaxon;
 import edu.harvard.mcz.imagecapture.jsfclasses.util.JsfUtil;
 import edu.harvard.mcz.imagecapture.jsfclasses.util.PaginationHelper;
 import edu.harvard.mcz.imagecapture.ejb.HigherTaxonFacadeLocal;
+
+import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
-
 import java.util.ResourceBundle;
+
 import javax.ejb.EJB;
+import javax.enterprise.context.SessionScoped;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
@@ -20,12 +21,16 @@ import javax.faces.convert.FacesConverter;
 import javax.faces.model.DataModel;
 import javax.faces.model.ListDataModel;
 import javax.faces.model.SelectItem;
+import javax.inject.Named;
 
-@ManagedBean (name="higherTaxonController")
+@Named("higherTaxonController")
+//@ManagedBean
 @SessionScoped
-public class HigherTaxonController {
+public class HigherTaxonController implements Serializable {
 
-    private HigherTaxon current;
+	private static final long serialVersionUID = 7845868507003451156L;
+	
+	private HigherTaxon current;
     private DataModel items = null;
     @EJB private edu.harvard.mcz.imagecapture.ejb.HigherTaxonFacadeLocal ejbFacade;
     private PaginationHelper pagination;

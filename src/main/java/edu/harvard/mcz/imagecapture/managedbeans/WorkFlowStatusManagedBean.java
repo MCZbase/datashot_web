@@ -8,15 +8,15 @@ import edu.harvard.mcz.imagecapture.data.Users;
 import edu.harvard.mcz.imagecapture.ejb.UsersFacadeLocal;
 import edu.harvard.mcz.imagecapture.ejb.WorkflowStatusBeanLocal;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import javax.ejb.EJB;
 import javax.inject.Named;
 import javax.enterprise.context.Dependent;
+import javax.faces.bean.ManagedBean;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 
@@ -24,10 +24,13 @@ import javax.faces.context.FacesContext;
  *
  * @author mole
  */
-@Named(value = "workFlowStatusManagedBean")
+//@Named(value = "workFlowStatusManagedBean")
+@ManagedBean
 @Dependent
-public class WorkFlowStatusManagedBean {
+public class WorkFlowStatusManagedBean  implements Serializable{
 
+	private static final long serialVersionUID = -7464143789579531541L;
+	
 	@EJB
 	WorkflowStatusBeanLocal workFlowStatusBean;
 	@EJB

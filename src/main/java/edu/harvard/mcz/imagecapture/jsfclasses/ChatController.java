@@ -14,11 +14,12 @@ import java.util.logging.Logger;
 
 import javax.annotation.Resource;
 import javax.ejb.EJB;
+import javax.faces.bean.SessionScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
+import javax.inject.Named;
 import javax.jms.Connection;
 import javax.jms.ConnectionFactory;
 import javax.jms.JMSException;
@@ -35,7 +36,8 @@ import org.primefaces.push.EventBusFactory;
  *
  * @author mole
  */
-@ManagedBean(name = "chatController")
+//@Named("chatController")
+@ManagedBean
 @SessionScoped
 public class ChatController implements Serializable {
 
@@ -48,9 +50,9 @@ public class ChatController implements Serializable {
 	@Resource(mappedName = "jms/InsectChatTopicFactory")
 	private ConnectionFactory insectChatTopicFactory;
 
-	@EJB
+	@EJB(beanName="messageBean")
 	private MessageBean messageBean;
-	@EJB
+	@EJB(beanName="usersFacade")
 	private UsersFacadeLocal usersFacade;
 
 	private String message = "";
@@ -58,7 +60,7 @@ public class ChatController implements Serializable {
 	private boolean loginRecorded = false;
 
 	public ChatController() {
-		logger.log(Level.INFO, "Instatntiating new ChatController");
+		logger.log(Level.INFO, "Instantiating new ChatController");
 		storeLogin();
 	}
 

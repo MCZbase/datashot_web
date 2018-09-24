@@ -4,17 +4,18 @@ import edu.harvard.mcz.imagecapture.data.Label;
 import edu.harvard.mcz.imagecapture.ejb.LabelFacadeLocal;
 import edu.harvard.mcz.imagecapture.jsfclasses.util.JsfUtil;
 import edu.harvard.mcz.imagecapture.jsfclasses.util.PaginationHelper;
+
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.ejb.EJB;
+import javax.enterprise.context.SessionScoped;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
@@ -22,12 +23,16 @@ import javax.faces.convert.FacesConverter;
 import javax.faces.model.DataModel;
 import javax.faces.model.ListDataModel;
 import javax.faces.model.SelectItem;
+import javax.inject.Named;
 
-@ManagedBean (name="labelController")
+//@Named("labelController")
+@ManagedBean
 @SessionScoped
-public class LabelController {
+public class LabelController  implements Serializable {
 	
-    private final static Logger logger = Logger.getLogger(LabelController.class.getName());
+	private static final long serialVersionUID = 4048819082332430644L;
+
+	private final static Logger logger = Logger.getLogger(LabelController.class.getName());
 
     private Label current;
     private DataModel items = null;

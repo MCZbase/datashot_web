@@ -1,15 +1,16 @@
 package edu.harvard.mcz.imagecapture.jsfclasses;
 
 import edu.harvard.mcz.imagecapture.data.LabelTag;
-import edu.harvard.mcz.imagecapture.ejb.LabelTagFacade;
 import edu.harvard.mcz.imagecapture.ejb.LabelTagFacadeLocal;
 import edu.harvard.mcz.imagecapture.jsfclasses.util.JsfUtil;
 import edu.harvard.mcz.imagecapture.jsfclasses.util.PaginationHelper;
 
+import java.io.Serializable;
 import java.util.ResourceBundle;
+
 import javax.ejb.EJB;
+import javax.enterprise.context.SessionScoped;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
@@ -17,12 +18,16 @@ import javax.faces.convert.FacesConverter;
 import javax.faces.model.DataModel;
 import javax.faces.model.ListDataModel;
 import javax.faces.model.SelectItem;
+import javax.inject.Named;
 
-@ManagedBean (name="labelTagController")
+//@Named("labelTagController")
+@ManagedBean
 @SessionScoped
-public class LabelTagController {
+public class LabelTagController  implements Serializable {
 
-    private LabelTag current;
+	private static final long serialVersionUID = -8576144946184259087L;
+	
+	private LabelTag current;
     private DataModel items = null;
     @EJB
 	private LabelTagFacadeLocal ejbFacade;
