@@ -387,7 +387,7 @@ logger.log(Level.INFO, "SpecimenController.createNewDetermination() was invoked.
 					if (0 == 1) {
 						result = new ListDataModel(getFacade().findRange(range));
 					} else {
-						ArrayList<String> sortFields = new ArrayList();
+						ArrayList<String> sortFields = new ArrayList<String>();
 						if (isSortByBarcode()) {
 							sortFields.add("barcode");
 						}

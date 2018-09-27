@@ -177,7 +177,7 @@ public class ImageController implements Serializable {
                 public DataModel<Image>createPageDataModel() {
 					DataModel<Image> result = null;
 					int[] range = new int[]{getPageFirstItem(), getPageFirstItem() + getPageSize()};
-                        ArrayList<String> sortFields = new ArrayList();
+                        ArrayList<String> sortFields = new ArrayList<String>();
 						if (isSortByBarcode()) {
 							sortFields.add("rawBarcode");
 						}
