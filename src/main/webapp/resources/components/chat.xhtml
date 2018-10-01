@@ -10,51 +10,52 @@
 	  <cc:attribute name="collapsed" default="true"  />
 </cc:interface>
 <cc:implementation>
-		<h:form id="chatform" >
-			<p:panel id="chathead" collapsed="true" toggleable="false" style="#{chatController.styleForChatHead}"
-					 header="Chat: #{chatController.getOnlineUserCount()} users online. (#{chatController.getMessageCount()} messages)"
-					 />
-			<p:panel id="chatpanel" collapsed="#{cc.attrs.collapsed}"
-					 header="Chat"
-					 toggleable="true">
-				<h:panelGrid columns="3">
-					<h:outputText value="Message:" />
-					<h:inputText id="txt" value="#{chatController.message}"  size="75" />
-					<p:commandButton value="Send" update="chatwindow,txt,chathead"
-									 actionListener="#{chatController.send}"
-									 oncomplete="jQuery('#txt').val('');"/>
-				</h:panelGrid>
-				<h:outputText id="chatwindow" 
-				       value="#{chatController.messages}" 
-				       escape="false" 
-				       style="line-height: 90%; 
-				       padding-top: 0px; padding-bottom: 0px;" />
-                <f:websocket channel="chat" onmessage="handleChat" onopen="handleOpen" onclose="handleClose" >
-                    <p:ajax event="message" update="chatform:chatwindow chatform:chathead" />
-                </f:websocket>
-                <f:websocket onmessage="handleMessage" channel="serverNotifications" onopen="handleOpen" onclose="handleClose" >
-                    <p:ajax event="message" update="chatform:chatwindow chatform:chathead" />
-                </f:websocket>
-                <p:growl widgetVar="servergrowl" id="servergrowl" showDetail="true" sticky="true" autoUpdate="false" />
-                <script type="text/javascript">
-                    function handleOpen(channel) {
-                        console.log("open: " + channel);
-                    }
-                    function handleClose(code,channel,e) {
-                        console.log("close: " + channel);
-                        console.log("close: " + code);
-                    }
-                    function handleChat(msg,channel,evt) {
-                        console.log("message: " + channel);
-                        console.log("message: " + msg);
-                    }
-                    function handleMessage(msg,channel,evt) {
-                        console.log("message: " + channel);
-                        console.log("message: " + msg);
-                        PF('servergrowl').show([msg]);
-                    }
-                </script>
-			</p:panel>
-		</h:form>
+       <h:form id="chatform" >
+             <p:panel id="chathead" collapsed="true" toggleable="false" style="#{chatController.styleForChatHead}"
+                          header="Chat: #{chatController.getOnlineUserCount()} users online. (#{chatController.getMessageCount()} messages)"
+                          />
+             <p:panel id="chatpanel" collapsed="#{cc.attrs.collapsed}"
+                          header="Chat"
+                          toggleable="true">
+                    <h:panelGrid columns="3">
+                         <h:outputText value="Message:" />
+                         <h:inputText id="txt" value="#{chatController.message}"  size="75" />
+                         <p:commandButton value="Send" update="chatwindow,txt,chathead"
+                                                  actionListener="#{chatController.send}"
+                                                  oncomplete="jQuery('#txt').val('');"/>
+                    </h:panelGrid>
+                    <h:outputText id="chatwindow" 
+                          value="#{chatController.messages}" 
+                          escape="false" 
+                          style="line-height: 90%; 
+                          padding-top: 0px; padding-bottom: 0px;" />
+                    <script type="text/javascript">
+                           function handleOpen(channel) {
+                               console.log("open: " + channel);
+                           }
+                           function handleClose(code,channel,e) {
+                               console.log("close: " + channel);
+                               console.log("close code: " + code);
+                           }
+                           function handleChat(msg,channel,evt) {
+                               console.log("message on: " + channel);
+                               console.log("message: " + msg);
+                               doMessageUpdate();
+                           }
+                           function handleMessage(msg,channel,evt) {
+                               console.log("message on: " + channel);
+                               console.log("message: " + msg);
+                               doMessageUpdate();
+                               PF('servergrowl').show([msg]);
+                           }
+                    </script>
+                    <p:remoteCommand name="doMessageUpdate" update="chatform:chatwindow chatform:chathead" />
+                    <f:websocket channel="chat" onmessage="handleChat" onopen="handleOpen" onclose="handleClose" >
+                    </f:websocket>
+                    <f:websocket onmessage="handleMessage" channel="serverNotifications" onopen="handleOpen" onclose="handleClose" >
+                    </f:websocket>
+                    <p:growl widgetVar="servergrowl" id="servergrowl" showDetail="true" sticky="true" autoUpdate="false" />
+             </p:panel>
+       </h:form>
 </cc:implementation>
 </html>
