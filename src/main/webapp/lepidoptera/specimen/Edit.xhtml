@@ -230,8 +230,10 @@
                                     </h:panelGrid>
                                     <h:outputLabel value="#{bundle.EditSpecimenLabel_typeNumber}" for="typeNumber" />
                                     <h:panelGrid columns="2" >
-                                        <h:inputText id="typeNumber" value="#{specimenController.selected.typeNumber}"
+                                        <p:inputNumber id="typeNumber" value="#{specimenController.selected.typeNumber}"
                                                      maxlength="#{metadataRetrieverBean.lengthForField('Specimen','TypeNumber')}"
+                                                     decimalPlaces="0"
+                                                     thousandSeparator=""
                                                      title="#{metadataRetrieverBean.tipForField('Specimen','TypeNumber')}" />
                                         <components:fieldInfoPopup field="TypeNumber" table="Specimen" tipName="TypeNumberTip"  />
                                     </h:panelGrid>
@@ -680,13 +682,15 @@
                                     
                                     <h:outputLabel value="Elevation" for="Minimum_Elevation" />
                                     <h:panelGrid columns="5">
-                                        <h:inputText id="Minimum_Elevation" value="#{specimenController.selected.minimum_elevation}"
+                                        <p:inputNumber id="Minimum_Elevation" value="#{specimenController.selected.minimum_elevation}"
                                                      maxlength="5"
                                                      title="Minimum Elevation"
+                                                     decimalPlaces="0"
                                                      />
                                         <h:outputLabel value="-" />             
-                                        <h:inputText id="Maximum_Elevation" value="#{specimenController.selected.maximum_elevation}"
+                                        <p:inputNumber id="Maximum_Elevation" value="#{specimenController.selected.maximum_elevation}"
                                                      maxlength="5"
+                                                     decimalPlaces="0"
                                                      title="Maximum Elevation"
                                                      />                                                     
                                         <h:selectOneMenu id="Elev_Units" value="#{specimenController.selected.elev_units}"
@@ -1823,22 +1827,27 @@
                                             </p:selectOneMenu>     
 
                                             <h:outputText value="Determined By"/>
-                                            <p:inputText id = "tf_detbyagent"
-                                                         value="#{specimenController.selected.georeference.determinedByAgent}"
-                                                         style="width:100%;"
-                                                         maxlength="#{metadataRetrieverBean.lengthForField('LatLong','determinedByAgent')}"
-                                                         title="#{metadataRetrieverBean.tipForField('LatLong','determinedByAgent')}"
-                                                         >
-                                            </p:inputText>       
+                                            <p:autoComplete id="tf_detbyagent" size="50"
+                                                        autofill="true"
+                                                        minQueryLength="4"
+                                                        process="@this"
+                                                        value="#{specimenController.selected.georeference.determinedByAgent}"
+                                                        completeMethod="#{specimenController.autocompleteAgent}"
+                                                        maxlength="#{metadataRetrieverBean.lengthForField('LatLong','determinedByAgent')}"
+                                                        forceSelection="false"
+                                                        queryDelay="200"
+                                                        dropdownMode="current"
+                                                 />    
 
                                             <h:outputText value="Date Determined"/>
-                                            <p:inputText id = "tf_determinedDate"
+                                            <p:calendar id = "tf_determinedDate"
                                                          value="#{specimenController.selected.georeference.determinedDate}"
                                                          style="width:100%;"
-                                                         maxlength="#{metadataRetrieverBean.lengthForField('LatLong','determinedDate')}"
+                                                         pattern="yyyy-MM-dd"
+                                                         mask="true"
                                                          title="#{metadataRetrieverBean.tipForField('LatLong','determinedDate')}"
                                                          >
-                                            </p:inputText>   
+                                            </p:calendar>   
 
                                             <h:outputText value="Field Verified"/>
                                             <h:selectBooleanCheckbox id="chbfieldverifeid" value="#{specimenController.selected.georeference.fieldVerifiedFg}"
@@ -1855,13 +1864,13 @@
                                             </p:inputText>  
                                             
                                             <h:outputText value="GPS Accuracy"/>
-                                            <p:inputText id = "tf_gpsaccuracy"
+                                            <p:inputNumber id = "tf_gpsaccuracy"
                                                          value="#{specimenController.selected.georeference.gpsaccuracy}"
                                                          style="width:100%;"
                                                          maxlength="#{metadataRetrieverBean.lengthForField('LatLong','gpsaccuracy')}"
                                                          title="#{metadataRetrieverBean.tipForField('LatLong','gpsaccuracy')}"
                                                          >
-                                            </p:inputText>  
+                                            </p:inputNumber>  
                                             <h:outputText value="Source"/>
                                             <p:inputText id = "tf_latlongRefSource"
                                                          value="#{specimenController.selected.georeference.latLongRefSource}"

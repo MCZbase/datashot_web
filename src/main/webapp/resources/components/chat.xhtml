@@ -51,8 +51,10 @@
                     </script>
                     <p:remoteCommand name="doMessageUpdate" update="chatform:chatwindow chatform:chathead" />
                     <f:websocket channel="chat" onmessage="handleChat" onopen="handleOpen" onclose="handleClose" >
+                         <p:ajax event="message" update="chatform:chatwindow chatform:chathead" />
                     </f:websocket>
                     <f:websocket onmessage="handleMessage" channel="serverNotifications" onopen="handleOpen" onclose="handleClose" >
+                         <p:ajax event="message" update="chatform:chatwindow chatform:chathead" />
                     </f:websocket>
                     <p:growl widgetVar="servergrowl" id="servergrowl" showDetail="true" sticky="true" autoUpdate="false" />
              </p:panel>

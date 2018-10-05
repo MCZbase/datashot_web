@@ -1761,7 +1761,9 @@ try {
 	}	
 	
 	public void updateGeoreference() {
+		logger.log(Level.INFO, current.getGeoreference().getDeterminedByAgent());
 		// not needed?
+		
 	}	
 	
 	/**
