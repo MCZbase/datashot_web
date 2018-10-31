@@ -19,23 +19,40 @@
  */
 package edu.harvard.mcz.imagecapture.managedbeans;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Future;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.annotation.Resource;
 import javax.ejb.EJB;
+import javax.enterprise.context.ApplicationScoped;
 import javax.faces.application.FacesMessage;
+import javax.faces.push.Push;
+import javax.faces.push.PushContext;
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import javax.jms.Connection;
 import javax.jms.ConnectionFactory;
 import javax.jms.JMSException;
 import javax.jms.Message;
 import javax.jms.MessageProducer;
-import javax.jms.Session;
+//import javax.jms.Session;
 import javax.jms.TextMessage;
 import javax.jms.Topic;
+import javax.websocket.OnError;
+import javax.websocket.CloseReason;
 import javax.websocket.OnClose;
 import javax.websocket.OnMessage;
 import javax.websocket.OnOpen;
+import javax.websocket.Session;
 import javax.websocket.server.ServerEndpoint;
 
 //import org.primefaces.push.EventBus;
@@ -52,11 +69,122 @@ import edu.harvard.mcz.imagecapture.ejb.MessageBean;
  * @author mole
  *
  */
-//@ServerEndpoint("/chat")
-//@Singleton
+@ApplicationScoped
+@ServerEndpoint("/chat")
 public class ChatResource {
 	
 	private final static Logger logger = Logger.getLogger(ChatResource.class.getName());
+	
+	private static Map<Session,Session> sessions = null;
+	
+	public ChatResource( ) {
+		initSessions();
+		// Required no argument constructor
+	}
+	
+	private void initSessions() { 
+		if (sessions==null) { 
+			sessions = new HashMap<Session,Session>();
+			logger.log(Level.INFO, this.toString());
+		}
+	} 
+	
+//    @Inject
+//    @Push
+//	private PushContext chat;
+//	
+//    @Inject
+//    @Push
+//    private PushContext serverNotifications;
+    
+    @OnMessage
+    public void processMessage(String message, Session session) {
+        logger.log(Level.INFO, message);
+    }	
+	
+    @OnOpen
+    public void openConnection(Session session) {
+		initSessions();
+		sessions.put(session, session);
+        logger.log(Level.INFO, "Connection opened." + session.toString());
+    }
+    
+    @OnClose
+    public void closeConnection(Session session, CloseReason reason) { 
+    	initSessions();
+    	sessions.remove(session);
+    	logger.log(Level.INFO, reason.getReasonPhrase());
+    }
+    
+    @OnError
+    public void error(Session session, Throwable e) { 
+    	logger.log(Level.INFO, e.getMessage(), e);
+    }
+    
+    public void sendToSessions(String message) { 
+    	if (sessions!=null && !sessions.isEmpty()) { 
+    		Set<Session> openSessions = sessions.keySet().iterator().next().getOpenSessions();
+    		if (!openSessions.isEmpty()) { 
+    			Iterator<Session> i = openSessions.iterator();
+    			while (i.hasNext()) { 
+    				Session s = i.next();
+    				if (s.isOpen()) { 
+    					try {
+							s.getBasicRemote().sendText(message);
+						} catch (IOException e) {
+    		                logger.log(Level.SEVERE, e.getMessage(), e);
+						}
+    				}
+    			}
+    		} else { 
+    		    logger.log(Level.WARNING, "no open sessions");
+    		}
+    	} else { 
+    		logger.log(Level.WARNING, "no sessions");
+    	}
+    }
+    
+    
+    public List<String> getUserList() { 
+    	List<String> result = new ArrayList<String>();
+    	if (sessions!=null && !sessions.isEmpty()) { 
+    		Set<Session> openSessions = sessions.keySet().iterator().next().getOpenSessions();
+    		if (!openSessions.isEmpty()) { 
+    			logger.log(Level.INFO, "OpenSession count = " + Integer.toString(openSessions.size()));
+    			Iterator<Session> i = openSessions.iterator();
+    			while(i.hasNext()) {
+    				Session s = i.next();
+    				if (s==null) { 
+    					logger.log(Level.WARNING, "Session is null"); 
+    				} else { 
+                       if (!s.isOpen()) {
+    					   logger.log(Level.WARNING, "Session from getOpenSessions is not open."); 
+                       } else { 
+                    	   if (s.getUserProperties() ==null || s.getUserProperties().isEmpty()) {
+    					        logger.log(Level.WARNING, "Session has no user properties."); 
+                    	   } else {  
+                    		   Map<String,Object> userprops = s.getUserProperties();
+                    		   Set<String> keys = userprops.keySet();
+                    		   Iterator<String> it = keys.iterator();
+                    		   while (it.hasNext()) { 
+                    			   String key = it.next();
+                    			   logger.log(Level.INFO, key);
+                    			   logger.log(Level.INFO, userprops.get(key).toString());
+                    		   }
+                    		   Boolean active = (Boolean)userprops.get("active");
+                    		   if (active!=null && active) {
+                                   result.add(s.getUserProperties().get("name").toString());
+                    		   } else { 
+      					           logger.log(Level.INFO, "User with active false or null."); 
+                    		   }
+                    	   }
+                       }
+    				}
+    			}
+    		}
+    	}
+    	return result;
+    }
 	
 //	@Resource(name= "jms/InsectChatTopic", type=javax.jms.Topic.class, mappedName = "jms/InsectChatTopic")
 //	private Topic insectChatTopic;

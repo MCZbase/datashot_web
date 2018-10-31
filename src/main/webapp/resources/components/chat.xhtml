@@ -46,18 +46,42 @@
                                console.log("message on: " + channel);
                                console.log("message: " + msg);
                                doMessageUpdate();
-                               PF('servergrowl').show([msg]);
+                               document.getElementById('growlMessage').innerHTML = msg.data;
+                               PF('servergrowl').show();
+                           }
+                           window.addEventListener("load", connect, false);
+                           function connect() {
+                               chatsocket = new WebSocket("ws://localhost:8080/ic/chat");
+                               chatsocket.onmessage = handleChat;
+                               chatsocket.onopen = handleOpen;
+                               chatsocket.onclose = handleClose;
+                               
+                               serversocket = new WebSocket("ws://localhost:8080/ic/serverNotifications");
+                               serversocket.onmessage = handleMessage;
+                               serversocket.onopen = handleOpen;
+                               serversocket.onclose = handleClose;
                            }
                     </script>
-                    <p:remoteCommand name="doMessageUpdate" update="chatform:chatwindow chatform:chathead" />
-                    <f:websocket channel="chat" onmessage="handleChat" onopen="handleOpen" onclose="handleClose" >
+                    <p:remoteCommand name="doMessageUpdate" update="chatform:chatwindow chatform:chathead chatform:userlist" />
+                    
+                    <!--  f:websocket channel="chat" onmessage="handleChat" onopen="handleOpen" onclose="handleClose" >
                          <p:ajax event="message" update="chatform:chatwindow chatform:chathead" />
                     </f:websocket>
                     <f:websocket onmessage="handleMessage" channel="serverNotifications" onopen="handleOpen" onclose="handleClose" >
                          <p:ajax event="message" update="chatform:chatwindow chatform:chathead" />
-                    </f:websocket>
-                    <p:growl widgetVar="servergrowl" id="servergrowl" showDetail="true" sticky="true" autoUpdate="false" />
+                    </f:websocket -->
+                    <!--   p:growl widgetVar="servergrowl" id="servergrowl" showDetail="true" sticky="true" autoUpdate="false" / -->
+                    
+                   <h:outputText id="userlist" 
+                          value="#{chatController.userList}" 
+                          style="line-height: 90%; 
+                          padding-top: 2px; padding-bottom: 0px;" />
+                    
              </p:panel>
+             <p:dialog header="Server Message" widgetVar="servergrowl" position="top" modal="true" >
+                <h:outputText value="Message from the System Administrator:" />
+                <div id="growlMessage" style="padding: 1em; background-color: lightyellow; ">Server Message</div>
+             </p:dialog>              
        </h:form>
 </cc:implementation>
 </html>

@@ -71,9 +71,9 @@ public class ServerWarningController implements Serializable, MessageListener {
 	@Resource(mappedName = "jms/InsectChatTopicFactory")
 	private ConnectionFactory insectChatTopicFactory;
 
-    @Inject
-    @Push(channel="serverNotifications")
-    private PushContext serverChannel;	
+    //@Inject
+    //@Push(channel="serverNotifications")
+    //private PushContext serverChannel;	
 	
 	public ServerWarningController() {
 		logger.log(Level.INFO, "Instatntiating new ServerWarningController");
@@ -89,12 +89,12 @@ public class ServerWarningController implements Serializable, MessageListener {
 	    	    FacesMessage facesMessage = new FacesMessage("Message From: " + originator, text.getText());
 	    	    facesMessage.setSeverity(FacesMessage.SEVERITY_WARN);
 	    	    
-				Set<Future<Void>> sent = serverChannel.send(facesMessage);
+//				Set<Future<Void>> sent = serverChannel.send(facesMessage);
 				//serverChannel.send(text.getText());
-				Iterator<Future<Void>> i = sent.iterator();
-				while (i.hasNext()) { 
- 				    logger.log(Level.INFO,i.next().get().toString());
-				}
+//				Iterator<Future<Void>> i = sent.iterator();
+//				while (i.hasNext()) { 
+// 				    logger.log(Level.INFO,i.next().get().toString());
+//				}
 	    	    
 				//EventBus eventBus = EventBusFactory.getDefault().eventBus();
 				//eventBus.publish("/serverNotifications",facesMessage);	    	    
@@ -104,12 +104,12 @@ public class ServerWarningController implements Serializable, MessageListener {
 			}
 		} catch (JMSException e) {
 			logger.log(Level.WARNING, e.getMessage());
-		} catch (InterruptedException e) {
-			logger.log(Level.SEVERE, e.getMessage());
-			e.printStackTrace();
-		} catch (ExecutionException e) {
-			logger.log(Level.SEVERE, e.getMessage());
-			e.printStackTrace();
+//		} catch (InterruptedException e) {
+//			logger.log(Level.SEVERE, e.getMessage());
+//			e.printStackTrace();
+//		} catch (ExecutionException e) {
+//			logger.log(Level.SEVERE, e.getMessage());
+//			e.printStackTrace();
 		}
 		
 	}

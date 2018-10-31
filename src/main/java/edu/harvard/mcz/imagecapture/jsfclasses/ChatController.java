@@ -6,9 +6,14 @@ package edu.harvard.mcz.imagecapture.jsfclasses;
 
 import edu.harvard.mcz.imagecapture.ejb.MessageBean;
 import edu.harvard.mcz.imagecapture.ejb.UsersFacadeLocal;
+import edu.harvard.mcz.imagecapture.managedbeans.ChatResource;
 
 import java.awt.event.ActionEvent;
 import java.io.Serializable;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -19,6 +24,7 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
+import javax.inject.Inject;
 import javax.inject.Named;
 import javax.jms.Connection;
 import javax.jms.ConnectionFactory;
@@ -36,7 +42,7 @@ import org.primefaces.push.EventBusFactory;
  *
  * @author mole
  */
-//@Named("chatController")
+@Named("chatController")
 @ManagedBean
 @SessionScoped
 public class ChatController implements Serializable {
@@ -54,7 +60,7 @@ public class ChatController implements Serializable {
 	private MessageBean messageBean;
 	@EJB(beanName="usersFacade")
 	private UsersFacadeLocal usersFacade;
-
+	
 	private String message = "";
 	private String username = "";
 	private boolean loginRecorded = false;
@@ -257,5 +263,16 @@ public class ChatController implements Serializable {
 			}
 		}
 	}
-
+	
+	public String getUserList() { 
+		List<String> userList = messageBean.getUserList();
+		StringBuffer result = new StringBuffer();
+		Iterator<String> i = userList.iterator();
+		String separator = "";
+		while (i.hasNext()) { 
+			result.append(separator).append(i.next());
+			separator = ", ";
+		}		
+		return result.toString();
+	}
 }

@@ -6,7 +6,12 @@
 package edu.harvard.mcz.imagecapture.managedbeans;
 
 import edu.harvard.mcz.imagecapture.ejb.MessageBean;
+import edu.harvard.mcz.imagecapture.jsfclasses.WebsocketChat;
 
+import java.util.Iterator;
+import java.util.Set;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Future;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -42,17 +47,55 @@ public class ChatMessageBean implements MessageListener {
 	
     @EJB(beanName="messageBean")
 	private MessageBean messageBean;
-
-    @Inject
-    @Push(channel="chat")
-	private PushContext chatChannel;
-	
-    @Inject
-    @Push(channel="serverNotifications")
-    private PushContext serverChannel;
     
-	public void sendMessage(Object message) { 
-		chatChannel.send(message);
+    //@Inject
+    //@Push
+	//private PushContext chat;
+	
+    //@Inject
+    //@Push
+    //private PushContext serverNotifications;
+    
+    //@Inject
+    //private WebsocketChat wsChat;
+    
+    @Inject
+    private ChatResource chatResource;
+    
+    @Inject
+    private ServerNotificationsResource serverNotificationsResource;
+    
+	public void sendMessage(Object message) {
+	
+		logger.log(Level.INFO, message.toString());
+		
+		chatResource.sendToSessions(message.toString());
+		
+//		logger.log(Level.INFO,chat.toString());
+//		logger.log(Level.INFO,chat.URI_PREFIX);
+//		Set<Future<Void>>futures = chat.send(message);
+//		if (futures!=null) { 
+//			logger.log(Level.INFO, "futures.size()=" + futures.size());
+//			if (futures.size()==0) { 
+//			    logger.log(Level.SEVERE, "No open websocket connection for chat.");
+//			}
+//		try {
+//			Iterator<Future<Void>> i = futures.iterator();
+//			while (i.hasNext()) { 
+//				Future<Void> future = i.next();
+//				if (future.get()==null) { 
+//					logger.log(Level.INFO, "Chat message sent, future returned null.");
+//				}
+//			}
+//		} catch (ExecutionException e) { 
+//			logger.log(Level.SEVERE, "Error sending chat message.");
+//			logger.log(Level.SEVERE, e.getMessage(), e);
+//		} catch (InterruptedException e) {
+//			logger.log(Level.SEVERE, e.getMessage(), e);
+//		}
+//		} else { 
+//			logger.log(Level.SEVERE, "No open websocket connection for chat.");
+//		}
 	}
 
     public ChatMessageBean() {
@@ -66,25 +109,33 @@ public class ChatMessageBean implements MessageListener {
 		logger.log(Level.INFO, message.toString());
 
 		try {
-		TextMessage text = (TextMessage) message;
-		String originator = text.getStringProperty("Originator");
-		logger.log(Level.INFO, message.getJMSMessageID());
-		logger.log(Level.INFO, text.getText());
-		logger.log(Level.INFO, originator);
-		messageBean.addMessage(originator, text.getText());
-		//EventBus eventBus = EventBusFactory.getDefault().eventBus();
-		//eventBus.publish("/chat", new FacesMessage(originator + "(cmb)", text.getText()));
-		if (originator.equals("Server")) { 
-			//eventBus.publish("/serverNotifications",new FacesMessage(FacesMessage.SEVERITY_ERROR, originator, text.getText()));
-			// serverChannel.send(new FacesMessage(FacesMessage.SEVERITY_ERROR, originator, text.getText()));
-			serverChannel.send(text.getText());
-		} else { 
-			sendMessage(text.getText());
-		}
+			TextMessage text = (TextMessage) message;
+			String originator = text.getStringProperty("Originator");
+			logger.log(Level.INFO, message.getJMSMessageID());
+			logger.log(Level.INFO, text.getText());
+			logger.log(Level.INFO, originator);
+			messageBean.addMessage(originator, text.getText());
+			try { 
+			messageBean.setUserList(chatResource.getUserList());
+			} catch (Exception e) { 
+				logger.log(Level.SEVERE, e.getMessage(), e);
+			}
+			//EventBus eventBus = EventBusFactory.getDefault().eventBus();
+			//eventBus.publish("/chat", new FacesMessage(originator + "(cmb)", text.getText()));
+			if (originator.equals("Server")) { 
+				//eventBus.publish("/serverNotifications",new FacesMessage(FacesMessage.SEVERITY_ERROR, originator, text.getText()));
+				// serverChannel.send(new FacesMessage(FacesMessage.SEVERITY_ERROR, originator, text.getText()));
+				
+				serverNotificationsResource.sendToSessions(text.getText());
+				
+			} else { 
 
-	} catch (JMSException ex) {
-		Logger.getLogger(ChatMessageBean.class.getName()).log(Level.SEVERE, null, ex);
-	}		
+				sendMessage(text.getText());
+			}
+
+		} catch (JMSException ex) {
+			Logger.getLogger(ChatMessageBean.class.getName()).log(Level.SEVERE, null, ex);
+		}		
 		
 	}
 	

@@ -14,7 +14,7 @@
   </context-param>  
   <context-param>
     <param-name>javax.faces.ENABLE_WEBSOCKET_ENDPOINT</param-name>
-    <param-value>true</param-value>
+    <param-value>false</param-value>
   </context-param>  
   <servlet>
     <servlet-name>Faces Servlet</servlet-name>
@@ -64,6 +64,7 @@
       <url-pattern>/faces/rfRes/*</url-pattern>
       <url-pattern>/faces/javax.faces.resource/*</url-pattern>
       <url-pattern>/javax.faces.resource/*</url-pattern>
+      <url-pattern>/javax.faces.push/*</url-pattern>      
       <http-method>GET</http-method>
       <http-method>HEAD</http-method>
       <http-method>POST</http-method>
