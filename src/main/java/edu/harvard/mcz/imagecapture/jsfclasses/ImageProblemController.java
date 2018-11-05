@@ -18,7 +18,7 @@ import java.util.logging.Logger;
 
 import javax.annotation.security.RolesAllowed;
 import javax.ejb.EJB;
-import javax.enterprise.context.SessionScoped;
+import javax.faces.bean.SessionScoped;
 import javax.faces.FacesException;
 import javax.faces.annotation.ManagedProperty;
 import javax.faces.bean.ManagedBean;

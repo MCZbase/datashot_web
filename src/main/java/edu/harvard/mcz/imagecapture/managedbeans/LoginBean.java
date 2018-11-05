@@ -14,7 +14,7 @@ import java.util.logging.Logger;
 import javax.annotation.security.RolesAllowed;
 import javax.ejb.EJB;
 import javax.faces.bean.SessionScoped;
-import javax.faces.annotation.ManagedProperty;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ManagedBean;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
@@ -37,6 +37,7 @@ public class LoginBean  implements Serializable{
 	edu.harvard.mcz.imagecapture.managedbeans.WebStatusSingletonBean status;
 	@EJB
 	private edu.harvard.mcz.imagecapture.ejb.UsersFacadeLocal usersFacade;
+
 	@ManagedProperty(value="#{chatController}")
 	private ChatController chatController;
 
@@ -49,17 +50,15 @@ public class LoginBean  implements Serializable{
      * 
      * @return
      */
-	public ChatController getChatController()
-    {
+	public ChatController getChatController() {
         return chatController;
     }
     /**
      * Supporting managed property, injecting chatController managed bean.
      * 
-     * @param specimenController
+     * @param chatController
      */
-    public void setChatController(ChatController chatController)
-    {
+    public void setChatController(ChatController chatController) {
         this.chatController = chatController;
     }	 
     

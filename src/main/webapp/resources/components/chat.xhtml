@@ -20,7 +20,7 @@
                     <h:panelGrid columns="3">
                          <h:outputText value="Message:" />
                          <h:inputText id="txt" value="#{chatController.message}"  size="75" />
-                         <p:commandButton value="Send" update="chatwindow,txt,chathead"
+                         <p:commandButton value="Send" 
                                                   actionListener="#{chatController.send}"
                                                   oncomplete="jQuery('#txt').val('');"/>
                     </h:panelGrid>
@@ -62,7 +62,7 @@
                                serversocket.onclose = handleClose;
                            }
                     </script>
-                    <p:remoteCommand name="doMessageUpdate" update="chatform:chatwindow chatform:chathead chatform:userlist" />
+                    <p:remoteCommand name="doMessageUpdate" update="chatform:chatwindow chatform:chathead " />
                     
                     <!--  f:websocket channel="chat" onmessage="handleChat" onopen="handleOpen" onclose="handleClose" >
                          <p:ajax event="message" update="chatform:chatwindow chatform:chathead" />
@@ -72,11 +72,7 @@
                     </f:websocket -->
                     <!--   p:growl widgetVar="servergrowl" id="servergrowl" showDetail="true" sticky="true" autoUpdate="false" / -->
                     
-                   <h:outputText id="userlist" 
-                          value="#{chatController.userList}" 
-                          style="line-height: 90%; 
-                          padding-top: 2px; padding-bottom: 0px;" />
-                    
+                    <h:outputText value="#{chatControler.userlist}" />
              </p:panel>
              <p:dialog header="Server Message" widgetVar="servergrowl" position="top" modal="true" >
                 <h:outputText value="Message from the System Administrator:" />

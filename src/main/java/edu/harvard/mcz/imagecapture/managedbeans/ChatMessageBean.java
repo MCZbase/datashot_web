@@ -6,8 +6,11 @@
 package edu.harvard.mcz.imagecapture.managedbeans;
 
 import edu.harvard.mcz.imagecapture.ejb.MessageBean;
+import edu.harvard.mcz.imagecapture.ejb.UsersFacadeLocal;
 import edu.harvard.mcz.imagecapture.jsfclasses.WebsocketChat;
 
+import java.security.Principal;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 import java.util.concurrent.ExecutionException;
@@ -98,6 +101,20 @@ public class ChatMessageBean implements MessageListener {
 //		}
 	}
 
+//	public void updateUserList() {
+//		HashSet<String> usernames = new HashSet<String>();
+//		Set<Principal> p = chatResource.getUsers();
+//		Iterator<Principal> i = p.iterator();
+//		while (i.hasNext()) { 
+//		    Principal principal = i.next();
+//		    String pname = principal.getName();
+//		    String username = pname;
+//
+//		    usernames.add(username);
+//		}
+//		messageBean.updateCurrentUserList(usernames);
+//	}
+	
     public ChatMessageBean() {
     }
     
@@ -115,11 +132,7 @@ public class ChatMessageBean implements MessageListener {
 			logger.log(Level.INFO, text.getText());
 			logger.log(Level.INFO, originator);
 			messageBean.addMessage(originator, text.getText());
-			try { 
-			messageBean.setUserList(chatResource.getUserList());
-			} catch (Exception e) { 
-				logger.log(Level.SEVERE, e.getMessage(), e);
-			}
+			
 			//EventBus eventBus = EventBusFactory.getDefault().eventBus();
 			//eventBus.publish("/chat", new FacesMessage(originator + "(cmb)", text.getText()));
 			if (originator.equals("Server")) { 
@@ -134,8 +147,14 @@ public class ChatMessageBean implements MessageListener {
 			}
 
 		} catch (JMSException ex) {
-			Logger.getLogger(ChatMessageBean.class.getName()).log(Level.SEVERE, null, ex);
+			logger.log(Level.SEVERE, ex.getMessage(), ex);
 		}		
+	
+//		try { 
+//	   	    updateUserList();
+//		} catch (Exception e) { 
+//			logger.log(Level.WARNING, e.getMessage(), e);
+//		}
 		
 	}
 	

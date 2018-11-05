@@ -62,6 +62,7 @@ public class WebsocketChat extends Endpoint {
         final RemoteEndpoint remote = session.getBasicRemote();
         session.addMessageHandler(String.class, new MessageHandler.Whole<String>() {
             public void onMessage(String text) {
+            	logger.log(Level.INFO,"onMessage: " + text);
 //                try {
 //                	
 //                    remote.sendString("Got your message (" + text + "). Thanks !");

@@ -44,11 +44,14 @@
                 <h:outputLabel value="Role" for="it_role" />     
                 <p:selectOneMenu id="it_role" value="#{usersController.roleFilterCriterion}"
                                          filter="true" filterMatchMode="contains" 
+                                         autoWidth="true"
                                          required="false" >
                             <f:selectItems value="#{pickListsManagedBean.userRoleValuesWBlank}"  />
                 </p:selectOneMenu>
 				<h:panelGroup rendered="#{usersController.items.rowCount > 0}">
-					<p:dataTable value="#{usersController.items}" var="item" >
+					<p:dataTable value="#{usersController.items}" var="item"
+                                 rowKey="#{item.username}"
+					    >
                         <p:column>
                             <f:facet name="header">
                                 <h:outputText value="Email/username"/>
@@ -60,7 +63,8 @@
 								<h:outputText value="&nbsp;"/>
 							</f:facet>
 							<h:commandLink rendered="#{loginBean.userChiefEditor}"
-								action="#{usersController.prepareEdit}"
+								action="#{usersController.prepareEdit(item)}"
+                                process="@this"
 								value="#{bundle.ListUsersEditLink}"/>
 							<h:outputText value=" "/>
 							<h:commandLink rendered="#{loginBean.userChiefEditor}"

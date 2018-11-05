@@ -12,7 +12,7 @@ import java.util.Map;
 import java.util.ResourceBundle;
 
 import javax.ejb.EJB;
-import javax.enterprise.context.SessionScoped;
+import javax.faces.bean.SessionScoped;
 import javax.faces.annotation.ManagedProperty;
 import javax.faces.bean.ManagedBean;
 import javax.faces.component.UIComponent;

@@ -17,7 +17,7 @@ import java.util.logging.Logger;
 import javax.annotation.Resource;
 import javax.ejb.ActivationConfigProperty;
 import javax.ejb.MessageDriven;
-import javax.enterprise.context.SessionScoped;
+import javax.faces.bean.SessionScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.push.Push;
 import javax.faces.push.PushContext;

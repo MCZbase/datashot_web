@@ -6,13 +6,10 @@ package edu.harvard.mcz.imagecapture.jsfclasses;
 
 import edu.harvard.mcz.imagecapture.ejb.MessageBean;
 import edu.harvard.mcz.imagecapture.ejb.UsersFacadeLocal;
-import edu.harvard.mcz.imagecapture.managedbeans.ChatResource;
 
 import java.awt.event.ActionEvent;
 import java.io.Serializable;
-import java.util.Collections;
 import java.util.Iterator;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -24,8 +21,6 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
-import javax.inject.Inject;
-import javax.inject.Named;
 import javax.jms.Connection;
 import javax.jms.ConnectionFactory;
 import javax.jms.JMSException;
@@ -42,7 +37,6 @@ import org.primefaces.push.EventBusFactory;
  *
  * @author mole
  */
-@Named("chatController")
 @ManagedBean
 @SessionScoped
 public class ChatController implements Serializable {
@@ -58,6 +52,7 @@ public class ChatController implements Serializable {
 
 	@EJB(beanName="messageBean")
 	private MessageBean messageBean;
+	
 	@EJB(beanName="usersFacade")
 	private UsersFacadeLocal usersFacade;
 	
@@ -152,10 +147,10 @@ public class ChatController implements Serializable {
 
 	public void send(ActionEvent event) {
 		logger.log(Level.INFO, "Called send() for [" + username + "]");
-		if (!loginRecorded) {
-			// try to find out the username
-			storeLogin();
-		}
+//		if (!loginRecorded) {
+//			// try to find out the username
+//			storeLogin();
+//		}
 		logger.log(Level.INFO, "Chat: " + username + ":" + message);
 		try {
 			EventBus eventBus = EventBusFactory.getDefault().eventBus();
@@ -187,9 +182,9 @@ public class ChatController implements Serializable {
 	 * @return the current list of chat messages.
 	 */
 	public String getMessages() {
-		if (!loginRecorded) {
-			storeLogin();
-		}
+//		if (!loginRecorded) {
+//			storeLogin();
+//		}
 		return messageBean.getMessages();
 	}
 
@@ -232,16 +227,12 @@ public class ChatController implements Serializable {
 		return tm;
 	}
 
-	/** Send a message to the JMS chat queue from the user for the current session.
-	 *
+	/** Send a message to the JMS chat queue from some originator
+	 * 
 	 * @param messageData
+	 * @param originator
 	 * @throws JMSException
 	 */
-	private void sendJMSMessageToInsectChatTopic(Object messageData) throws JMSException {
-		registerLogin();
-		sendJMSMessageToInsectChatTopic(messageData, username);
-	}
-
 	private void sendJMSMessageToInsectChatTopic(Object messageData, String originator) throws JMSException {
 		Connection connection = null;
 		Session session = null;

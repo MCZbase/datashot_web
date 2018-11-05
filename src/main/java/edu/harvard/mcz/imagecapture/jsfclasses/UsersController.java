@@ -14,7 +14,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.ejb.EJB;
-import javax.enterprise.context.SessionScoped;
+import javax.faces.bean.SessionScoped;
 import javax.faces.bean.ManagedBean;
 import javax.faces.component.UIComponent;
 import javax.faces.context.ExternalContext;
@@ -24,9 +24,7 @@ import javax.faces.convert.FacesConverter;
 import javax.faces.model.DataModel;
 import javax.faces.model.ListDataModel;
 import javax.faces.model.SelectItem;
-import javax.inject.Named;
 
-//@Named("usersController")
 @ManagedBean
 @SessionScoped
 public class UsersController  implements Serializable {
@@ -54,21 +52,28 @@ public class UsersController  implements Serializable {
     }
 
     public Users getSelected() {
+		logger.log(Level.INFO,"getSelected()" + this.toString());
         if (current == null) {
             current = new Users();
             selectedItemIndex = -1;
 			currentRowIndex=-1;            
         }
+		logger.log(Level.INFO,"getSelected() called, current = " + current.getUsername());
         return current;
     }
     
 	public void setSelected(Users selected) {
+		logger.log(Level.INFO,"setSelected()" + this.toString());
+		logger.log(Level.INFO,"setSelected() called with selected = " + selected.getUsername());
 		if (selected!=null) {
+		    logger.log(Level.INFO,selected.getUsername());
 			current=selected;
 			currentRowIndex=-1;
 			selectedItemIndex = -1;
 			pagination = null;
 		}
+		logger.log(Level.INFO,"setSelected() current = " + current.getUsername());
+		logger.log(Level.INFO,"setSelected() currentRowIndex = " + Integer.toString(currentRowIndex));
 	}    
 
     private UsersFacadeLocal getFacade() {
@@ -136,6 +141,7 @@ public class UsersController  implements Serializable {
 	}
 
     public String prepareView() {
+		logger.log(Level.INFO,"prepareView()" + this.toString());
         current = (Users)getItems().getRowData();
         selectedItemIndex = pagination.getPageFirstItem() + getItems().getRowIndex();
 		currentRowIndex = getItems().getRowIndex();
@@ -143,6 +149,7 @@ public class UsersController  implements Serializable {
     }
 
     public String prepareCreate() {
+		logger.log(Level.INFO,"prepareCreate()" + this.toString());
         current = new Users();
         selectedItemIndex = -1;
 		currentRowIndex = -1;        
@@ -150,6 +157,7 @@ public class UsersController  implements Serializable {
     }
 
     public String create() {
+		logger.log(Level.INFO,"create()" + this.toString());
 		boolean ok = false;
 		String result = null;
         try {
@@ -165,14 +173,28 @@ public class UsersController  implements Serializable {
 		return result;
     }
 
-    public String prepareEdit() {
-        current = (Users)getItems().getRowData();
-        selectedItemIndex = pagination.getPageFirstItem() + getItems().getRowIndex();
-        currentRowIndex = getItems().getRowIndex();
+    public String prepareEdit(Users targetUser) {
+		logger.log(Level.INFO,"prepareEdit()" + this.toString());
+        if (targetUser!=null) { current=targetUser; } 
+    //public String prepareEdit() {
+        if (current!=null) { 
+  		    logger.log(Level.INFO,"prepareEdit current = " +current.getUsername());
+        } else {  
+            logger.log(Level.INFO, "prepareEdit, current is null");
+        }
+        if (getItems()!=null && getItems().getRowData()!=null) { 
+           current = (Users) getItems().getRowData();
+		   logger.log(Level.INFO,"preepareEdit() current set to = " + current.getUsername());
+           selectedItemIndex = getPagination().getPageFirstItem() + getItems().getRowIndex();
+           currentRowIndex = getItems().getRowIndex();
+        }
+		logger.log(Level.INFO,"preepareEdit() current is " + current.getUsername());
+		logger.log(Level.INFO,"preepareEdit() rowIndex= " + Integer.toString(getItems().getRowIndex()) );
         return "Edit?faces-redirect=true";
     }
 
     public String prepareEditMyPassword() {
+		logger.log(Level.INFO,"prepareEditMyPassword()" + this.toString());
 		String result = "/index?faces-redirect=true";
 		ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
 		if (null != externalContext) {
@@ -186,6 +208,7 @@ public class UsersController  implements Serializable {
 	}
 
     public String prepareEditPassword() {
+		logger.log(Level.INFO,"prepareEditPassword()" + this.toString());
 		logger.log(Level.INFO,"in prepareEditPassword");
         current = (Users)getItems().getRowData();
         selectedItemIndex = pagination.getPageFirstItem() + getItems().getRowIndex();
@@ -204,6 +227,7 @@ public class UsersController  implements Serializable {
      * @return null 
      */
     public String update() {
+		logger.log(Level.INFO,"update()" + this.toString());
         try {
             getFacade().edit(current);
             JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("UsersUpdated"));
@@ -221,6 +245,7 @@ public class UsersController  implements Serializable {
      * @return null
      */
     public String updatePassword() {
+		logger.log(Level.INFO,"updatePassword()" + this.toString());
         try {
         	if (current.updateHashFromNewPassword()) { 
                getFacade().edit(current);
@@ -237,6 +262,7 @@ public class UsersController  implements Serializable {
     }    
 
     public String destroy() {
+		logger.log(Level.INFO,"destroy()" + this.toString());
         current = (Users)getItems().getRowData();
         selectedItemIndex = pagination.getPageFirstItem() + getItems().getRowIndex();
         currentRowIndex = getItems().getRowIndex();
@@ -259,6 +285,7 @@ public class UsersController  implements Serializable {
     }
 
     private void performDestroy() {
+		logger.log(Level.INFO,"performDestroy()" + this.toString());
         try {
             getFacade().remove(current);
             JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("UsersDeleted"));
@@ -268,6 +295,7 @@ public class UsersController  implements Serializable {
     }
 
     private void updateCurrentItem() {
+		logger.log(Level.INFO,"updateCurrentItem()" + this.toString());
         int count = getFacade().count();
         if (selectedItemIndex >= count) {
             // selected index cannot be bigger than number of items:
@@ -326,6 +354,7 @@ public class UsersController  implements Serializable {
 	}
 
 	private void recreateModel() {
+		logger.log(Level.INFO,"recreateModel()" + this.toString());
         items = null;
 		current = null;
     }
@@ -366,6 +395,7 @@ public class UsersController  implements Serializable {
 	}	    
 
     public boolean isHasNextRow() {
+		logger.log(Level.INFO,"isHasNextrow()" + this.toString());
 		boolean result = false;
 		int rowIndex = currentRowIndex;
 		logger.log(Level.INFO,"rowindex:" + rowIndex);
@@ -392,6 +422,7 @@ public class UsersController  implements Serializable {
 	 * @return true if there is a previous row (on the same or previous page).
 	 */
     public boolean isHasPreviousRow() {
+		logger.log(Level.INFO,"isHasPreviousRow()" + this.toString());
 		boolean result = false;
 		int rowIndex = currentRowIndex;
 		logger.log(Level.INFO,"rowindex:" + rowIndex);

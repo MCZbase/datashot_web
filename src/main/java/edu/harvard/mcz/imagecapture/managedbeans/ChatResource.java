@@ -20,8 +20,11 @@
 package edu.harvard.mcz.imagecapture.managedbeans;
 
 import java.io.IOException;
+import java.security.Principal;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -75,7 +78,7 @@ public class ChatResource {
 	
 	private final static Logger logger = Logger.getLogger(ChatResource.class.getName());
 	
-	private static Map<Session,Session> sessions = null;
+	private static Map<Session,Principal> sessions = Collections.synchronizedMap(new HashMap<Session,Principal>());
 	
 	public ChatResource( ) {
 		initSessions();
@@ -83,9 +86,9 @@ public class ChatResource {
 	}
 	
 	private void initSessions() { 
+		logger.log(Level.INFO, this.toString());
 		if (sessions==null) { 
-			sessions = new HashMap<Session,Session>();
-			logger.log(Level.INFO, this.toString());
+			sessions = Collections.synchronizedMap(new HashMap<Session,Principal>());
 		}
 	} 
 	
@@ -105,8 +108,10 @@ public class ChatResource {
     @OnOpen
     public void openConnection(Session session) {
 		initSessions();
-		sessions.put(session, session);
-        logger.log(Level.INFO, "Connection opened." + session.toString());
+		sessions.put(session, session.getUserPrincipal());
+		logger.log(Level.INFO, "openConnection() User:" + session.getUserPrincipal().getName());
+        logger.log(Level.INFO, "Connection opened: " + session.toString());
+		logger.log(Level.INFO, "Number of Connnections: " + Integer.toString(sessions.size()));
     }
     
     @OnClose
@@ -122,69 +127,38 @@ public class ChatResource {
     }
     
     public void sendToSessions(String message) { 
-    	if (sessions!=null && !sessions.isEmpty()) { 
-    		Set<Session> openSessions = sessions.keySet().iterator().next().getOpenSessions();
-    		if (!openSessions.isEmpty()) { 
-    			Iterator<Session> i = openSessions.iterator();
-    			while (i.hasNext()) { 
-    				Session s = i.next();
-    				if (s.isOpen()) { 
-    					try {
-							s.getBasicRemote().sendText(message);
-						} catch (IOException e) {
-    		                logger.log(Level.SEVERE, e.getMessage(), e);
-						}
-    				}
-    			}
-    		} else { 
-    		    logger.log(Level.WARNING, "no open sessions");
+    	if (sessions!=null && !sessions.isEmpty()) {
+    		Set<Session> ses = sessions.keySet();
+    		Iterator<Session> i = ses.iterator();
+    		while (i.hasNext()) {
+    			Session s = i.next();
+    			if (s.isOpen()) { 
+					try {
+						s.getBasicRemote().sendText(message);
+					} catch (IOException e) {
+		                logger.log(Level.SEVERE, e.getMessage(), e);
+					}
+				}
     		}
     	} else { 
     		logger.log(Level.WARNING, "no sessions");
     	}
     }
-    
-    
-    public List<String> getUserList() { 
-    	List<String> result = new ArrayList<String>();
-    	if (sessions!=null && !sessions.isEmpty()) { 
-    		Set<Session> openSessions = sessions.keySet().iterator().next().getOpenSessions();
-    		if (!openSessions.isEmpty()) { 
-    			logger.log(Level.INFO, "OpenSession count = " + Integer.toString(openSessions.size()));
-    			Iterator<Session> i = openSessions.iterator();
-    			while(i.hasNext()) {
-    				Session s = i.next();
-    				if (s==null) { 
-    					logger.log(Level.WARNING, "Session is null"); 
-    				} else { 
-                       if (!s.isOpen()) {
-    					   logger.log(Level.WARNING, "Session from getOpenSessions is not open."); 
-                       } else { 
-                    	   if (s.getUserProperties() ==null || s.getUserProperties().isEmpty()) {
-    					        logger.log(Level.WARNING, "Session has no user properties."); 
-                    	   } else {  
-                    		   Map<String,Object> userprops = s.getUserProperties();
-                    		   Set<String> keys = userprops.keySet();
-                    		   Iterator<String> it = keys.iterator();
-                    		   while (it.hasNext()) { 
-                    			   String key = it.next();
-                    			   logger.log(Level.INFO, key);
-                    			   logger.log(Level.INFO, userprops.get(key).toString());
-                    		   }
-                    		   Boolean active = (Boolean)userprops.get("active");
-                    		   if (active!=null && active) {
-                                   result.add(s.getUserProperties().get("name").toString());
-                    		   } else { 
-      					           logger.log(Level.INFO, "User with active false or null."); 
-                    		   }
-                    	   }
-                       }
-    				}
-    			}
+ 
+   
+    public Set<Principal> getUsers() { 
+        // TODO: Update user list from current list of users with open websockets  
+    	Set<Principal> result = new HashSet<Principal>();
+    	Iterator<Principal> i = sessions.values().iterator();
+    	while (i.hasNext()) { 
+    		Principal p = i.next();
+    		if (p!=null) { 
+    		   result.add(p);
     		}
     	}
-    	return result;
+    	return (result);
     }
+    
 	
 //	@Resource(name= "jms/InsectChatTopic", type=javax.jms.Topic.class, mappedName = "jms/InsectChatTopic")
 //	private Topic insectChatTopic;
