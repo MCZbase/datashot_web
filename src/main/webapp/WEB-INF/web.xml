@@ -28,6 +28,7 @@
 
   <session-config>
     <session-timeout>120</session-timeout>
+    <tracking-mode>COOKIE</tracking-mode>
   </session-config>
   <welcome-file-list>
     <welcome-file>faces/lepidoptera/index.xhtml</welcome-file>
