@@ -38,6 +38,7 @@ import javax.annotation.Resource;
 import javax.ejb.EJB;
 import javax.enterprise.context.ApplicationScoped;
 import javax.faces.application.FacesMessage;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.push.Push;
 import javax.faces.push.PushContext;
 import javax.inject.Inject;
@@ -65,9 +66,10 @@ import javax.websocket.server.ServerEndpoint;
 //import org.primefaces.push.impl.JSONEncoder;
 
 import edu.harvard.mcz.imagecapture.ejb.MessageBean;
+import edu.harvard.mcz.imagecapture.jsfclasses.ChatController;
 
 /**
- * PrimeFacesPush atmosphere endpoint to support chat.
+ * Websocket endpoint to support chat.
  * 
  * @author mole
  *
@@ -81,25 +83,10 @@ public class ChatResource {
 	private static Map<Session,Principal> sessions = Collections.synchronizedMap(new HashMap<Session,Principal>());
 	
 	public ChatResource( ) {
-		initSessions();
 		// Required no argument constructor
 	}
 	
-	private void initSessions() { 
-		logger.log(Level.INFO, this.toString());
-		if (sessions==null) { 
-			sessions = Collections.synchronizedMap(new HashMap<Session,Principal>());
-		}
-	} 
 	
-//    @Inject
-//    @Push
-//	private PushContext chat;
-//	
-//    @Inject
-//    @Push
-//    private PushContext serverNotifications;
-    
     @OnMessage
     public void processMessage(String message, Session session) {
         logger.log(Level.INFO, message);
@@ -107,7 +94,6 @@ public class ChatResource {
 	
     @OnOpen
     public void openConnection(Session session) {
-		initSessions();
 		sessions.put(session, session.getUserPrincipal());
 		logger.log(Level.INFO, "openConnection() User:" + session.getUserPrincipal().getName());
         logger.log(Level.INFO, "Connection opened: " + session.toString());
@@ -116,7 +102,6 @@ public class ChatResource {
     
     @OnClose
     public void closeConnection(Session session, CloseReason reason) { 
-    	initSessions();
     	sessions.remove(session);
     	logger.log(Level.INFO, reason.getReasonPhrase());
     }
@@ -126,6 +111,11 @@ public class ChatResource {
     	logger.log(Level.INFO, e.getMessage(), e);
     }
     
+    /**
+     * Send a message to all open websocket sessions.
+     * 
+     * @param message the string message to send.
+     */
     public void sendToSessions(String message) { 
     	if (sessions!=null && !sessions.isEmpty()) {
     		Set<Session> ses = sessions.keySet();
@@ -146,8 +136,12 @@ public class ChatResource {
     }
  
    
+    /**
+     * Obtain the websocket session's list of current active users. 
+     * 
+     * @return set of principals that have sessions.
+     */
     public Set<Principal> getUsers() { 
-        // TODO: Update user list from current list of users with open websockets  
     	Set<Principal> result = new HashSet<Principal>();
     	Iterator<Principal> i = sessions.values().iterator();
     	while (i.hasNext()) { 
@@ -158,79 +152,5 @@ public class ChatResource {
     	}
     	return (result);
     }
-    
-	
-//	@Resource(name= "jms/InsectChatTopic", type=javax.jms.Topic.class, mappedName = "jms/InsectChatTopic")
-//	private Topic insectChatTopic;
-//	@Resource(mappedName = "jms/InsectChatTopicFactory")
-//	private ConnectionFactory insectChatTopicFactory;	
-
-//    @EJB
-//	private MessageBean messageBean;	
-    
-//    @OnOpen
-//    public void onOpen(javax.websocket.Session r) { 
-//		String address = r.getUserProperties().get("javax.websocket.endpoint.remoteAddress").toString();
-//		logger.log(Level.INFO, "Connection open from: " + address);
-//   }
-	
-//	@OnMessage
-//	public String onMessage(FacesMessage message) {
-//		logger.log(Level.INFO, message.getDetail());
-//	    return message.getDetail();
-//	}
-//	
-//	/* Testing jms/prime push interactions.  */
-//	@OnClose
-//	public void onClose(javax.websocket.Session r) { 
-//		String address = r.getUserProperties().get("javax.websocket.endpoint.remoteAddress").toString();
-//		logger.log(Level.INFO, "Connection close: " + address);
-//	
-//		String message = "Connection to " + address + " lost.";
-//		try {
-//			sendJMSMessageToInsectChatTopic(message,"System (cr)");
-//		} catch (JMSException e) {
-//			logger.log(Level.WARNING,e.getMessage());
-//		    //EventBus eventBus = EventBusFactory.getDefault().eventBus();
-//		    //eventBus.publish("/chat", new FacesMessage("Connection Close", message));		
-//		}
-//		
-//		try {
-//		   messageBean.decrementUserCount();
-//		} catch (NullPointerException e) {}
-//		
-//		
-//	}
-//	
-//	/* Testing jms/prime push interactions.  */
-//	private Message createJMSMessageForjmsInsectChatTopic(Session session, Object messageData, String originator) throws JMSException {
-//		TextMessage tm = session.createTextMessage();
-//		tm.setStringProperty("Originator", originator);
-//		tm.setText(messageData.toString());
-//		return tm;
-//	}	
-//	
-//	/* Testing jms/prime push interactions.  */
-//	private void sendJMSMessageToInsectChatTopic(Object messageData, String originator) throws JMSException {
-//		Connection connection = null;
-//		Session session = null;
-//		try {
-//			connection = insectChatTopicFactory.createConnection();
-//			session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
-//			MessageProducer messageProducer = session.createProducer(insectChatTopic);
-//			messageProducer.send(createJMSMessageForjmsInsectChatTopic(session, messageData, originator));
-//		} finally {
-//			if (session != null) {
-//				try {
-//					session.close();
-//				} catch (JMSException e) {
-//					logger.log(Level.WARNING, "Cannot close session", e);
-//				}
-//			}
-//			if (connection != null) {
-//				connection.close();
-//			}
-//		}
-//	}	
 	
 }

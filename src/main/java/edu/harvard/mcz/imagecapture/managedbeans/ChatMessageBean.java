@@ -6,24 +6,17 @@
 package edu.harvard.mcz.imagecapture.managedbeans;
 
 import edu.harvard.mcz.imagecapture.ejb.MessageBean;
-import edu.harvard.mcz.imagecapture.ejb.UsersFacadeLocal;
-import edu.harvard.mcz.imagecapture.jsfclasses.WebsocketChat;
 
 import java.security.Principal;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.Future;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.ejb.ActivationConfigProperty;
 import javax.ejb.EJB;
 import javax.ejb.MessageDriven;
-import javax.faces.application.FacesMessage;
-import javax.faces.push.Push;
-import javax.faces.push.PushContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.jms.JMSException;
@@ -31,11 +24,11 @@ import javax.jms.Message;
 import javax.jms.MessageListener;
 import javax.jms.TextMessage;
 
-//import org.primefaces.push.EventBus;
-//import org.primefaces.push.EventBusFactory;
+//import javax.faces.application.FacesMessage;
 
 /**
- * Connect the JMS messaging system to push to websockets.
+ * Connect the JMS messaging system to push to websockets, message driven bean that acts
+ * upon JMS messages, listens to InsectChatTopic, and 
  * 
  * @author mole
  *
@@ -51,73 +44,45 @@ public class ChatMessageBean implements MessageListener {
     @EJB(beanName="messageBean")
 	private MessageBean messageBean;
     
-    //@Inject
-    //@Push
-	//private PushContext chat;
-	
-    //@Inject
-    //@Push
-    //private PushContext serverNotifications;
-    
-    //@Inject
-    //private WebsocketChat wsChat;
-    
     @Inject
     private ChatResource chatResource;
     
     @Inject
     private ServerNotificationsResource serverNotificationsResource;
     
+    public ChatMessageBean() {
+    }
+ 
+    /** Send a message to web socket messaging. 
+     *  
+     * @param message
+     */
 	public void sendMessage(Object message) {
 	
 		logger.log(Level.INFO, message.toString());
 		
 		chatResource.sendToSessions(message.toString());
 		
-//		logger.log(Level.INFO,chat.toString());
-//		logger.log(Level.INFO,chat.URI_PREFIX);
-//		Set<Future<Void>>futures = chat.send(message);
-//		if (futures!=null) { 
-//			logger.log(Level.INFO, "futures.size()=" + futures.size());
-//			if (futures.size()==0) { 
-//			    logger.log(Level.SEVERE, "No open websocket connection for chat.");
-//			}
-//		try {
-//			Iterator<Future<Void>> i = futures.iterator();
-//			while (i.hasNext()) { 
-//				Future<Void> future = i.next();
-//				if (future.get()==null) { 
-//					logger.log(Level.INFO, "Chat message sent, future returned null.");
-//				}
-//			}
-//		} catch (ExecutionException e) { 
-//			logger.log(Level.SEVERE, "Error sending chat message.");
-//			logger.log(Level.SEVERE, e.getMessage(), e);
-//		} catch (InterruptedException e) {
-//			logger.log(Level.SEVERE, e.getMessage(), e);
-//		}
-//		} else { 
-//			logger.log(Level.SEVERE, "No open websocket connection for chat.");
-//		}
 	}
 
-//	public void updateUserList() {
-//		HashSet<String> usernames = new HashSet<String>();
-//		Set<Principal> p = chatResource.getUsers();
-//		Iterator<Principal> i = p.iterator();
-//		while (i.hasNext()) { 
-//		    Principal principal = i.next();
-//		    String pname = principal.getName();
-//		    String username = pname;
-//
-//		    usernames.add(username);
-//		}
-//		messageBean.updateCurrentUserList(usernames);
-//	}
+	/**
+	 *  Check the websocket active user list, and update the list of users stored in MessageBean.
+	 * 
+	 */
+	public void updateUserList() {
+		HashSet<String> usernames = new HashSet<String>();
+		Set<Principal> p = chatResource.getUsers();
+		Iterator<Principal> i = p.iterator();
+		while (i.hasNext()) { 
+		    Principal principal = i.next();
+		    String pname = principal.getName();
+		    String username = pname;
+
+		    usernames.add(username);
+		}
+		messageBean.updateCurrentUserList(usernames);
+	}
 	
-    public ChatMessageBean() {
-    }
-    
 	/* (non-Javadoc)
 	 * @see javax.jms.MessageListener#onMessage(javax.jms.Message)
 	 */
@@ -133,12 +98,12 @@ public class ChatMessageBean implements MessageListener {
 			logger.log(Level.INFO, originator);
 			messageBean.addMessage(originator, text.getText());
 			
-			//EventBus eventBus = EventBusFactory.getDefault().eventBus();
-			//eventBus.publish("/chat", new FacesMessage(originator + "(cmb)", text.getText()));
 			if (originator.equals("Server")) { 
-				//eventBus.publish("/serverNotifications",new FacesMessage(FacesMessage.SEVERITY_ERROR, originator, text.getText()));
-				// serverChannel.send(new FacesMessage(FacesMessage.SEVERITY_ERROR, originator, text.getText()));
+				// NOTE: To change back to using primefaces Growl for server messages, construct and send 
+				// a faces message here.
+				// FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, originator, text.getText());
 				
+				// Using a modal dialog instead of Growl, we'll just send a string to display in the dialog.
 				serverNotificationsResource.sendToSessions(text.getText());
 				
 			} else { 
@@ -150,50 +115,15 @@ public class ChatMessageBean implements MessageListener {
 			logger.log(Level.SEVERE, ex.getMessage(), ex);
 		}		
 	
-//		try { 
-//	   	    updateUserList();
-//		} catch (Exception e) { 
-//			logger.log(Level.WARNING, e.getMessage(), e);
-//		}
+		// Note: if something happens here and the throwable isn't caught, then
+		// the message will be attempted to be sent again, and the likely result
+		// is infinite repetition of messages to open websocket listeners...
+		try { 
+	   	    updateUserList();
+		} catch (Exception e) { 
+			logger.log(Level.WARNING, e.getMessage(), e);
+		}
 		
 	}
 	
-	
 }
-///**
-// *
-// * @author mole
-// */
-//@MessageDriven(mappedName = "jms/InsectChatTopic", activationConfig =  {
-//        @ActivationConfigProperty(propertyName = "acknowledgeMode", propertyValue = "Auto-acknowledge"),
-//        @ActivationConfigProperty(propertyName = "destinationType", propertyValue = "javax.jms.Topic")
-//    })
-//public class ChatMessageBean implements MessageListener {
-//	private final static Logger logger = Logger.getLogger(ChatMessageBean.class.getName());
-//
-//    @EJB
-//	private MessageBean messageBean;
-//
-//    public ChatMessageBean() {
-//    }
-//
-//    public void onMessage(Message message) {
-//		try {
-//			TextMessage text = (TextMessage) message;
-//			String originator = text.getStringProperty("Originator");
-//			logger.log(Level.INFO, message.getJMSMessageID());
-//			logger.log(Level.INFO, text.getText());
-//			logger.log(Level.INFO, originator);
-//			messageBean.addMessage(originator, text.getText());
-//			//EventBus eventBus = EventBusFactory.getDefault().eventBus();
-//			//eventBus.publish("/chat", new FacesMessage(originator + "(cmb)", text.getText()));
-//			if (originator.equals("Server")) { 
-//				//eventBus.publish("/serverNotifications",new FacesMessage(FacesMessage.SEVERITY_ERROR, originator, text.getText()));
-//			}
-//
-//		} catch (JMSException ex) {
-//			Logger.getLogger(ChatMessageBean.class.getName()).log(Level.SEVERE, null, ex);
-//		}
-//    }
-//    
-//}

@@ -17,12 +17,14 @@
              <p:panel id="chatpanel" collapsed="#{cc.attrs.collapsed}"
                           header="Chat"
                           toggleable="true">
-                    <h:panelGrid columns="3">
+                    <p:ajax event="toggle"  listener="#{chatController.sendEmptyMessage()}" update="chatform:chatwindow chatform:chathead chatform:userlist " />     
+                    <h:panelGrid columns="4">
                          <h:outputText value="Message:" />
-                         <h:inputText id="txt" value="#{chatController.message}"  size="75" />
+                         <p:inputText id="txt" widgetVar="chattextinput" value="#{chatController.message}"  size="75" />
                          <p:commandButton value="Send" 
                                                   actionListener="#{chatController.send}"
-                                                  oncomplete="jQuery('#txt').val('');"/>
+                                                  oncomplete="PF('chattextinput').jq.val('');"/>
+                         <h:outputText id="userlist" value="Currently Logged In:#{chatController.userList}" />
                     </h:panelGrid>
                     <h:outputText id="chatwindow" 
                           value="#{chatController.messages}" 
@@ -32,6 +34,7 @@
                     <script type="text/javascript">
                            function handleOpen(channel) {
                                console.log("open: " + channel);
+                               doMessageUpdate();
                            }
                            function handleClose(code,channel,e) {
                                console.log("close: " + channel);
@@ -62,7 +65,7 @@
                                serversocket.onclose = handleClose;
                            }
                     </script>
-                    <p:remoteCommand name="doMessageUpdate" update="chatform:chatwindow chatform:chathead " />
+                    <p:remoteCommand name="doMessageUpdate" update="chatform:chatwindow chatform:chathead chatform:userlist " />
                     
                     <!--  f:websocket channel="chat" onmessage="handleChat" onopen="handleOpen" onclose="handleClose" >
                          <p:ajax event="message" update="chatform:chatwindow chatform:chathead" />
@@ -72,7 +75,6 @@
                     </f:websocket -->
                     <!--   p:growl widgetVar="servergrowl" id="servergrowl" showDetail="true" sticky="true" autoUpdate="false" / -->
                     
-                    <h:outputText value="#{chatControler.userlist}" />
              </p:panel>
              <p:dialog header="Server Message" widgetVar="servergrowl" position="top" modal="true" >
                 <h:outputText value="Message from the System Administrator:" />

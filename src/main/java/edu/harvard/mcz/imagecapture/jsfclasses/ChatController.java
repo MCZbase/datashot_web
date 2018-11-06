@@ -33,7 +33,11 @@ import javax.jms.Topic;
 import org.primefaces.push.EventBus;
 import org.primefaces.push.EventBusFactory;
 
-/** JSF Managed bean for interaction with the Chat and server messaging system.
+/** JSF Managed bean for interaction with JMS (chat and serverMessaging), serves
+ * as a point from which users (through JSF pages) can inject messages into the 
+ * JMS chat topic, a point where logins and logouts are recorded and sent out as
+ * messages, from which stored messages can be retrieved from MessageBean, and the 
+ * list of current users can be retrieved from MessageBean.
  *
  * @author mole
  */
@@ -62,6 +66,8 @@ public class ChatController implements Serializable {
 
 	public ChatController() {
 		logger.log(Level.INFO, "Instantiating new ChatController");
+		// ChatController is session scoped, so we should create a new instance
+		// with each session, thus capture the user login information for the session.
 		storeLogin();
 	}
 
@@ -119,7 +125,8 @@ public class ChatController implements Serializable {
 		}
 	}
 
-	/**Notifies the chat system that the user for the current session has logged out.
+	/**
+	 * Notifies the chat system that the user for the current session has logged out.
 	 *
 	 */
 	public void registerLogout() {
@@ -138,7 +145,8 @@ public class ChatController implements Serializable {
 	}
 
 	/** Sends the value of ChatController.message to the chat system from
-	 * the current user for this session.
+	 * the current user for this session, intended for invocation from a 
+	 * control on a web page.
 	 */
 	public void send() {
 		logger.log(Level.INFO, "Called send().");
@@ -169,10 +177,33 @@ public class ChatController implements Serializable {
 		message = null;
 	}
 
+	/**
+	 * Send an empty message into the messaging system.
+	 * This method is intended for use with a control which displays messages and current
+	 * user logins, invoking it sends an empty message which will cause the websocket
+	 * list to update, but the empty message will be intercepted and not added to the 
+	 * list of messages by MessageBean.  Invoking this message should cause information
+	 * to update without actually updating the list of messages for display to users.
+	 * If the message itself is passed to users via the websocket, it will be shown, but
+	 * if messages to the websocket only trigger updates of the page elements, then it won't 
+	 * be shown.  This later case is intended.
+	 * 
+	 */
+	public void sendEmptyMessage() { 
+		this.setMessage("");
+		this.send();
+	}
+	
 	public String getMessage() {
 		return message;
 	}
 
+	/**
+	 * Bind to a text entry control to obtain a message from a web page, then 
+	 * invoke send() from an action control to send that message. 
+	 * 
+	 * @param message
+	 */
 	public void setMessage(String message) {
 		this.message = message;
 	}
@@ -233,7 +264,7 @@ public class ChatController implements Serializable {
 	 * @param originator
 	 * @throws JMSException
 	 */
-	private void sendJMSMessageToInsectChatTopic(Object messageData, String originator) throws JMSException {
+	public void sendJMSMessageToInsectChatTopic(Object messageData, String originator) throws JMSException {
 		Connection connection = null;
 		Session session = null;
 		try {
@@ -255,13 +286,24 @@ public class ChatController implements Serializable {
 		}
 	}
 	
+	/**
+	 * Obtain the list of current logged in users as a human readable comma delimited string.
+	 * 
+	 * @return a list of logged in user full names, preceeded by the count of users. 
+	 */
 	public String getUserList() { 
+		
+		// retrieve the list of users from the messageBean EJB.
 		List<String> userList = messageBean.getUserList();
 		StringBuffer result = new StringBuffer();
+		result.append("(" + Integer.toString(userList.size()) + ") ");
 		Iterator<String> i = userList.iterator();
 		String separator = "";
 		while (i.hasNext()) { 
-			result.append(separator).append(i.next());
+			String user = i.next();
+			// lookup the full name for the username
+			username = usersFacade.findByName(user).getFullname();
+			result.append(separator).append(username);
 			separator = ", ";
 		}		
 		return result.toString();
