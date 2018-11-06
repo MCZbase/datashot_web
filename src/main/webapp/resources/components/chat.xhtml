@@ -54,12 +54,12 @@
                            }
                            window.addEventListener("load", connect, false);
                            function connect() {
-                               chatsocket = new WebSocket("ws://localhost:8080/ic/chat");
+                               chatsocket = new WebSocket("ws://" + location.host + "/ic/chat");
                                chatsocket.onmessage = handleChat;
                                chatsocket.onopen = handleOpen;
                                chatsocket.onclose = handleClose;
                                
-                               serversocket = new WebSocket("ws://localhost:8080/ic/serverNotifications");
+                               serversocket = new WebSocket("ws://" + location.host + "/ic/serverNotifications");
                                serversocket.onmessage = handleMessage;
                                serversocket.onopen = handleOpen;
                                serversocket.onclose = handleClose;
