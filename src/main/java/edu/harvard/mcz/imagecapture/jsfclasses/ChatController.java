@@ -44,6 +44,35 @@ import org.primefaces.push.EventBusFactory;
 @ManagedBean
 @SessionScoped
 public class ChatController implements Serializable {
+	
+	// Description of current use from commit e4a463ab87e5f99c0506ef3ec2f58620d58aa6f6
+	//
+	// Storing list of logged in users by username in MessageBean with updates 
+	// from websocket open/close connections.  Providing for an empty message to 
+	// trigger a websocket message to the listeners on chat.xhtml to update the 
+	// list of users and messages, but not storing this message in MessageBean, 
+	// so that it isn't displayed.  Websocket/JMS messaging working through 
+	// having JMS messages get stored in MessageBean and triggering websocket 
+	// pushes to open web pages, which then do ajax updates of the relevant 
+	// userlist/message components by pulling data from the singleton MessageBean.  
+	// Adding a listener to the ajax update of the chat components within the
+	// chat panel which is triggered by opening/closing the chat pannel, this 
+	// listener sends an empty message which triggers websocket push messages to clients, 
+	// which triggers an update of the user list.  On testing this appears to produce
+	// the expected list of users and messages in the chat panel.
+	// 
+	// Summary of main components:
+	// chat.xhtml  ajax calls request messages and user list from ChatController
+	// ChatController Session scoped api for jsf pages to interact with chat system,
+	//     sends JMS messages, provides access to stored message data in MessageBean.
+	// MessageBean backend application scoped storage (not persistent) of messages 
+	//    userlist (as usernames) and user count.
+	// ChatResource websocket endpoint, pushes notifications to chat.xhtml, which 
+	//    then requests ajax updates of chat display components from ChatController.
+	// ChatMessageBean JMS message driven bean, triggers appropriate updates upon 
+	//    recieving JMS messages.
+	// Also similar resource/message bean components for server messages.
+	
 
 	private final static Logger logger = Logger.getLogger(ChatController.class.getName());
 
