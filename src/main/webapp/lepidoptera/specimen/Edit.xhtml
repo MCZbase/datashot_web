@@ -738,9 +738,29 @@
                                            maxlength="#{metadataRetrieverBean.lengthForField('Specimen','Higher_Geography')}"
                                            />              
                                         <components:fieldInfoPopup field="Higher_Geography" table="Specimen" tipName="HigherGeogTip"  />
-                                    </h:panelGrid>                                                                 
+                                    </h:panelGrid>        
                                     
-
+                                    
+                                    <h:outputLabel value="LocalityId" for="pl_locality_id" />
+                                    <h:panelGrid columns="2">
+                                        <p:inputText id="pl_locality_id" value="#{specimenController.selected.locality_id}"
+                                                     styleClass="dataIsKey"
+                                                     maxlength="#{metadataRetrieverBean.lengthForField('Specimen','locality_id')}"
+                                                     title="#{metadataRetrieverBean.tipForField('Specimen','locality_id')}"
+                                                     />
+                                        <components:fieldInfoPopup field="locality_id" table="Specimen" tipName="HigherGeogTip"  />
+                                    </h:panelGrid>                                                            
+                                    
+                                    <h:outputLabel value="CollectingEventId" for="pl_collecting_event_id" />
+                                    <h:panelGrid columns="2">
+                                        <p:inputText id="pl_collecting_event_id" value="#{specimenController.selected.collecting_event_id}"
+                                                     styleClass="dataIsKey"
+                                                     maxlength="#{metadataRetrieverBean.lengthForField('Specimen','collecting_event_id')}"
+                                                     title="#{metadataRetrieverBean.tipForField('Specimen','collecting_event_id')}"
+                                                     />
+                                        <components:fieldInfoPopup field="locality_id" table="Specimen" tipName="HigherGeogTip"  />
+                                    </h:panelGrid>     
+                                    
                                     <p:commandButton value="#{bundle.EditSpecimenLabel_specificLocality}"
                                                        action="#{specimenController.selected.copyLocalitySpecificVerbatim}"
                                                        process="mainForm:verbatimLocality mainForm:specificLocality @this"

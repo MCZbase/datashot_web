@@ -12,6 +12,12 @@
    background-color: #dbd6cd;
 }
 
+/*  Colors to signal MCZbase key value fields   */
+
+.ui-widget.dataIsKey { 
+   background-color: #fff0f5;
+}
+
 /*  Modifications to style to allow more form elements on one page */
 
 .ui-widget, .ui-widget .ui-widget { 
