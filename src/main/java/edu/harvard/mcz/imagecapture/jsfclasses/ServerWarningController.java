@@ -14,21 +14,21 @@ import java.util.concurrent.Future;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import javax.annotation.Resource;
-import javax.ejb.ActivationConfigProperty;
-import javax.ejb.MessageDriven;
-import javax.faces.bean.SessionScoped;
-import javax.faces.application.FacesMessage;
-import javax.faces.push.Push;
-import javax.faces.push.PushContext;
-import javax.inject.Inject;
-import javax.inject.Named;
-import javax.jms.ConnectionFactory;
-import javax.jms.JMSException;
-import javax.jms.Message;
-import javax.jms.MessageListener;
-import javax.jms.TextMessage;
-import javax.jms.Topic;
+import jakarta.annotation.Resource;
+import jakarta.ejb.ActivationConfigProperty;
+import jakarta.ejb.MessageDriven;
+import jakarta.faces.bean.SessionScoped;
+import jakarta.faces.application.FacesMessage;
+import jakarta.faces.push.Push;
+import jakarta.faces.push.PushContext;
+import jakarta.inject.Inject;
+import jakarta.inject.Named;
+import jakarta.jms.ConnectionFactory;
+import jakarta.jms.JMSException;
+import jakarta.jms.Message;
+import jakarta.jms.MessageListener;
+import jakarta.jms.TextMessage;
+import jakarta.jms.Topic;
 
 import org.primefaces.push.EventBus;
 import org.primefaces.push.EventBusFactory;
@@ -55,7 +55,7 @@ import org.primefaces.push.EventBusFactory;
 @SessionScoped
 @MessageDriven(mappedName = "jms/InsectChatTopic", activationConfig =  {
         @ActivationConfigProperty(propertyName = "acknowledgeMode", propertyValue = "Auto-acknowledge"),
-        @ActivationConfigProperty(propertyName = "destinationType", propertyValue = "javax.jms.Topic")
+        @ActivationConfigProperty(propertyName = "destinationType", propertyValue = "jakarta.jms.Topic")
     })
 public class ServerWarningController implements Serializable, MessageListener {
 
@@ -66,7 +66,7 @@ public class ServerWarningController implements Serializable, MessageListener {
 
 	private final static Logger logger = Logger.getLogger(ServerWarningController.class.getName());
 
-	@Resource(name= "jms/InsectChatTopic", type=javax.jms.Topic.class, mappedName = "jms/InsectChatTopic")
+	@Resource(name= "jms/InsectChatTopic", type=jakarta.jms.Topic.class, mappedName = "jms/InsectChatTopic")
 	private Topic insectChatTopic;
 	@Resource(mappedName = "jms/InsectChatTopicFactory")
 	private ConnectionFactory insectChatTopicFactory;

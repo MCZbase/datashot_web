@@ -14,17 +14,17 @@ import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import javax.ejb.ActivationConfigProperty;
-import javax.ejb.EJB;
-import javax.ejb.MessageDriven;
-import javax.inject.Inject;
-import javax.inject.Named;
-import javax.jms.JMSException;
-import javax.jms.Message;
-import javax.jms.MessageListener;
-import javax.jms.TextMessage;
+import jakarta.ejb.ActivationConfigProperty;
+import jakarta.ejb.EJB;
+import jakarta.ejb.MessageDriven;
+import jakarta.inject.Inject;
+import jakarta.inject.Named;
+import jakarta.jms.JMSException;
+import jakarta.jms.Message;
+import jakarta.jms.MessageListener;
+import jakarta.jms.TextMessage;
 
-//import javax.faces.application.FacesMessage;
+//import jakarta.faces.application.FacesMessage;
 
 /**
  * Connect the JMS messaging system to push to websockets, message driven bean that acts
@@ -35,7 +35,7 @@ import javax.jms.TextMessage;
  */
 @MessageDriven(mappedName = "jms/InsectChatTopic", activationConfig =  {
         @ActivationConfigProperty(propertyName = "acknowledgeMode", propertyValue = "Auto-acknowledge"),
-        @ActivationConfigProperty(propertyName = "destinationType", propertyValue = "javax.jms.Topic")
+        @ActivationConfigProperty(propertyName = "destinationType", propertyValue = "jakarta.jms.Topic")
     })
 @Named("chatMessageBean")
 public class ChatMessageBean implements MessageListener {
@@ -84,7 +84,7 @@ public class ChatMessageBean implements MessageListener {
 	}
 	
 	/* (non-Javadoc)
-	 * @see javax.jms.MessageListener#onMessage(javax.jms.Message)
+	 * @see jakarta.jms.MessageListener#onMessage(jakarta.jms.Message)
 	 */
 	@Override
 	public void onMessage(Message message) {

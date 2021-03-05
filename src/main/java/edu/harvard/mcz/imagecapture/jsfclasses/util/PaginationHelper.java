@@ -1,7 +1,7 @@
 
 package edu.harvard.mcz.imagecapture.jsfclasses.util;
 
-import javax.faces.model.DataModel;
+import jakarta.faces.model.DataModel;
 
 public abstract class PaginationHelper {
 

@@ -9,12 +9,12 @@ import edu.harvard.mcz.imagecapture.data.Specimen;
 
 import java.io.Serializable;
 
-import javax.annotation.security.DeclareRoles;
-import javax.annotation.security.RolesAllowed;
-import javax.faces.bean.RequestScoped;
-import javax.faces.annotation.ManagedProperty;
-import javax.faces.bean.ManagedBean;
-import javax.inject.Named;
+import jakarta.annotation.security.DeclareRoles;
+import jakarta.annotation.security.RolesAllowed;
+import jakarta.faces.bean.RequestScoped;
+import jakarta.faces.annotation.ManagedProperty;
+import jakarta.faces.bean.ManagedBean;
+import jakarta.inject.Named;
 
 /**
  *

@@ -22,13 +22,13 @@ package edu.harvard.mcz.imagecapture.managedbeans;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-//import javax.websocket.CloseReason;
-//import javax.websocket.OnOpen;
-//import javax.websocket.OnClose;
-//import javax.websocket.OnError;
-//import javax.websocket.OnMessage;
-//import javax.websocket.Session;
-//import javax.websocket.server.ServerEndpoint;
+//import jakarta.websocket.CloseReason;
+//import jakarta.websocket.OnOpen;
+//import jakarta.websocket.OnClose;
+//import jakarta.websocket.OnError;
+//import jakarta.websocket.OnMessage;
+//import jakarta.websocket.Session;
+//import jakarta.websocket.server.ServerEndpoint;
 
 /**
  * @author mole

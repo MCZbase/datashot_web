@@ -14,13 +14,13 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import javax.annotation.security.DeclareRoles;
-import javax.annotation.security.RolesAllowed;
-import javax.ejb.EJB;
-import javax.faces.bean.RequestScoped;
-import javax.faces.bean.ManagedBean;
-import javax.faces.event.ComponentSystemEvent;
-import javax.inject.Named;
+import jakarta.annotation.security.DeclareRoles;
+import jakarta.annotation.security.RolesAllowed;
+import jakarta.ejb.EJB;
+import jakarta.faces.bean.RequestScoped;
+import jakarta.faces.bean.ManagedBean;
+import jakarta.faces.event.ComponentSystemEvent;
+import jakarta.inject.Named;
 
 /**
  *

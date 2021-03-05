@@ -22,12 +22,12 @@ package edu.harvard.mcz.imagecapture.jsfclasses;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import javax.enterprise.context.ApplicationScoped;
-import javax.enterprise.event.Observes;
-import javax.faces.event.WebsocketEvent;
-import javax.faces.event.WebsocketEvent.Closed;
-import javax.faces.event.WebsocketEvent.Opened;
-import javax.websocket.CloseReason.CloseCode;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.event.Observes;
+import jakarta.faces.event.WebsocketEvent;
+import jakarta.faces.event.WebsocketEvent.Closed;
+import jakarta.faces.event.WebsocketEvent.Opened;
+import jakarta.websocket.CloseReason.CloseCode;
 
 
 /**

@@ -2,11 +2,11 @@ package edu.harvard.mcz.imagecapture.managedbeans;
 
 import java.io.Serializable;
 
-import javax.annotation.security.DeclareRoles;
-import javax.annotation.security.RolesAllowed;
-import javax.ejb.Singleton;
-import javax.faces.bean.ManagedBean;
-import javax.inject.Named;
+import jakarta.annotation.security.DeclareRoles;
+import jakarta.annotation.security.RolesAllowed;
+import jakarta.ejb.Singleton;
+import jakarta.faces.bean.ManagedBean;
+import jakarta.inject.Named;
 
 /**
  *

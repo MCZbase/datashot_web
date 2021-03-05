@@ -26,10 +26,10 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import javax.ejb.EJB;
-import javax.faces.bean.ManagedBean;
-import javax.faces.view.ViewScoped;
-import javax.inject.Named;
+import jakarta.ejb.EJB;
+import jakarta.faces.bean.ManagedBean;
+import jakarta.faces.view.ViewScoped;
+import jakarta.inject.Named;
 
 /**
  * @author mole

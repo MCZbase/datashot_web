@@ -11,12 +11,12 @@ import edu.harvard.mcz.imagecapture.ejb.UsersFacadeLocal;
 import java.io.Serializable;
 import java.util.List;
 
-import javax.annotation.security.DeclareRoles;
-import javax.annotation.security.RolesAllowed;
-import javax.ejb.EJB;
-import javax.faces.bean.RequestScoped;
-import javax.faces.bean.ManagedBean;
-import javax.inject.Named;
+import jakarta.annotation.security.DeclareRoles;
+import jakarta.annotation.security.RolesAllowed;
+import jakarta.ejb.EJB;
+import jakarta.faces.bean.RequestScoped;
+import jakarta.faces.bean.ManagedBean;
+import jakarta.inject.Named;
 
 /**
  *

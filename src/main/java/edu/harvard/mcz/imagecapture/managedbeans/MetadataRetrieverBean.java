@@ -11,9 +11,9 @@ import java.io.Serializable;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import javax.faces.bean.RequestScoped;
-import javax.faces.bean.ManagedBean;
-import javax.inject.Named;
+import jakarta.faces.bean.RequestScoped;
+import jakarta.faces.bean.ManagedBean;
+import jakarta.inject.Named;
 
 /**
  *
