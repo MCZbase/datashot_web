@@ -17,12 +17,6 @@
 			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="src" output="target/test-classes" path="src/test/java">
-		<attributes>
-			<attribute name="optional" value="true"/>
-			<attribute name="maven.pomderived" value="true"/>
-		</attributes>
-	</classpathentry>
 	<classpathentry kind="con" path="org.eclipse.glassfish.tools.lib.system">
 		<attributes>
 			<attribute name="owner.project.facets" value="jst.web"/>
@@ -33,12 +27,19 @@
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="/opt/glassfish/glassfishv5/glassfish/modules/tyrus-spi.jar"/>
-	<classpathentry kind="lib" path="/opt/glassfish/glassfishv5/glassfish/modules/tyrus-server.jar"/>
-	<classpathentry kind="lib" path="/opt/glassfish/glassfishv5/glassfish/modules/tyrus-container-servlet.jar"/>
-	<classpathentry kind="lib" path="/opt/glassfish/glassfishv5/glassfish/modules/tyrus-container-grizzly-client.jar"/>
-	<classpathentry kind="lib" path="/opt/glassfish/glassfishv5/glassfish/modules/tyrus-container-glassfish-ejb.jar"/>
-	<classpathentry kind="lib" path="/opt/glassfish/glassfishv5/glassfish/modules/tyrus-container-glassfish-cdi.jar"/>
-	<classpathentry kind="lib" path="/opt/glassfish/glassfishv5/glassfish/modules/tyrus-client.jar"/>
+	<classpathentry kind="lib" path="/opt/glassfish/glassfish5/glassfish/modules/tyrus-spi.jar"/>
+	<classpathentry kind="lib" path="/opt/glassfish/glassfish5/glassfish/modules/tyrus-server.jar"/>
+	<classpathentry kind="lib" path="/opt/glassfish/glassfish5/glassfish/modules/tyrus-container-servlet.jar"/>
+	<classpathentry kind="lib" path="/opt/glassfish/glassfish5/glassfish/modules/tyrus-container-grizzly-client.jar"/>
+	<classpathentry kind="lib" path="/opt/glassfish/glassfish5/glassfish/modules/tyrus-container-glassfish-ejb.jar"/>
+	<classpathentry kind="lib" path="/opt/glassfish/glassfish5/glassfish/modules/tyrus-container-glassfish-cdi.jar"/>
+	<classpathentry kind="lib" path="/opt/glassfish/glassfish5/glassfish/modules/tyrus-client.jar"/>
+	<classpathentry kind="src" output="target/test-classes" path="src/test/java">
+		<attributes>
+			<attribute name="optional" value="true"/>
+			<attribute name="maven.pomderived" value="true"/>
+			<attribute name="test" value="true"/>
+		</attributes>
+	</classpathentry>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>
